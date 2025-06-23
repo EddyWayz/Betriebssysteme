@@ -3,46 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kapitel 8 - Deadlocks."/>
     <title>8. Deadlocks - Lernportal Betriebssysteme</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
-    <style>
-        .page-nav { background-color: #f8f9fa; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-family: var(--header-font); }
-        .page-nav a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
-        .page-nav a:hover { text-decoration: underline; }
-        .content-section h3 { font-family: var(--title-font); font-size: 1.8rem; color: #444; margin-top: 40px; margin-bottom: 20px; }
-        .content-section h4 { font-family: var(--title-font); font-size: 1.4rem; color: var(--primary-color); margin-top: 30px; }
-        blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 20px 0; font-style: italic; background-color: var(--secondary-color); padding: 15px 20px; border-radius: 0 5px 5px 0; }
-        .image-placeholder { background-color: #f0f0f0; border: 1px dashed #ccc; padding: 20px; text-align: center; margin: 20px auto; border-radius: 5px; color: #888; max-width: 80%; display: block; font-family: var(--header-font); }
-        code, pre { font-family: Consolas, 'Courier New', monospace; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; }
-        code { padding: 2px 5px; }
-        pre { padding: 15px; overflow-x: auto; white-space: pre-wrap; font-size: 0.9em; }
-        .key-term { font-weight: bold; color: var(--primary-color); }
-        .condition-list { list-style-type: none; padding-left: 0; }
-        .condition-list li { background-color: #f8f9fa; margin-bottom: 10px; padding: 15px; border-left: 5px solid var(--accent-color); }
-    </style>
 </head>
 <body>
 
-    <nav class="site-nav">
-        <div class="container">
-        <button class="nav-toggle" aria-label="Menü umschalten">&#9776;</button>
-        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Dark Mode umschalten">🌙</button>
-            <a href="index.html">Zurück zur Übersicht</a>
-            <a href="01_einfuehrung.html">1</a>
-            <a href="02_grundlagen.html">2</a>
-            <a href="03_prozesse.html">3</a>
-            <a href="04_threads.html">4</a>
-            <a href="05_scheduling.html">5</a>
-            <a href="06_synchronisation.html">6</a>
-            <a href="07_kommunikation.html">7</a>
-            <a href="08_deadlocks.html" class="active">8</a>
-            <a href="09_speicherverwaltung.html">9</a>
-            <a href="10_dateisysteme.html">10</a>
-        </div>
-    </nav>
+<nav class="site-nav"></nav>
 
     <header>
         <div class="container">
@@ -60,7 +30,7 @@
             <p>Da alle Prozesse warten, kann keiner von ihnen das Ereignis auslösen, auf das die anderen warten. Das Resultat ist ein permanenter Stillstand, den die Prozesse nicht von selbst auflösen können. Betroffene Ressourcen sind typischerweise <span class="key-term">nicht-verdrängbare (non-preemptible)</span> Ressourcen wie Drucker, Dateien oder Semaphore.</p>
             
             <h4>Klassisches Beispiel: Die speisenden Philosophen</h4>
-            <div class="image-placeholder">[Bild: Fünf Philosophen am runden Tisch mit fünf Stäbchen dazwischen.]</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Bild: Fünf Philosophen am runden Tisch mit fünf Stäbchen dazwischen.">
             <p>Fünf Philosophen sitzen am Tisch und tun zwei Dinge: denken oder essen. Zum Essen benötigt jeder Philosoph zwei Essstäbchen. Zwischen je zwei Philosophen liegt genau ein Stäbchen.<br>
             <strong>Deadlock-Szenario:</strong> Jeder Philosoph nimmt gleichzeitig das Stäbchen zu seiner Linken auf. Nun hält jeder Philosoph eine Ressource (ein Stäbchen) und wartet auf eine zweite (das rechte Stäbchen), die aber von seinem Nachbarn gehalten wird. Es entsteht eine zirkuläre Abhängigkeit, und kein Philosoph kann jemals mit dem Essen beginnen.</p>
             
@@ -93,13 +63,11 @@
                 <li><strong>Anforderungskanten (Request Edge):</strong> Ein Pfeil von einem Prozess zu einer Ressource (P → R).</li>
                 <li><strong>Zuweisungskanten (Assignment Edge):</strong> Ein Pfeil von einer Ressource zu einem Prozess (R → P).</li>
             </ul>
-            <div class="image-placeholder">[Diagramm: Beispiel für einen Betriebsmittelgraphen mit und ohne Zyklus.]<br>
-            Links: P1 hält R1 und fordert R2 an. P2 hält R2 und fordert R1 an. → Ein Zyklus, also ein Deadlock.<br>
-            Rechts: P1 fordert R1 an, P2 hält R1 und fordert R2 an, P3 hält R2. → Kein Zyklus, kein Deadlock.</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Beispiel für einen Betriebsmittelgraphen mit und ohne Zyklus. Links: P1 hält R1 und fordert R2 an. P2 hält R2 und fordert R1 an. → Ein Zyklus, also ein Deadlock. Rechts: P1 fordert R1 an, P2 hält R1 und fordert R2 an, P3 hält R2. → Kein Zyklus, kein Deadlock.">
             <blockquote>
                 <strong>Regel:</strong> Ein Zyklus im Betriebsmittelgraphen ist eine <em>notwendige</em> Bedingung für einen Deadlock. Wenn jede Ressource nur eine Instanz hat, ist ein Zyklus auch eine <em>hinreichende</em> Bedingung. Gibt es mehrere Instanzen, kann ein Zyklus bestehen, ohne dass ein Deadlock vorliegt.
             </blockquote>
-            <div class="image-placeholder">[Komplexes Beispiel: Mehrere Prozesse (P1–P5) und Ressourcen (R1–R8), das zeigt, dass ein Zyklus nicht zwingend zu einem Deadlock führen muss, wenn Ressourcen mehrfach vorhanden sind.]</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Komplexes Beispiel: Mehrere Prozesse (P1–P5) und Ressourcen (R1–R8), das zeigt, dass ein Zyklus nicht zwingend zu einem Deadlock führen muss, wenn Ressourcen mehrfach vorhanden sind.">
             <p>Im obigen komplexeren Graph werden mehrere Ressourceninstanzen betrachtet. Ein Zyklus zeigt hier nicht zwingend einen Deadlock an, da Prozesse auf andere Instanzen derselben Ressource zugreifen können.</p>
 
             <h2>Strategien zum Umgang mit Deadlocks</h2>

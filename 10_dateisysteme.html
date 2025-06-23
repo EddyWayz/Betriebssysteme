@@ -3,47 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kapitel 10 - Dateisysteme."/>
     <title>10. Dateisysteme - Lernportal Betriebssysteme</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
-    <style>
-        .page-nav { background-color: #f8f9fa; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-family: var(--header-font); }
-        .page-nav a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
-        .page-nav a:hover { text-decoration: underline; }
-        .content-section h3 { font-family: var(--title-font); font-size: 1.8rem; color: #444; margin-top: 40px; margin-bottom: 20px; }
-        .content-section h4 { font-family: var(--title-font); font-size: 1.4rem; color: var(--primary-color); margin-top: 30px; }
-        blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 20px 0; font-style: italic; background-color: var(--secondary-color); padding: 15px 20px; border-radius: 0 5px 5px 0; }
-        .image-placeholder { background-color: #f0f0f0; border: 1px dashed #ccc; padding: 20px; text-align: center; margin: 20px auto; border-radius: 5px; color: #888; max-width: 80%; display: block; font-family: var(--header-font); }
-        code, pre { font-family: Consolas, 'Courier New', monospace; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; }
-        code { padding: 2px 5px; }
-        pre { padding: 15px; overflow-x: auto; white-space: pre-wrap; font-size: 0.9em; }
-        .key-term { font-weight: bold; color: var(--primary-color); }
-        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
-        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
-        th { background-color: var(--secondary-color); font-family: var(--header-font); }
-    </style>
 </head>
 <body>
 
-    <nav class="site-nav">
-        <div class="container">
-        <button class="nav-toggle" aria-label="Menü umschalten">&#9776;</button>
-        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Dark Mode umschalten">🌙</button>
-            <a href="index.html">Zurück zur Übersicht</a>
-            <a href="01_einfuehrung.html">1</a>
-            <a href="02_grundlagen.html">2</a>
-            <a href="03_prozesse.html">3</a>
-            <a href="04_threads.html">4</a>
-            <a href="05_scheduling.html">5</a>
-            <a href="06_synchronisation.html">6</a>
-            <a href="07_kommunikation.html">7</a>
-            <a href="08_deadlocks.html">8</a>
-            <a href="09_speicherverwaltung.html">9</a>
-            <a href="10_dateisysteme.html" class="active">10</a>
-        </div>
-    </nav>
+<nav class="site-nav"></nav>
 
     <header>
         <div class="container">
@@ -79,7 +48,7 @@
 
             <h3>Verzeichnisstrukturen</h3>
             <p>Moderne Dateisysteme sind <span class="key-term">hierarchisch</span> organisiert. Ausgehend von einem Wurzelverzeichnis (Root Directory, z.B. <code>/</code> in UNIX oder <code>C:\</code> in Windows) verzweigt sich eine Baumstruktur.</p>
-            <div class="image-placeholder">[Diagramm: Hierarchischer Verzeichnisbaum mit Root-Verzeichnis, Unterverzeichnissen und Dateien.]</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Hierarchischer Verzeichnisbaum mit Root-Verzeichnis, Unterverzeichnissen und Dateien.">
             <ul>
                 <li><strong>Pfadname:</strong> Ein Pfad beschreibt den Weg von einem Startpunkt zu einer Datei.
                     <ul>
@@ -99,7 +68,7 @@
             <h2>Technische Implementierung</h2>
             <h4>Festplattenlayout und Boot-Vorgang</h4>
             <p>Eine Festplatte wird in eine oder mehrere <span class="key-term">Partitionen</span> aufgeteilt. Jede Partition kann ein eigenes Dateisystem enthalten.</p>
-            <div class="image-placeholder">[Diagramm: Aufbau einer Festplatte mit MBR und Partitionen. Eine Partition ist vergrößert und zeigt ihre interne Struktur: Boot Block, Super Block, Free Space Mgmt, I-Nodes, etc.]</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Aufbau einer Festplatte mit MBR und Partitionen. Eine Partition ist vergrößert und zeigt ihre interne Struktur: Boot Block, Super Block, Free Space Mgmt, I-Nodes, etc.">
             <ol>
                 <li><strong>Master Boot Record (MBR):</strong> Der allererste Sektor der Festplatte. Er enthält ein kleines Startprogramm und die <strong>Partitionstabelle</strong>, welche die Anfangs- und Endadressen der Partitionen speichert.</li>
                 <li><strong>Struktur einer Partition:</strong>
@@ -140,7 +109,7 @@
             </ul>
 
             <h4>4. Indizierte Zuordnung (I-Nodes)</h4>
-            <div class="image-placeholder">[Diagramm: Struktur eines I-Nodes mit direkten, einfach, doppelt und dreifach indirekten Blockzeigern.]</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Struktur eines I-Nodes mit direkten, einfach, doppelt und dreifach indirekten Blockzeigern.">
             <p>Die heute gängigste Methode (verwendet in allen UNIX-Systemen wie Linux, macOS). Für jede Datei existiert ein <span class="key-term">Indexknoten (I-Node)</span>. Der I-Node enthält alle Metadaten der Datei (Größe, Rechte etc.) sowie die Zeiger auf die Datenblöcke.</p>
             <ul>
                 <li>Für kleine Dateien enthält der I-Node eine Liste von <strong>direkten Blockzeigern</strong>.</li>

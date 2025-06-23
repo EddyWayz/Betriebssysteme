@@ -3,72 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kapitel 1 - Einführung und Überblick."/>
     <title>1. Einführung & Überblick - Lernportal Betriebssysteme</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
-    <style>
-        .page-nav {
-            background-color: #f8f9fa;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-            font-family: var(--header-font);
-        }
-        .page-nav a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .page-nav a:hover {
-            text-decoration: underline;
-        }
-        .content-section h3 {
-            font-family: var(--title-font);
-            font-size: 1.8rem;
-            color: #444;
-            margin-top: 40px;
-            margin-bottom: 20px;
-        }
-        blockquote {
-            border-left: 4px solid var(--primary-color);
-            padding-left: 20px;
-            margin: 20px 0;
-            font-style: italic;
-            background-color: var(--secondary-color);
-            padding: 15px 20px;
-            border-radius: 0 5px 5px 0;
-        }
-        .image-placeholder {
-            background-color: #f0f0f0;
-            border: 1px dashed #ccc;
-            padding: 20px;
-            text-align: center;
-            margin: 20px auto;
-            border-radius: 5px;
-            color: #888;
-        }
-    </style>
 </head>
 <body>
 
-    <nav class="site-nav">
-        <div class="container">
-        <button class="nav-toggle" aria-label="Menü umschalten">&#9776;</button>
-        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Dark Mode umschalten">🌙</button>
-            <a href="index.html">Zurück zur Übersicht</a>
-            <a href="01_einfuehrung.html" class="active">1</a>
-            <a href="02_grundlagen.html">2</a>
-            <a href="03_prozesse.html">3</a>
-            <a href="04_threads.html">4</a>
-            <a href="05_scheduling.html">5</a>
-            <a href="06_synchronisation.html">6</a>
-            <a href="07_kommunikation.html">7</a>
-            <a href="08_deadlocks.html">8</a>
-            <a href="09_speicherverwaltung.html">9</a>
-            <a href="10_dateisysteme.html">10</a>
-        </div>
-    </nav>
+<nav class="site-nav"></nav>
 
     <header>
         <div class="container">
@@ -85,7 +29,7 @@
                 <strong>Definition nach DIN 44300:</strong><br>
                 "Die Programme eines digitalen Rechensystems, die zusammen mit den Eigenschaften der Rechenanlage die Grundlage der möglichen Betriebsarten des digitalen Rechensystems bilden und insbesondere die Ausführung von Programmen steuern und überwachen."
             </blockquote>
-            <div class="image-placeholder">[Bild: Schichtenmodell: Anwendungen > Betriebssystem > Hardware]</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Bild: Schichtenmodell: Anwendungen > Betriebssystem > Hardware">
             <p>Im Schichtenmodell eines Computersystems bildet die <strong>Hardware</strong> (CPU, Speicher, Festplatte) die unterste Ebene. Direkt darauf setzt das <strong>Betriebssystem</strong> auf. Es stellt eine Abstraktion der Hardware bereit, sodass Anwendungsprogrammierer nicht direkt mit den Details der Hardware interagieren müssen. Auf dem Betriebssystem laufen dann <strong>Systemprogramme</strong> (Compiler, Editoren, Shells) und <strong>Anwendungen</strong> (Textverarbeitung, Spiele, etc.).</p>
 
             <h3>Die zentralen Aufgaben eines Betriebssystems</h3>
@@ -129,7 +73,7 @@
 
             <h3>Systemaufrufe</h3>
             <p>Systemaufrufe ermöglichen Programmen, Betriebssystemdienste anzufordern, z.B. für Dateien, Prozesse oder E/A. Typischerweise erfolgt der Wechsel vom User- in den Kernel-Modus über eine Trap-Instruction.</p>
-            <div class="image-placeholder">[Diagramm: Ablauf eines System Calls]</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Ablauf eines System Calls">
 
             <h3>Historische Entwicklung</h3>
             <ul>
