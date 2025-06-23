@@ -118,10 +118,20 @@
             <h4>Kanaltypen: Direkt vs. Indirekt</h4>
             <ul>
                 <li><strong>Direkte Kommunikation:</strong> Die Kommunikation findet explizit zwischen benannten Prozessen statt (z.B. <code>Send(Prozess_B, nachricht)</code>). Dies ist meist eine 1:1-Beziehung.</li>
-                <li><strong>Indirekte Kommunikation:</strong> Die Kommunikation erfolgt über eine Zwischeninstanz, die als <span class="key-term">Mailbox</span> oder <span class="key-term">Port</span> bezeichnet wird. Sender schicken Nachrichten an den Port, Empfänger lesen von dort. Dies entkoppelt Sender und Empfänger und ermöglicht N:M-Kommunikation. Ein bekanntes Beispiel sind die "Well-known Ports" im TCP/IP-Protokoll (z.B. Port 80 für HTTP).</li>
+                <li><strong>Indirekte Kommunikation:</strong> Die Kommunikation erfolgt über eine Zwischeninstanz, die als <span class="key-term">Mailbox</span> oder <span class="key-term">Port</span> bezeichnet wird. Sender schicken Nachrichten an den Port, Empfänger lesen von dort. Dies entkoppelt Sender und Empfänger und ermöglicht N:M-Kommunikation.
+                    <ul>
+                        <li><strong>Auslieferungsvarianten:</strong>
+                            <ul>
+                                <li>FIFO-Auslieferung über alle Sender und Empfänger</li>
+                                <li>Typisierte Auslieferung nach Nachrichtentyp oder Priorität</li>
+                                <li>Selektive Auslieferung: Empfänger wählt Nachrichten selbst aus</li>
+                            </ul>
+                        </li>
+                        <li><strong>Ports:</strong> Wenn eine Mailbox exklusiv einem Prozess zugeordnet ist, spricht man von einem Port (z.B. well-known Ports im TCP/IP).</li>
+                    </ul>
+                </li>
             </ul>
 
-            <h3>IPC-Mechanismen in der Praxis</h3>
             <h4>Pipes (UNIX/Windows)</h4>
             <p>Eine Pipe ist ein gerichteter Kommunikationskanal, der einen Bytestrom nach dem <span class="key-term">FIFO-Prinzip</span> transportiert. Wenn ein Prozess in eine volle Pipe schreibt oder aus einer leeren Pipe liest, wird er blockiert.</p>
             <ul>
@@ -129,21 +139,45 @@
                 <li><strong>Named Pipes:</strong> Haben einen Namen im Dateisystem und können von beliebigen Prozessen für die Kommunikation verwendet werden.</li>
             </ul>
 
+            <h4>Nachrichten-Warteschlangen (Mailboxes/Message Queues)</h4>
+            <p>IPC-Dienste wie POSIX-Message-Queues oder System V Message Queues stellen Warteschlangen zur Verfügung:</p>
+            <ul>
+                <li><strong>FIFO oder Prioritäten:</strong> Nachrichten werden in Warteschlangen nach Reihenfolge oder Priorität geordnet.</li>
+                <li><strong>Typisierte Queues:</strong> Empfänger können nur Nachrichten bestimmter Typen lesen.</li>
+                <li><strong>Selektive Abholung:</strong> Empfänger kann gezielt Nachrichten aus der Queue wählen.</li>
+            </ul>
+
+            <h4>Sockets</h4>
+            <p>Sockets sind generelle Kommunikationsendpunkte, häufig für Netzwerkprogrammierung, aber auch lokal über „Unix Domain Sockets“:</p>
+            <ul>
+                <li>Bidirektional, 1:N-Verbindungen, bytestream-orientiert.</li>
+                <li>Unterstützung für TCP/IP und lokale Kommunikation.</li>
+            </ul>
+
             <h4>Signale (UNIX)</h4>
             <p>Signale sind eine einfache, asynchrone Form der Benachrichtigung, um einen Prozess über ein Ereignis zu informieren. Die "Nachricht" ist dabei nur eine einfache Nummer (der Signaltyp).</p>
             <p>Typische Signale sind <code>SIGINT</code> (Strg+C), <code>SIGSEGV</code> (Speicherzugriffsfehler) oder <code>SIGTERM</code> (Beendigungsanforderung). Ein Prozess kann mit <code>sigaction()</code> einen eigenen <span class="key-term">Signal-Handler</span> registrieren, um auf ein Signal zu reagieren. Da der Handler den normalen Programmfluss unterbricht, sollte er sehr kurz sein und z.B. nur eine globale Variable (Flag) setzen, die im Hauptprogramm ausgewertet wird.</p>
 
-            <h2>2. Kooperation durch gemeinsame Daten</h2>
+            <h3>2. Kooperation durch gemeinsame Daten</h3>
             <p>Bei diesem Modell arbeiten Prozesse nicht durch Nachrichtenaustausch, sondern durch den direkten Lese- und Schreibzugriff auf gemeinsame Datenobjekte. Dies ist zwar sehr schnell, erfordert aber eine explizite Synchronisation durch den Programmierer, um Race Conditions zu verhindern.</p>
+
+            <h4>Sperr- und Lock-Mechanismen</h4>
+            <p>Gemeinsamer Zugriff erfordert Synchronisation auf Objekte:</p>
+            <ul>
+                <li><strong>Exclusive Write:</strong> Ein Schreiber, keine Leser.</li>
+                <li><strong>Protected Write:</strong> Ein Schreiber, beliebig viele Leser.</li>
+                <li><strong>Concurrent Write:</strong> Beliebig viele Schreiber und Leser.</li>
+                <li><strong>Protected Read:</strong> Mehrere Leser, keine Schreiber.</li>
+                <li><strong>Concurrent Read:</strong> Leser und Schreiber gleichzeitig erlaubt.</li>
+            </ul>
 
             <h4>Shared Memory (Gemeinsamer Speicher)</h4>
             <p>Der effizienteste IPC-Mechanismus. Das Betriebssystem blendet (mapped) einen physischen Speicherbereich in die virtuellen Adressräume mehrerer Prozesse ein. Die Prozesse können dann auf diesen Bereich zugreifen, als wäre es ihr eigener. Da der Kernel nicht bei jedem Datenaustausch involviert ist, ist die Kommunikation extrem schnell. Die Synchronisation muss aber zwingend über andere Mechanismen wie Semaphore erfolgen.</p>
-            
             <div class="solution-box">
                 <h4>Praxisbeispiel: Shared Memory in UNIX (C-Code)</h4>
                 <p>Der Code (aus <code>OS_7_Kommunikation.pdf</code>) zeigt die Erzeugung, das Anbinden (<code>shmat</code>), Beschreiben, erneute Anbinden an eine andere Adresse und das Freigeben eines Shared Memory Segments.</p>
                 <pre>
-#include &lt;sys/shm.h&gt;
+#include <sys/shm.h>
 // ...
 int segment_id;
 char* shared_memory;
@@ -164,7 +198,16 @@ shmdt(shared_memory);
 shmctl(segment_id, IPC_RMID, 0);
                 </pre>
             </div>
-            
+            <h4>Memory Mapping von Dateien</h4>
+            <p>Alternative zu Shared Memory: Zugriff auf gemeinsame Dateien über <code>mmap()</code>, ähnlich wie bei Memory-Mapped Files.</p>
+
+            <h3>3. IPC-Dienste in Windows</h3>
+            <ul>
+                <li><strong>Anonymous Pipes:</strong> Nur lokal auf einem Rechner, unidirektional, mittels <code>CreatePipe()</code> und File-Operationen.</li>
+                <li><strong>Named Pipes:</strong> Rechnerübergreifend, bidirektional möglich (<code>PIPE_ACCESS_DUPLEX</code>), Systemaufrufe <code>CreateNamedPipe()</code> und File-Funktionen, unterstützt Byte- und Nachrichten-Modus.</li>
+                <li><strong>Mailslots:</strong> Einfache Mailbox-Dienste mit Broadcast-Funktion (1:N), <code>CreateMailslot()</code> und File-Operationen.</li>
+                <li><strong>Shared Memory:</strong> Ähnlich UNIX über File-Mapping mit <code>CreateFileMapping()</code> und <code>MapViewOfFile()</code>.</li>
+            </ul>
         </article>
     </main>
 

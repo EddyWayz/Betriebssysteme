@@ -1,9 +1,9 @@
 /* Globale Variablen für Farben und Schriftarten */
 :root {
     /* Aktualisierte Farbpalette */
-    --primary-color: #2a7b6e;    /* Dunkles Türkis */
+    --primary-color: #5ea5db;    /* Dunkles Türkis */
     --secondary-color: #e3f6f2;  /* Sehr helles Türkis */
-    --accent-color: #e67e22;     /* Kräftiges Orange */
+    --accent-color: #c68f5e;     /* Kräftiges Orange */
     --text-color: #2c3e50;       /* Dunkles Blaugrau */
     --light-gray: #f9f9f9;       /* Sehr helles Grau */
     --border-color: #ccc;        /* Dezentes Grau */
