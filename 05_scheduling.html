@@ -24,8 +24,9 @@
         .page-nav { background-color: #f8f9fa; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-family: var(--header-font); }
         .page-nav a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
         .page-nav a:hover { text-decoration: underline; }
-        .content-section h3 { font-family: var(--title-font); font-size: 1.8rem; color: #444; margin-top: 40px; margin-bottom: 20px; }
-        .content-section h4 { font-family: var(--title-font); font-size: 1.4rem; color: var(--primary-color); margin-top: 30px; }
+        .content-section h2 { font-family: var(--title-font); font-size: 2rem; color: #333; margin-top: 30px; }
+        .content-section h3 { font-family: var(--title-font); font-size: 1.6rem; color: #444; margin-top: 25px; margin-bottom: 15px; }
+        .content-section h4 { font-family: var(--title-font); font-size: 1.3rem; color: var(--primary-color); margin-top: 20px; }
         blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 20px 0; font-style: italic; background-color: var(--secondary-color); padding: 15px 20px; border-radius: 0 5px 5px 0; }
         .image-placeholder { background-color: #f0f0f0; border: 1px dashed #ccc; padding: 20px; text-align: center; margin: 20px auto; border-radius: 5px; color: #888; max-width: 80%; display: block; font-family: var(--header-font); }
         code, pre { font-family: Consolas, 'Courier New', monospace; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; }
@@ -65,113 +66,102 @@
 
     <main class="container">
         <article class="content-section">
-            <h2>Die Rolle und Ziele des Schedulers</h2>
-            <p>Der <span class="key-term">Scheduler</span> (oder auch Dispatcher) ist die Komponente des Betriebssystems, die entscheidet, welcher der im Zustand <span class="key-term">"Bereit"</span> befindlichen Prozesse als nächstes die CPU zugeteilt bekommt. Er verwaltet dazu eine oder mehrere Warteschlangen, die sogenannten <span class="key-term">Ready Queues</span>.</p>
-            <p>Ein Scheduling-Entscheidung muss in folgenden Situationen getroffen werden:</p>
-            <ul>
-                <li>Ein aktiver Prozess wechselt in den Zustand "blockiert" (z.B. durch eine E/A-Anforderung).</li>
-                <li>Ein aktiver Prozess wird durch einen Timer-Interrupt verdrängt (präemptives Scheduling).</li>
-                <li>Ein neuer Prozess wird erzeugt und in die Ready Queue gestellt.</li>
-                <li>Ein blockierter Prozess beendet seine E/A-Operation und wird wieder bereit.</li>
-            </ul>
-            
-            <h3>Kriterien und Zielkonflikte</h3>
-            <p>Ein guter Scheduler versucht, mehrere, oft widersprüchliche Ziele auszubalancieren:</p>
-            <ul>
-                <li><strong>CPU-Auslastung:</strong> Die CPU soll so wenig wie möglich untätig sein.</li>
-                <li><strong>Durchsatz:</strong> Die Anzahl der pro Zeiteinheit beendeten Prozesse soll maximiert werden.</li>
-                <li><strong>Antwortzeit:</strong> Für interaktive Systeme soll die Zeit von der Benutzereingabe bis zur ersten Reaktion minimal sein.</li>
-                <li><strong>Fairness:</strong> Jeder Prozess soll einen fairen Anteil an der CPU-Zeit erhalten und nicht <span class="key-term">verhungern</span> (Starvation).</li>
-                <li><strong>Stabilität:</strong> Das System soll auch unter hoher Last (Overload) vorhersagbar und stabil bleiben.</li>
-                <li><strong>Einhaltung von Terminen (Deadlines):</strong> In Echtzeitsystemen das wichtigste Kriterium.</li>
-            </ul>
-            <div class="image-placeholder">[Diagramm: Spinnennetz der Zielkonflikte]<br>Zeigt, wie die Optimierung eines Ziels (z.B. hoher Durchsatz durch lange Zeitscheiben) ein anderes (z.B. kurze Antwortzeit) negativ beeinflusst. Ein weiterer Konflikt besteht zwischen Fairness und der Einhaltung von Deadlines für hochpriorisierte Prozesse.</div>
-            <blockquote><strong>Overhead des Schedulings:</strong> Jede Scheduling-Entscheidung und jeder Kontextwechsel verbrauchen selbst CPU-Zeit und sind reiner Overhead. Ein zu komplexer Algorithmus kann die Systemleistung daher sogar verschlechtern.</blockquote>
 
+            <!-- Ziele und Kennzahlen -->
+            <h2>Die Rolle und Ziele des Schedulers</h2>
+            <p>Der <span class="key-term">Scheduler</span> (oder Dispatcher) entscheidet, welcher bereite Prozess die CPU erhält. Entscheidungen fallen bei Zustandswechseln und neuen Prozessen.</p>
+            <h3>Kriterien und Zielkonflikte</h3>
+            <ul>
+                <li><strong>CPU-Auslastung:</strong> CPU soll möglichst dauerhaft beschäftigt sein.</li>
+                <li><strong>Durchsatz:</strong> Maximierung abgeschlossener Prozesse pro Zeiteinheit.</li>
+                <li><strong>Antwortzeit:</strong> Minimale Zeit bis zur ersten Reaktion.</li>
+                <li><strong>Fairness:</strong> Kein Prozess darf verhungern.</li>
+                <li><strong>Stabilität:</strong> Vorhersagbarkeit auch bei hoher Last.</li>
+                <li><strong>Deadline-Einhaltung:</strong> In Echtzeitsystemen oberstes Kriterium.</li>
+            </ul>
+            <blockquote><strong>Overhead:</strong> Scheduling selbst verbraucht CPU-Zeit; zu komplexe Algorithmen können kontraproduktiv sein.</blockquote>
+
+            <!-- Leistungskennzahlen -->
+            <h2>Leistungskennzahlen</h2>
+            <ul>
+                <li><strong>CPU-Auslastung</strong></li>
+                <li><strong>Durchsatz (Throughput)</strong></li>
+                <li><strong>Turnaround Time</strong></li>
+                <li><strong>Wartezeit (Waiting Time)</strong></li>
+                <li><strong>Antwortzeit (Response Time)</strong></li>
+            </ul>
+
+            <!-- Scheduling-Algorithmen -->
             <h2>Grundlegende Scheduling-Algorithmen</h2>
 
-            <h4>1. First-Come, First-Served (FCFS)</h4>
+            <h3>First-Come, First-Served (FCFS)</h3>
             <ul>
-                <li><strong>Prinzip:</strong> Prozesse werden in der Reihenfolge ihrer Ankunft in der Ready Queue abgearbeitet.</li>
-                <li><strong>Art:</strong> Nicht-präemptiv. Ein Prozess gibt die CPU nur frei, wenn er fertig ist oder blockiert.</li>
-                <li><strong>Vorteile:</strong> Sehr einfach zu implementieren und absolut fair, da kein Prozess verhungern kann.</li>
-                <li><strong>Nachteile:</strong> Führt zu schlechten durchschnittlichen Warte- und Antwortzeiten, wenn ein kurzer Prozess hinter einem sehr langen Prozess ankommt (sog. <span class="key-term">Konvoi-Effekt</span>).</li>
+                <li>Nicht-präemptiv.</li>
+                <li>Einfach, aber Konvoi-Effekt erhöht Wartezeiten.</li>
             </ul>
-            <div class="gantt">
-            Beispiel: P1(24ms), P2(3ms), P3(3ms) kommen gleichzeitig an.<br>
-            Ablauf: |---P1 (24ms)---|--P2(3ms)--|--P3(3ms)--|<br>
-            Wartezeit P1=0, P2=24, P3=27. Durchschnitt: (0+24+27)/3 = 17ms.
-            </div>
+            <div class="gantt">Beispiel: P1(24), P2(3), P3(3)<br>|---P1---|--P2--|--P3--|<br>Ø Wartezeit = 17</div>
 
-            <h4>2. Shortest-Job-First (SJF)</h4>
+            <h3>Shortest-Job-First (SJF) / Shortest-Remaining-Time (SRT)</h3>
             <ul>
-                <li><strong>Prinzip:</strong> Der Prozess mit der kürzesten geschätzten nächsten CPU-Bearbeitungszeit wird ausgewählt.</li>
-                <li><strong>Art:</strong> Kann nicht-präemptiv oder präemptiv sein. Die präemptive Variante heißt <strong>Shortest-Remaining-Time (SRT)</strong>, bei der ein laufender Prozess verdrängt wird, sobald ein neuer Prozess mit einer noch kürzeren Restlaufzeit ankommt.</li>
-                <li><strong>Vorteile:</strong> Ist beweisbar optimal in Bezug auf die minimale durchschnittliche Wartezeit.</li>
-                <li><strong>Nachteile:</strong> Man muss die zukünftige CPU-Zeit kennen, was in der Praxis unmöglich ist (man kann sie nur schätzen). Es besteht die Gefahr, dass lange Prozesse <span class="key-term">verhungern</span>, wenn immer wieder kurze Prozesse nachkommen.</li>
+                <li>Wählt kürzeste Jobs (Restlaufzeit).</li>
+                <li>SRT präemptiv, minimaler mittlerer Wartezeit, Gefahr des Verhungerns.</li>
             </ul>
-            <div class="gantt">
-            Beispiel: P1(24ms), P2(3ms), P3(3ms) kommen gleichzeitig an.<br>
-            Ablauf: |--P2(3ms)--|--P3(3ms)--|---P1 (24ms)---|<br>
-            Wartezeit P1=6, P2=0, P3=3. Durchschnitt: (6+0+3)/3 = 3ms. (Deutlich besser als FCFS)
-            </div>
+            <div class="gantt">Ablauf: |--P2--|--P3--|------P1------|<br>Ø Wartezeit = 3</div>
 
-            <h4>3. Prioritätsbasiertes Scheduling</h4>
+            <h3>Prioritätsbasiertes Scheduling</h3>
             <ul>
-                <li><strong>Prinzip:</strong> Jeder Prozess erhält eine Priorität. Der Prozess mit der höchsten Priorität wird ausgeführt. Prioritäten können statisch (einmalig vergeben) oder dynamisch (zur Laufzeit angepasst) sein.</li>
-                <li><strong>Art:</strong> Meist präemptiv: Ein neu ankommender Prozess mit höherer Priorität verdrängt den aktuell laufenden.</li>
-                <li><strong>Vorteile:</strong> Erlaubt die gezielte Bevorzugung wichtiger Prozesse.</li>
-                <li><strong>Problem 1: Starvation:</strong> Prozesse mit niedriger Priorität laufen möglicherweise nie. (Lösung: "Aging", d.h. die Priorität eines lange wartenden Prozesses wird langsam erhöht).</li>
-                <li><strong>Problem 2: Prioritätsinversion:</strong> Ein hochpriorer Prozess P_A wartet auf eine Ressource, die von einem niederprioren Prozess P_C gehalten wird. Ein mittlerer Prozess P_B, der nichts mit der Ressource zu tun hat, verdrängt P_C, sodass dieser die Ressource nicht freigeben kann. Effektiv blockiert der unwichtigere Prozess P_B den hochprioren Prozess P_A.</li>
+                <li>Prozesse haben Prioritäten (statisch/dynamisch).</li>
+                <li>Präemptiv, löst Starvation durch Aging.</li>
+                <li>Lösung für Prioritätsinversion: Priority Inheritance.</li>
             </ul>
 
-            <h4>4. Round Robin (RR)</h4>
+            <h3>Round Robin (RR)</h3>
             <ul>
-                <li><strong>Prinzip:</strong> Eine FCFS-Queue wird mit Präemption kombiniert. Jeder Prozess erhält die CPU für eine feste, kleine Zeitscheibe, das <span class="key-term">Quantum</span> (z.B. 10-100 ms). Ist das Quantum abgelaufen, wird der Prozess unterbrochen, ans Ende der Ready Queue gestellt, und der nächste Prozess ist an der Reihe.</li>
-                <li><strong>Art:</strong> Präemptiv.</li>
-                <li><strong>Vorteile:</strong> Sehr fair, kein Verhungern, exzellente Antwortzeiten für interaktive Nutzer.</li>
-                <li><strong>Nachteile:</strong> Die Leistung hängt stark von der Wahl des Quantums ab. Ist es zu groß, wird RR zu FCFS. Ist es zu klein, wird zu viel Zeit mit Kontextwechseln verschwendet.</li>
+                <li>Zeitscheiben-Quantum, präemptiv.</li>
+                <li>Fair, gute Antwortzeiten, Overhead bei zu kleinem Quantum.</li>
             </ul>
+            <div class="gantt">Beispiel (Quantum=4): |P1(4)|P2(3)|P3(3)|P1(4)|P1(4)|</div>
 
-            <h2>Echtzeit-Scheduling</h2>
-            <p>In Echtzeitsystemen ist nicht die durchschnittliche Leistung, sondern die <span class="key-term">garantierte Einhaltung von Deadlines</span> das oberste Ziel. Man unterscheidet:</p>
-            <ul>
-                <li><strong>Harte Echtzeit:</strong> Das Verpassen einer Deadline ist ein katastrophaler Systemfehler.</li>
-                <li><strong>Weiche Echtzeit:</strong> Das Verpassen einer Deadline ist unerwünscht und mindert die Qualität, führt aber nicht zum Totalausfall.</li>
-            </ul>
+            <h3>Multilevel Queue Scheduling</h3>
+            <p>Mehrere Ready Queues für verschiedene Prozessklassen (Batch, Interactive).</p>
+            <div class="image-placeholder">[Diagramm: Ready Queues Hierarchie]</div>
+
+            <h3>Multilevel Feedback Queue (MLFQ)</h3>
+            <p>Erlaubt Wechsel zwischen Queues basierend auf Prozessverhalten, verhindert Verhungern.</p>
+
+            <h3>Echtzeit-Scheduling</h3>
             <h4>Earliest Deadline First (EDF)</h4>
-            <p>Ein präemptiver Algorithmus, der dynamisch Prioritäten vergibt: Der Prozess mit der frühesten (nächsten) Deadline hat die höchste Priorität.</p>
-            <blockquote>EDF ist auf Einprozessorsystemen <strong>optimal</strong>: Wenn es irgendeine Möglichkeit gibt, alle Deadlines einzuhalten, wird EDF sie finden.</blockquote>
-            <p>Nachteil: Unter Überlast (wenn nicht alle Deadlines haltbar sind) ist das Verhalten unvorhersehbar (Dominoeffekt).</p>
-            
+            <p>Dynamisch Prioritäten nach nächster Deadline, optimal auf einem Prozessor.</p>
+            <blockquote>Unter Überlast dominiert Dominoeffekt.</blockquote>
             <h4>Rate Monotonic Scheduling (RMS)</h4>
-            <p>Ein Algorithmus für <span class="key-term">periodische</span> Tasks. Er vergibt statische Prioritäten: Je kürzer die Periode einer Task, desto höher ihre Priorität.</p>
-            <p>RMS ist optimal, wenn eine bestimmte Bedingung erfüllt ist (hinreichend, nicht notwendig): Die Gesamtauslastung der CPU darf einen Schwellenwert nicht überschreiten. Für $n$ Prozesse mit Ausführungszeiten $C_i$ und Perioden $P_i$ gilt:</p>
-            $$ \sum_{i=1}^{n} \frac{C_i}{P_i} \le n(2^{1/n}-1) $$
-            <p>Dieser Grenzwert konvergiert für viele Prozesse ($n \to \infty$) gegen $\ln(2) \approx 69.3\%$.</p>
+            <p>Statische Prioritäten nach Periode, optimal bei Auslastung ≤ n(2^{1/n}-1).</p>
 
             <h2>Scheduling in Mehrprozessorumgebungen</h2>
-            <p>Auf Systemen mit mehreren CPUs/Kernen muss der Scheduler nicht nur entscheiden, *wann* ein Prozess läuft, sondern auch *wo* (auf welchem Kern).</p>
             <ul>
-                <li><strong>Prozessoraffinität:</strong> Es ist performanter, einen Prozess möglichst immer auf demselben Kern laufen zu lassen, damit dessen Daten im lokalen Cache des Kerns verbleiben. Ein ständiges "Hüpfen" zwischen Kernen ("job hopping") führt zu teuren Cache-Misses.</li>
-                <li><strong>Gang Scheduling:</strong> Eine Gruppe von eng kooperierenden Threads (eine "Gang") wird als Einheit betrachtet und immer gleichzeitig auf verschiedenen Kernen ausgeführt. Dies verhindert, dass ein Thread der Gruppe blockiert, weil er auf einen anderen Thread wartet, der gerade nicht gescheduled ist.</li>
+                <li><strong>Prozessoraffinität:</strong> Lokale Caches schonen.</li>
+                <li><strong>Gang Scheduling:</strong> Threads-Gruppen synchron ausführen.</li>
             </ul>
 
-            <h2>Scheduling in der Praxis: Windows und Linux</h2>
-            <h4>Windows</h4>
-            <p>Windows verwendet ein prioritätsbasiertes, präemptives Scheduling für Threads.</p>
+            <h2>Scheduling in der Praxis</h2>
+            <h3>Windows</h3>
             <ul>
-                <li>Es gibt 32 Prioritätsstufen. 1-15 sind für normale User-Threads, 16-31 sind Echtzeit-Prioritäten.</li>
-                <li>Die Prioritäten im User-Bereich sind <span class="key-term">dynamisch</span>. Ein Thread, der eine E/A-Operation beendet (und oft interaktiv ist), erhält einen temporären Prioritäts-Boost. Ein Thread, der sein Zeitquantum voll ausnutzt (CPU-lastig), wird in der Priorität herabgestuft.</li>
-                <li>Zur Bekämpfung von Starvation und Prioritätsinversion gibt es einen "Priority Boost": Lange wartende Threads werden kurzzeitig auf eine sehr hohe Priorität angehoben.</li>
+                <li>32 Prioritätsstufen (1–15 User, 16–31 Echtzeit).</li>
+                <li>Dynamische Prioritätsanpassung für interaktive Threads und CPU-lastige Threads.</li>
+                <li>Priority Boost für lange wartende Threads.</li>
+            </ul>
+            <h3>Linux</h3>
+            <ul>
+                <li>Echtzeit-Klassen (FIFO, RR) vor allen anderen.</li>
+                <li>Nicht-Echtzeit-Klasse: komplexer, fairer Algorithmus, bevorzugt I/O-lastige Threads.</li>
             </ul>
 
-            <h4>Linux</h4>
-            <p>Auch Linux nutzt ein prioritätsbasiertes, präemptives Scheduling. Es unterscheidet verschiedene Scheduling-Klassen ("Policies"):</p>
+            <h2>Zusammenfassung</h2>
             <ul>
-                <li><strong>Echtzeit-Klassen (FIFO und RR):</strong> Für Tasks mit harten Echtzeitanforderungen. Diese werden immer vor allen anderen Tasks ausgeführt.</li>
-                <li><strong>Nicht-Echtzeit-Klasse:</strong> Ein komplexer, fairer Algorithmus, der interaktive (I/O-lastige) Threads gegenüber CPU-lastigen Threads bevorzugt, um eine gute Systemreaktion zu gewährleisten.</li>
+                <li>Viele Algorithmen mit spezifischen Vor- und Nachteilen.</li>
+                <li>Wahl abhängig von Systemtyp: Batch, interaktiv, Echtzeit.</li>
+                <li>Trade-offs zwischen Durchsatz, Antwortzeiten, Fairness und Overhead.</li>
             </ul>
+
         </article>
     </main>
 

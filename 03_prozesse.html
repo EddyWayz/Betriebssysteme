@@ -9,70 +9,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
     <style>
-        .page-nav {
-            background-color: #f8f9fa;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-            font-family: var(--header-font);
-        }
-        .page-nav a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .page-nav a:hover {
-            text-decoration: underline;
-        }
-        .content-section h3 {
-            font-family: var(--title-font);
-            font-size: 1.8rem;
-            color: #444;
-            margin-top: 40px;
-            margin-bottom: 20px;
-        }
-        .content-section h4 {
-            font-family: var(--title-font);
-            font-size: 1.4rem;
-            color: var(--primary-color);
-            margin-top: 30px;
-        }
-        blockquote {
-            border-left: 4px solid var(--primary-color);
-            padding-left: 20px;
-            margin: 20px 0;
-            font-style: italic;
-            background-color: var(--secondary-color);
-            padding: 15px 20px;
-            border-radius: 0 5px 5px 0;
-        }
-        .image-placeholder {
-            background-color: #f0f0f0;
-            border: 1px dashed #ccc;
-            padding: 20px;
-            text-align: center;
-            margin: 20px auto;
-            border-radius: 5px;
-            color: #888;
-            max-width: 80%;
-            display: block;
-            font-family: var(--header-font);
-        }
-        code {
-            background-color: #e9ecef;
-            color: #c7254e;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 0.9em;
-        }
-        .key-term {
-            font-weight: bold;
-            color: var(--primary-color);
-        }
+        .page-nav { background-color: #f8f9fa; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-family: var(--header-font); }
+        .page-nav a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
+        .page-nav a:hover { text-decoration: underline; }
+        .content-section h3 { font-family: var(--title-font); font-size: 1.8rem; color: #444; margin-top: 40px; margin-bottom: 20px; }
+        .content-section h4 { font-family: var(--title-font); font-size: 1.4rem; color: var(--primary-color); margin-top: 30px; }
+        blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 20px 0; font-style: italic; background-color: var(--secondary-color); padding: 15px 20px; border-radius: 0 5px 5px 0; }
+        .image-placeholder { background-color: #f0f0f0; border: 1px dashed #ccc; padding: 20px; text-align: center; margin: 20px auto; border-radius: 5px; color: #888; max-width: 80%; display: block; font-family: var(--header-font); }
+        code { background-color: #e9ecef; color: #c7254e; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+        .key-term { font-weight: bold; color: var(--primary-color); }
     </style>
 </head>
 <body>
-
-    <nav class="site-nav">
+    <nav class="page-nav">
         <div class="container">
             <a href="index.html">Zurück zur Übersicht</a>
             <a href="01_einfuehrung.html">1</a>
@@ -87,125 +36,148 @@
             <a href="10_dateisysteme.html">10</a>
         </div>
     </nav>
-
     <header>
         <div class="container">
             <h1>Kapitel 3: Prozesse</h1>
             <p>Das zentrale Konzept zur Verwaltung von Programmausführungen.</p>
         </div>
     </header>
-
     <main class="container">
         <article class="content-section">
             <h2>Was ist ein Prozess?</h2>
-            <p>Ein Prozess ist eines der fundamentalsten Konzepte eines Betriebssystems. Er repräsentiert die <span class="key-term">aktive Ablaufinstanz eines Programms</span>. Während ein Programm auf der Festplatte nur eine passive Ansammlung von Befehlen ist (z.B. eine `.exe`-Datei), ist ein Prozess dieses Programm, nachdem es in den Speicher geladen wurde und von der CPU ausgeführt wird.</p>
+            <p>Ein Prozess ist eines der fundamentalsten Konzepte eines Betriebssystems. Er repräsentiert die <span class="key-term">aktive Ablaufinstanz eines Programms</span>. Während ein Programm auf der Festplatte nur eine passive Ansammlung von Befehlen ist, ist ein Prozess dieses Programm, nachdem es in den Speicher geladen wurde und von der CPU ausgeführt wird.</p>
             <p>Zu einem Prozess gehören alle Ressourcen, die zur Ausführung benötigt werden:</p>
             <ul>
                 <li>Der <strong>Programmcode</strong> (Maschinenbefehle).</li>
-                <li>Der aktuelle <strong>Prozesszustand</strong>, hauptsächlich repräsentiert durch die Inhalte der CPU-Register (insbesondere Programmzähler und Prozessstatuswort).</li>
-                <li>Zugeordnete <strong>Speicherbereiche</strong>, typischerweise unterteilt in:
-                    <ul>
-                        <li><strong>Textsegment:</strong> Der kompilierte Programmcode.</li>
-                        <li><strong>Datensegment:</strong> Globale und statische Variablen.</li>
-                        <li><strong>Heap:</strong> Dynamisch zur Laufzeit allokierter Speicher.</li>
-                        <li><strong>Stack:</strong> Speicher für lokale Variablen und Funktionsaufrufe.</li>
-                    </ul>
-                </li>
-                <li>Weitere <strong>Betriebsmittel</strong> wie geöffnete Dateien, Netzwerkverbindungen oder andere E/A-Geräte.</li>
+                <li>Der aktuelle <strong>Prozesszustand</strong>, repräsentiert durch die Inhalte der CPU-Register (insbesondere Programmzähler und Prozessstatuswort).</li>
+                <li>Zugeordnete <strong>Speicherbereiche</strong> (Textsegment, Datensegment, Heap, Stack).</li>
+                <li>Weitere <strong>Betriebsmittel</strong> wie geöffnete Dateien, Netzwerkverbindungen oder E/A-Geräte.</li>
             </ul>
 
+            <h3>Beispiel: Ein Programm als Prozess</h3>
+            <p>Betrachten wir ein einfaches Programm, das eine Schleife ausführt:</p>
+            <pre><code>R5 := 0       # z := 0
+R6 := x       # Anzahl der Durchläufe
+while R6 > 0:
+    R5 := R5 + y   # z = z + y
+    R6 := R6 - 1
+end
+z := R5</code></pre>
+            <p>Während der Ausführung ändert sich der <span class="key-term">Prozesszustand</span> wie folgt:</p>
+            <ul>
+                <li><strong>Register:</strong> R5, R6, Programmzähler (PC) und Programmstatuswort (PSW).</li>
+                <li><strong>Speicher:</strong> Werte von x, y und z im Hauptspeicher.</li>
+            </ul>
+            <div class="image-placeholder">[Diagramm: Ablauf der Prozessausführung am Beispiel einer Schleife mit PC und PSW]</div>
+
+            <h3>Prozess speichern und reaktivieren</h3>
+            <p>Ein Prozess lässt sich an einem beliebigen Punkt unterbrechen, sein Zustand (PC, Register, Speicherzuweisungen) wird im PCB gesichert und kann später exakt an dieser Stelle fortgesetzt werden. Diese Fähigkeit bildet die Grundlage für Multitasking und Kontextwechsel.</p>
+
+            <h3>Viele Prozesse auf einem Rechner</h3>
+            <p>Zu jedem Zeitpunkt existieren auf einem Rechner viele Prozesse:</p>
+            <ul>
+                <li>Einige Prozesse sind <strong>aktiv</strong> und erhalten CPU-Zeit.</li>
+                <li>Viele Prozesse sind <strong>passiv</strong> (blockiert, warten auf Ereignisse).</li>
+            </ul>
+            <p>Das Betriebssystem ist verantwortlich für die <span class="key-term">Prozessverwaltung</span>, insbesondere für das Scheduling der CPU.</p>
+
             <h3>Der Prozesskontrollblock (Process Control Block, PCB)</h3>
-            <p>Um die vielen laufenden Prozesse verwalten zu können, legt das Betriebssystem für jeden einzelnen Prozess eine Datenstruktur an: den <span class="key-term">Prozesskontrollblock (PCB)</span>. Der PCB ist sozusagen der "Personalausweis" des Prozesses aus Sicht des Betriebssystems und enthält alle essentiellen Informationen, um den Prozess zu steuern und seinen Zustand bei einer Unterbrechung zu sichern.</p>
+            <p>Um die vielen laufenden Prozesse verwalten zu können, legt das Betriebssystem für jeden einzelnen Prozess einen <span class="key-term">Prozesskontrollblock (PCB)</span> an. Dieser enthält alle essentiellen Informationen, um den Prozess zu steuern und seinen Zustand bei einer Unterbrechung zu sichern.</p>
             <p>Typische Inhalte eines PCB sind:</p>
             <ul>
-                <li><strong>Prozess-ID (PID):</strong> Ein eindeutiger numerischer Identifikator für den Prozess.</li>
-                <li><strong>Prozesszustand:</strong> Der aktuelle Zustand des Prozesses (z.B. neu, bereit, blockiert, aktiv).</li>
-                <li><strong>Programmzähler (PC):</strong> Die Speicheradresse des nächsten auszuführenden Befehls.</li>
-                <li><strong>CPU-Register:</strong> Eine Kopie aller Registerinhalte (Akkumulator, Adressregister, PSW etc.), wenn der Prozess gerade nicht aktiv ist. Dies ist der Kern des "Kontexts".</li>
-                <li><strong>Speicherverwaltungsinformationen:</strong> Zeiger auf die Segment- oder Seitentabellen des Prozesses.</li>
-                <li><strong>Priorität:</strong> Ein Wert, der vom Scheduler verwendet wird, um zu entscheiden, wann der Prozess die CPU erhält.</li>
-                <li><strong>Accounting-Informationen:</strong> Genutzte CPU-Zeit, Speicherverbrauch, Prozesslaufzeit etc.</li>
-                <li><strong>E/A-Statusinformationen:</strong> Liste der dem Prozess zugewiesenen Geräte, offene Dateien usw.</li>
+                <li><strong>Prozess-ID (PID):</strong> Ein eindeutiger Identifikator.</li>
+                <li><strong>Prozesszustand:</strong> Neu, bereit, aktiv, blockiert, terminiert.</li>
+                <li><strong>Programmzähler (PC):</strong> Nächste Befehlsadresse.</li>
+                <li><strong>CPU-Register:</strong> Registerinhalte wie Akkumulator, Adressregister, PSW, Stack-Pointer.</li>
+                <li><strong>Speicherverwaltungsinformationen:</strong> Zeiger auf Segment- oder Seitentabellen.</li>
+                <li><strong>Priorität, Verzeichnis von offenen Dateien, Statistikdaten, etc.</strong></li>
             </ul>
 
             <h3>Prozesszustände und Zustandsübergänge</h3>
-            <p>Ein Prozess durchläuft während seiner Lebenszeit verschiedene Zustände. Das grundlegende Modell umfasst drei, wird aber oft auf fünf Zustände erweitert.</p>
-            <div class="image-placeholder">[Diagramm: Das 5-Zustands-Modell für Prozesse. Pfeile zeigen die Übergänge.]<br>Neu &rarr; Bereit &rarr; Aktiv &harr; Blockiert; Aktiv &rarr; Terminiert.</div>
-            
+            <div class="image-placeholder">[Diagramm: Das 5-Zustands-Modell für Prozesse mit Übergängen zwischen Neu, Bereit, Aktiv, Blockiert und Terminiert]</div>
             <h4>Das 5-Zustands-Modell</h4>
             <ol>
-                <li><strong>Neu (New):</strong> Der Prozess wird gerade erzeugt. Das Betriebssystem hat den PCB angelegt, aber noch keine weiteren Ressourcen zugewiesen.</li>
-                <li><strong>Bereit (Ready):</strong> Der Prozess hat alle benötigten Ressourcen, um zu laufen, wartet aber darauf, dass ihm der Scheduler die CPU zuteilt. Bereite Prozesse stehen in einer Warteschlange, der "Ready Queue".</li>
-                <li><strong>Aktiv (Running):</strong> Der Prozess wird gerade von der CPU ausgeführt; seine Befehle werden abgearbeitet.</li>
-                <li><strong>Blockiert (Blocked/Waiting):</strong> Der Prozess kann nicht weiterarbeiten, weil er auf ein externes Ereignis warten muss (z.B. Abschluss einer Festplatten-E/A, Eintreffen von Netzwerkdaten, Freigabe einer Ressource). Er verbraucht in diesem Zustand keine CPU-Zeit.</li>
-                <li><strong>Terminiert (Terminated):</strong> Der Prozess hat seine Ausführung beendet oder wurde vom System abgebrochen. Das BS gibt nun alle seine Ressourcen frei.</li>
+                <li><strong>Neu (New):</strong> Prozess wird erzeugt.</li>
+                <li><strong>Bereit (Ready):</strong> Wartet auf CPU-Zuteilung.</li>
+                <li><strong>Aktiv (Running):</strong> CPU führt den Prozess aus.</li>
+                <li><strong>Blockiert (Blocked/Waiting):</strong> Wartet auf externe Ereignisse.</li>
+                <li><strong>Terminiert (Terminated):</strong> Prozess ist beendet, Ressourcen werden freigegeben.</li>
             </ol>
-            
             <h4>Zustandsübergänge</h4>
             <ul>
-                <li><strong>Neu &rarr; Bereit:</strong> Das BS hat den Prozess initialisiert und lässt ihn nun am Scheduling teilnehmen.</li>
-                <li><strong>Bereit &rarr; Aktiv:</strong> Der Scheduler wählt den Prozess zur Ausführung aus (Dispatching).</li>
-                <li><strong>Aktiv &rarr; Bereit:</strong> Der Prozess wird <span class="key-term">verdrängt (preemption)</span>. Dies geschieht typischerweise, weil seine Zeitscheibe abgelaufen ist oder ein Prozess mit höherer Priorität bereitsteht. Verdrängung ist essentiell für Fairness und Reaktionsfähigkeit in Time-Sharing-Systemen.</li>
-                <li><strong>Aktiv &rarr; Blockiert:</strong> Der Prozess fordert eine Ressource an und muss auf deren Verfügbarkeit warten.</li>
-                <li><strong>Blockiert &rarr; Bereit:</strong> Das Ereignis, auf das gewartet wurde, ist eingetreten. Der Prozess kann nun weiterarbeiten, sobald er die CPU wieder erhält.</li>
-                <li><strong>Aktiv &rarr; Terminiert:</strong> Der Prozess beendet sich selbst (normal oder aufgrund eines Fehlers) oder wird von außen beendet.</li>
+                <li>Neu &rarr; Bereit: Initialisierung abgeschlossen.</li>
+                <li>Bereit &rarr; Aktiv: Scheduler dispatcht den Prozess.</li>
+                <li>Aktiv &rarr; Bereit: <strong>Verdrängung (Preemption)</strong> durch Zeitscheibe oder höheren Prioritätsprozess.</li>
+                <li>Aktiv &rarr; Blockiert: Wartet auf Ressource/Ereignis.</li>
+                <li>Blockiert &rarr; Bereit: Ereignis eingetreten.</li>
+                <li>Aktiv &rarr; Terminiert: Prozess endet freiwillig oder durch Fehler.</li>
             </ul>
+            <h4>Beispiel für Zustandswechsel bei Kommunikation</h4>
+            <p>Ein kommunizierender Prozess wechselt zwischen Aktiv, Blockiert und Bereit, wenn er Nachrichten sendet/empfängt:</p>
+            <div class="image-placeholder">[Diagramm: Zustandswechsel eines kommunizierenden Prozesses]</div>
+            <h4>Warum Verdrängung sinnvoll ist</h4>
+            <p>Verdrängung sorgt für gerechte CPU-Verteilung (Fairness) und schnelle Reaktionszeiten, da keine Prozesse die CPU monopolisiert.</p>
 
             <h3>Kontextwechsel (Context Switch)</h3>
-            <p>Ein Kontextwechsel ist der Mechanismus, mit dem das Betriebssystem die Kontrolle der CPU von einem Prozess auf einen anderen überträgt. Dies ist ein aufwändiger Vorgang, der reinen Overhead darstellt, aber für Multitasking unerlässlich ist.</p>
             <blockquote>
-                <strong>Ablauf eines Kontextwechsels (von Prozess P1 zu P2):</strong><br>
+                <strong>Ablauf eines Kontextwechsels (P1 &rarr; P2):</strong>
                 <ol>
-                    <li>Eine Unterbrechung (Interrupt) tritt auf (z.B. Timer-Interrupt).</li>
-                    <li>Die Hardware sichert automatisch PC und PSW. Das System wechselt in den Kernel-Modus.</li>
-                    <li>Der Betriebssystem-Dispatcher sichert den restlichen Kontext von P1 (alle CPU-Register) in dessen PCB.</li>
-                    <li>Der Scheduler entscheidet, dass P2 als nächstes laufen soll.</li>
-                    <li>Der Dispatcher lädt den gesicherten Kontext von P2 aus dessen PCB in die CPU-Register.</li>
-                    <li>Der Programmzähler wird auf den gesicherten Wert von P2 gesetzt.</li>
-                    <li>Das System wechselt zurück in den User-Modus und P2 setzt seine Ausführung an der unterbrochenen Stelle fort.</li>
+                    <li>Timer-Interrupt oder Systemaufruf tritt auf.</li>
+                    <li>Hardware sichert PC und PSW, Wechsel in Kernel-Modus.</li>
+                    <li>Dispatcher speichert restliche Register von P1 im PCB ab.</li>
+                    <li>Scheduler wählt P2 zur Ausführung aus.</li>
+                    <li>Dispatcher lädt Register von P2 aus dessen PCB.</li>
+                    <li>Programmzähler wird gesetzt, Wechsel zurück in User-Modus.</li>
+                    <li>P2 setzt Ausführung fort.</li>
                 </ol>
             </blockquote>
 
-            <h3>Prozesserzeugung und -terminierung</h3>
-            <h4>Prozesserzeugung</h4>
-            <p>Prozesse können auf verschiedene Weisen entstehen:</p>
-            <ul>
-                <li><strong>Beim Systemstart:</strong> Wichtige Systemdienste (Daemons in UNIX, Services in Windows) werden initialisiert.</li>
-                <li><strong>Durch Benutzerinteraktion:</strong> Ein Benutzer startet ein Programm durch einen Klick oder einen Befehl in der Konsole.</li>
-                <li><strong>Durch andere Prozesse:</strong> Ein laufender Prozess kann einen neuen Kind-Prozess erzeugen. Dies führt zu Prozesshierarchien oder "Prozessfamilien".
-                    <ul>
-                        <li>In UNIX geschieht dies typischerweise mit dem Systemaufruf <code>fork()</code>, der eine exakte Kopie des Elternprozesses erstellt.</li>
-                        <li>In Windows wird <code>CreateProcess()</code> verwendet, das mehr Kontrolle über den zu erstellenden Prozess bietet.</li>
-                    </ul>
-                </li>
-            </ul>
+            <h3>Beispiel: Programmzähler-Abfolge bei 3 Prozessen</h3>
+            <div class="image-placeholder">[Diagramm: Ablauf der Programmzähler-Abfolge bei drei Prozessen und Dispatcher]</div>
 
+            <h3>Beispiel: CPU-Zeitscheiben-Diagramm</h3>
+            <div class="image-placeholder">[Zeitdiagramm: CPU-Zeitverteilung zwischen Prozess 3, Prozess 2, Prozess 1 und Dispatcher]</div>
+
+            <h3>Beispiel: Task Manager</h3>
+            <div class="image-placeholder">[Screenshot: Windows 10 Task-Manager mit laufenden Prozessen]</div>
+
+            <h3>Prozesserzeugung</h3>
+            <h4>Wege der Prozesserzeugung</h4>
+            <ul>
+                <li><strong>Systemstart:</strong> Daemons/Services werden initialisiert.</li>
+                <li><strong>Benutzeraktion:</strong> Klick oder Konsolenbefehl.</li>
+                <li><strong>Von anderen Prozessen:</strong> <code>fork()</code> (UNIX), <code>CreateProcess()</code> (Windows).</li>
+            </ul>
             <h4>Anwendungsfall: Prozess-Pipelining</h4>
-            <p>Ein wichtiger Anwendungsfall für Prozessfamilien ist das Pipelining. Eine komplexe Aufgabe wird in eine Kette von einfacheren Teilaufgaben zerlegt, die jeweils von einem eigenen Prozess bearbeitet werden. Der Output eines Prozesses dient dabei als Input für den nächsten (Producer-Consumer-Muster).</p>
-            <p><strong>Vorteile:</strong></p>
+            <p>Aufteilung einer Aufgabe in eine Kette von Teilprozessen (Producer-Consumer):</p>
             <ul>
-                <li><strong>Modularität:</strong> Klare Trennung von Aufgaben, was Entwicklung und Testen erleichtert.</li>
-                <li><strong>Erhöhte Effizienz:</strong> Die Prozesse können parallel arbeiten. Während ein Prozess auf E/A wartet, können die anderen weiterrechnen, was den Gesamtdurchsatz erhöht.</li>
+                <li><strong>Modularität</strong> und bessere Testbarkeit.</li>
+                <li><strong>Parallele Ausführung</strong> erhöht den Gesamtdurchsatz.</li>
             </ul>
-            <div class="image-placeholder">[Diagramm: Flugsicherungs-Beispiel als Prozess-Pipeline]<br>Input Manager Prozess &rarr; Tracker Prozess &rarr; Server Prozess. Jeder Prozess hat eine klar definierte Aufgabe.</div>
+            <div class="image-placeholder">[Diagramm: Flugsicherungs-Beispiel als Prozess-Pipeline]</div>
+            <h4>Beispielrechnung zum Prozess-Pipelining</h4>
+            <p>Vergleich des Durchsatzes ohne und mit Pipelining anhand von I/O- und Rechenzeiten.</p>
+            <div class="image-placeholder">[Diagramm: Vergleich der Plot-Verarbeitung mit und ohne Pipelining]</div>
 
-            <h4>Prozessterminierung</h4>
-            <p>Ein Prozess kann auf mehrere Arten enden:</p>
+            <h3>Erweiterte Prozesshierarchie (Flugsicherung)</h3>
+            <p>Komplexes System mit mehreren spezialisierten Prozessen:</p>
+            <div class="image-placeholder">[Diagramm: Prozessfamilie Flugsicherung mit GUI-, Recording- und Supervision-Prozessen]</div>
+
+            <h3>Prozessterminierung</h3>
+            <p>Ein Prozess endet durch:</p>
             <ul>
-                <li><strong>Reguläre, freiwillige Terminierung:</strong> Das Programm ist fertig und ruft <code>exit()</code> auf.</li>
-                <li><strong>Freiwillige Terminierung bei Fehler:</strong> Das Programm erkennt einen Fehler (z.B. ungültige Eingabe) und beendet sich kontrolliert.</li>
-                <li><strong>Unfreiwillige Terminierung bei schwerem Fehler:</strong> Das Betriebssystem bricht den Prozess ab, z.B. wegen eines Speicherzugriffsfehlers oder einer Division durch Null.</li>
-                <li><strong>Terminierung von außen:</strong> Ein anderer Prozess (oft der Elternprozess oder ein Administrator) beendet den Prozess mit einem Befehl wie <code>kill</code> (UNIX) oder <code>TerminateProcess</code> (Windows).</li>
+                <li><strong>Freiwilliges Beenden:</strong> <code>exit()</code> nach Abschluss.</li>
+                <li><strong>Fehlerbehandlung:</strong> Kontrollierte Abbruch bei erkannter Ausnahme.</li>
+                <li><strong>Unfreiwillige Terminierung:</strong> Abbruch durch das BS bei schwerwiegenden Fehlern.</li>
+                <li><strong>Extern:</strong> Befehl wie <code>kill</code> (UNIX) oder <code>TerminateProcess</code> (Windows).</li>
             </ul>
         </article>
     </main>
-
     <footer>
         <div class="container">
             <p>Erstellt zur Unterstützung der Prüfungsvorbereitung. Viel Erfolg bei der Klausur!</p>
         </div>
     </footer>
-
     <script src="js/main.js"></script>
 </body>
 </html>
