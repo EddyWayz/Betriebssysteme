@@ -6,3 +6,14 @@
 // oder eine dynamische Suchfunktion hinzugefügt werden.
 
 console.log("Lernportal Betriebssysteme wurde geladen.");
+
+document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.querySelector(".nav-toggle");
+    const navContainer = document.querySelector(".site-nav .container");
+
+    if (toggle && navContainer) {
+        toggle.addEventListener("click", () => {
+            navContainer.classList.toggle("open");
+        });
+    }
+});
