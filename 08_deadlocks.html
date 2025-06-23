@@ -64,14 +64,14 @@
             <strong>Deadlock-Szenario:</strong> Jeder Philosoph nimmt gleichzeitig das Stäbchen zu seiner Linken auf. Nun hält jeder Philosoph eine Ressource (ein Stäbchen) und wartet auf eine zweite (das rechte Stäbchen), die aber von seinem Nachbarn gehalten wird. Es entsteht eine zirkuläre Abhängigkeit, und kein Philosoph kann jemals mit dem Essen beginnen.</p>
             
             <h4>Deadlock im realen Leben</h4>
-            <p>Ein anschauliches Beispiel findet sich im Schienenverkehr: Zwei Züge teilen sich eine eingleisige Strecke und gewähren sich gegenseitig Vorfahrt. Solange keiner nachgibt, bleibt das System blockiert. Ähnliche Situationen treten in Datenbanken auf, wenn Transaktionen sich gegenseitig sperren.</p>
+            <p>Ein anschauliches Beispiel findet sich im Schienenverkehr oder bei Verkehrsstaus, wo sich Fahrzeuge gegenseitig blockieren. Ähnliche Situationen treten in Datenbanken auf, wenn Transaktionen sich gegenseitig sperren.</p>
             <p>Quelle: <a href="http://mcs109.bu.edu/site/?p=deadlock" target="_blank">mcs109.bu.edu Deadlock im realen Leben</a></p>
 
             <h3>Die vier notwendigen Bedingungen für einen Deadlock</h3>
             <p>Ein Deadlock kann nur dann auftreten, wenn <strong>alle vier</strong> der folgenden Bedingungen gleichzeitig erfüllt sind. Dies ist eine extrem wichtige Prüfungsfrage.</p>
             <ol class="condition-list">
                 <li>
-                    <strong>1. Wechselseitiger Ausschluss (Mutual Exclusion):</strong> Mindestens eine Ressource muss in einem nicht-teilbaren Modus gehalten werden. Nur ein Prozess kann die Ressource zu einem Zeitpunkt nutzen.
+                    <strong>1. Wechselseitiger Ausschluss (Mutual Exclusion):</strong> Mindestens eine Ressource muss in einem nicht-teilbaren, exklusiven Modus gehalten werden. Nur ein Prozess kann die Ressource zu einem Zeitpunkt nutzen.
                 </li>
                 <li>
                     <strong>2. Halten und Warten (Hold and Wait):</strong> Ein Prozess hält mindestens eine Ressource, während er auf eine weitere Ressource wartet, die von einem anderen Prozess gehalten wird.
@@ -96,7 +96,7 @@
             Links: P1 hält R1 und fordert R2 an. P2 hält R2 und fordert R1 an. → Ein Zyklus, also ein Deadlock.<br>
             Rechts: P1 fordert R1 an, P2 hält R1 und fordert R2 an, P3 hält R2. → Kein Zyklus, kein Deadlock.</div>
             <blockquote>
-                <strong>Regel:</strong> Ein Zyklus im Betriebsmittelgraphen ist eine <em>notwendige</em>, aber nicht immer <em>hinreichende</em> Bedingung für einen Deadlock. Wenn jede Ressource nur eine Instanz hat, ist ein Zyklus hinreichend. Gibt es mehrere Instanzen, kann ein Zyklus bestehen, ohne dass ein Deadlock vorliegt.
+                <strong>Regel:</strong> Ein Zyklus im Betriebsmittelgraphen ist eine <em>notwendige</em> Bedingung für einen Deadlock. Wenn jede Ressource nur eine Instanz hat, ist ein Zyklus auch eine <em>hinreichende</em> Bedingung. Gibt es mehrere Instanzen, kann ein Zyklus bestehen, ohne dass ein Deadlock vorliegt.
             </blockquote>
             <div class="image-placeholder">[Komplexes Beispiel: Mehrere Prozesse (P1–P5) und Ressourcen (R1–R8), das zeigt, dass ein Zyklus nicht zwingend zu einem Deadlock führen muss, wenn Ressourcen mehrfach vorhanden sind.]</div>
             <p>Im obigen komplexeren Graph werden mehrere Ressourceninstanzen betrachtet. Ein Zyklus zeigt hier nicht zwingend einen Deadlock an, da Prozesse auf andere Instanzen derselben Ressource zugreifen können.</p>
@@ -104,44 +104,42 @@
             <h2>Strategien zum Umgang mit Deadlocks</h2>
 
             <h4>1. Ignorieren (Vogel-Strauß-Algorithmus)</h4>
-            <p>Die einfachste Strategie ist, das Problem zu ignorieren. Man geht davon aus, dass Deadlocks so selten auftreten, dass der Aufwand für ihre Behandlung in keinem Verhältnis zum Nutzen steht. Wenn ein Deadlock doch einmal auftritt, wird das System manuell oder per Watchdog neu gestartet. Dies ist der gängige Ansatz in vielen Betriebssystemen.</p>
+            <p>Die einfachste Strategie ist, das Problem zu ignorieren. Man geht davon aus, dass Deadlocks so selten auftreten, dass der Aufwand für ihre Behandlung in keinem Verhältnis zum Nutzen steht. Wenn ein Deadlock doch einmal auftritt, wird das System manuell oder per Watchdog neu gestartet. Dies ist der gängige Ansatz in vielen Desktop-Betriebssystemen.</p>
 
             <h4>2. Erkennung und Behebung (Detection and Recovery)</h4>
             <p>Das System lässt Deadlocks zu, verfügt aber über Mechanismen, um sie zu erkennen und aufzulösen.</p>
             <ul>
-                <li><strong>Erkennung:</strong> Das Betriebssystem unterhält intern einen Betriebsmittelgraphen und nutzt Algorithmen wie Tiefensuche (DFS) oder Breitensuche (BFS), um Zyklusdetektion durchzuführen.</li>
+                <li><strong>Erkennung:</strong> Das Betriebssystem unterhält intern einen Betriebsmittelgraphen und nutzt Algorithmen wie die Tiefensuche, um zyklische Wartebeziehungen zu finden.</li>
                 <li><strong>Behebung (Recovery):</strong>
                     <ul>
                         <li><strong>Prozesse beenden:</strong> Abbruch eines oder mehrerer Prozesse im Zyklus, bis der Deadlock aufgelöst ist.</li>
-                        <li><strong>Ressourcenentzug (Preemption):</strong> Entzug einer Ressource und Zuweisung an einen anderen Prozess; erfordert Rollback des beraubten Prozesses.</li>
+                        <li><strong>Ressourcenentzug (Preemption):</strong> Entzug einer Ressource und Zuweisung an einen anderen Prozess; erfordert oft ein Zurücksetzen (Rollback) des beraubten Prozesses auf einen sicheren Zustand (Checkpoint).</li>
                     </ul>
                 </li>
             </ul>
 
             <h4>3. Verhinderung (Prevention)</h4>
-            <p>Hierbei wird strukturell verhindert, dass das System jemals in einen Deadlock-Zustand gerät, indem mindestens eine der notwendigen Bedingungen ausgeschlossen wird.</p>
+            <p>Hierbei wird strukturell sichergestellt, dass das System niemals in einen Deadlock-Zustand geraten kann, indem mindestens eine der vier notwendigen Bedingungen von vornherein ausgeschlossen wird.</p>
             <ul>
-                <li><strong>Mutual Exclusion aufheben:</strong> Selten möglich. Spooling kann dedizierte Ressourcen teilbar machen.</li>
-                <li><strong>Hold and Wait aufheben:</strong> Prozesse müssen alle benötigten Ressourcen gleichzeitig anfordern oder freigeben, bevor sie neue anfragen.</li>
-                <li><strong>No Preemption aufheben:</strong> Bei fehlender Verfügbarkeit werden alle gehaltenen Ressourcen freigegeben.</li>
-                <li><strong>Circular Wait aufheben:</strong> Ressourcen eindeutig nummerieren und nur in aufsteigender Reihenfolge anfordern.</li>
-                <li><strong>Spooling:</strong> Ein spezieller Spooler-Prozess verwaltet exklusiven Zugriff (z.B. Druckerspooler), wodurch Deadlocks bei dieser Ressource vermieden werden.</li>
-                <li><strong>Hierarchische Synchronisation:</strong> Mehrere Ebenen kritischer Abschnitte und Sperrkonzepte in definierter Reihenfolge, um zyklische Abhängigkeiten zu vermeiden.</li>
+                <li><strong>Hold and Wait aufheben:</strong> Ein Prozess muss entweder alle benötigten Ressourcen auf einmal anfordern, oder er muss alle gehaltenen Ressourcen freigeben, bevor er eine neue anfordern darf.</li>
+                <li><strong>Circular Wait aufheben:</strong> Alle Ressourcen werden eindeutig durchnummeriert. Prozesse dürfen Ressourcen nur in aufsteigender Reihenfolge der Ressourcennummern anfordern.</li>
+                <li><strong>Spooling:</strong> Für exklusive Ressourcen wie Drucker wird ein Spooler-Prozess zwischengeschaltet. Anstatt direkt auf den Drucker zuzugreifen, geben Prozesse ihre Druckaufträge an den Spooler, der sie in einer Warteschlange verwaltet und nacheinander abarbeitet. Dies hebt den direkten gegenseitigen Ausschluss auf.</li>
+                <li><strong>Hierarchische Synchronisation:</strong> Sperren werden in einer festgelegten hierarchischen Reihenfolge angefordert, um zyklische Abhängigkeiten zu vermeiden.</li>
             </ul>
 
             <h4>4. Vermeidung (Avoidance)</h4>
-            <p>Diese dynamische Methode erfordert, dass jeder Prozess vorab seinen <span class="key-term">maximalen Ressourcenbedarf</span> deklariert. Das Betriebssystem prüft bei jeder Anfrage, ob die Zuteilung einen <span class="key-term">sicheren Zustand</span> erhält.</p>
+            <p>Diese dynamische Methode erfordert, dass jeder Prozess vorab seinen <span class="key-term">maximalen Ressourcenbedarf</span> deklariert. Das Betriebssystem prüft bei jeder Ressourcenanforderung, ob die Zuteilung das System in einem <span class="key-term">sicheren Zustand</span> belässt.</p>
             <ul>
-                <li>Ein <strong>sicherer Zustand</strong> erlaubt eine Reihenfolge, in der alle Prozesse terminieren können.</li>
-                <li>Ein <strong>unsicherer Zustand</strong> könnte zu einem Deadlock führen.</li>
+                <li>Ein <strong>sicherer Zustand</strong> ist ein Zustand, von dem aus es mindestens eine Ausführungsreihenfolge gibt, in der alle Prozesse ihre Ressourcen erhalten und terminieren können, selbst im ungünstigsten Fall.</li>
+                <li>Ein <strong>unsicherer Zustand</strong> ist ein Zustand, der potenziell zu einem Deadlock führen <em>kann</em>. Das Betriebssystem wird eine Ressourcenanforderung verweigern, wenn sie zu einem unsicheren Zustand führen würde.</li>
             </ul>
-            <p>Bekanntestes Verfahren: <span class="key-term">Banker's Algorithm</span>. In der Praxis selten verwendet, da der maximale Bedarf oft schwer vorherzusagen ist.</p>
+            <p>Das bekannteste Verfahren hierfür ist der <span class="key-term">Banker's Algorithm</span>. In der Praxis wird diese Methode selten verwendet, da der maximale Ressourcenbedarf oft schwer vorherzusagen ist.</p>
 
             <h4>5. Weitere Anmerkungen</h4>
             <ul>
-                <li><strong>Nach der Deadlock-Erkennung:</strong> Mögliche Maßnahmen: Rücknahme der letzten Anforderung, Zurücksetzen auf einen Checkpoint, Abbruch von Prozessen (z.B. geringste CPU-Zeit), Einsatz von Timeouts.</li>
-                <li><strong>Timeouts (Watchdog):</strong> Prozesse setzen Timer, um bei Überschreitung automatisch Maßnahmen wie Neustart auszulösen.</li>
-                <li><strong>Rolle des Programmierers:</strong> Robuste Systemarchitektur, definierte Sperrhierarchien und gründliche Analyse des Nebenläufigkeitsverhaltens sind entscheidend.</li>
+                <li><strong>Nach der Deadlock-Erkennung:</strong> Mögliche Maßnahmen: Rücknahme der letzten Anforderung, Zurücksetzen auf einen Checkpoint, Abbruch von Prozessen (z.B. nach Kriterien wie geringste CPU-Zeit), Einsatz von Timeouts.</li>
+                <li><strong>Timeouts (Watchdog):</strong> Prozesse, die zu lange auf eine Ressource warten, werden nach Ablauf einer Zeitspanne automatisch abgebrochen. Dies ist eine pragmatische, aber ungenaue Methode.</li>
+                <li><strong>Rolle des Programmierers:</strong> Eine robuste Systemarchitektur, definierte Sperrhierarchien und eine gründliche Analyse des Nebenläufigkeitsverhaltens sind entscheidend, um Deadlocks auf Anwendungsebene zu verhindern.</li>
             </ul>
         </article>
     </main>

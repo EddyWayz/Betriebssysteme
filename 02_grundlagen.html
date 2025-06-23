@@ -139,7 +139,7 @@
                 <li><strong>Programmstatuswort (Program Status Word, PSW):</strong> Eine Sammlung von Bits (Flags), die den aktuellen Zustand der CPU beschreiben. Dazu gehören:
                     <ul>
                         <li><strong>Modus-Bit:</strong> Zeigt an, ob die CPU im privilegierten <span class="key-term">Kernel-Modus</span> (Betriebssystem) oder im eingeschränkten <span class="key-term">User-Modus</span> (Anwendungsprogramm) läuft.</li>
-                        <li><strong>Bedingungs-Flags (Condition Codes):</strong> Zeigen Ergebnisse der letzten arithmetischen/logischen Operation an (z.B. war das Ergebnis Null, negativ, gab es einen Überlauf?). Diese Flags sind entscheidend für bedingte Sprünge (z.B. <code>if(x &gt; 0)</code>).</li>
+                        <li><strong>Bedingungs-Flags (Condition Codes):</strong> Zeigen Ergebnisse der letzten arithmetischen/logischen Operation an (z.B. war das Ergebnis Null, negativ, gab es einen Überlauf?). Diese Flags sind entscheidend für bedingte Sprünge (z.B. <code>if(x > 0)</code>).</li>
                         <li><strong>Interrupt-Flag:</strong> Gibt an, ob die CPU auf externe Unterbrechungen reagieren darf oder nicht.</li>
                     </ul>
                 </li>
@@ -150,7 +150,7 @@
             <ol>
                 <li><strong>Initialisierung:</strong> R5 := 0</li>
                 <li><strong>Schleifenkörper:</strong> R6 := R6 - 1</li>
-                <li><strong>Bedingte Verzweigung:</strong> Wenn R6 &gt; 0, springe zurück zu Schritt 2 (<code>if R6 &gt; 0: JMP</code>).</li>
+                <li><strong>Bedingte Verzweigung:</strong> Wenn R6 > 0, springe zurück zu Schritt 2 (<code>if R6 > 0: JMP</code>).</li>
                 <li><strong>Ergebnis speichern:</strong> z := R5</li>
             </ol>
             <div class="image-placeholder">[Diagramm: Verzweigende Rechenausführung mit PC und PSW]</div>
@@ -180,7 +180,7 @@
             <div class="image-placeholder">[Diagramm: Speicherpyramide]</div>
             <p>Die typischen Ebenen sind:</p>
             <ol>
-                <li><strong>CPU-Register:</strong> Schnellster Zugriff (&lt; 1 ns), kleinste Kapazität (&lt; 1 KB).</li>
+                <li><strong>CPU-Register:</strong> Schnellster Zugriff (< 1 ns), kleinste Kapazität (< 1 KB).</li>
                 <li><strong>CPU-Cache (L1, L2, L3):</strong> Sehr schnell (ca. 5 ns), Kapazität einige Megabyte.</li>
                 <li><strong>Hauptspeicher (RAM):</strong> Flüchtiger Speicher, Zugriffszeit ca. 50 ns, Kapazität mehrere Gigabyte.</li>
                 <li><strong>Sekundärspeicher (Festplatten, SSD):</strong> Persistent, Zugriffszeiten 0,2–10 ms, Kapazität 100–1000 GB.</li>
@@ -188,7 +188,7 @@
             </ol>
             
             <h3>Vom Quellcode zum Programm</h3>
-            <div class="image-placeholder">[Diagramm: Toolchain: Editor -&gt; Compiler -&gt; Linker -&gt; Loader]</div>
+            <div class="image-placeholder">[Diagramm: Toolchain: Editor -> Compiler -> Linker -> Loader]</div>
             <p>Ein in einer Hochsprache (z.B. C, Java) geschriebenes Programm muss mehrere Schritte durchlaufen, bevor es von der CPU ausgeführt werden kann:</p>
             <ol>
                 <li><strong>Compiler:</strong> Übersetzt den Quellcode in Maschinencode und optimiert dabei Registerausnutzung und Befehlsanzahl.</li>

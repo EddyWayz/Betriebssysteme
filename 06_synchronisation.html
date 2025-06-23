@@ -63,60 +63,76 @@
             </ul>
             <div class="problem-box">
                 <h4>Wettlaufsituation (Race Condition)</h4>
-                <p>Wenn mehrere Threads auf dieselben Daten zugreifen, kann das Endergebnis von der unvorhersehbaren Ausführungsreihenfolge abhängen.</p>
+                <p>Wenn mehrere Threads oder Prozesse auf dieselben gemeinsam genutzten Daten zugreifen und das Endergebnis von der nicht vorhersagbaren Reihenfolge der Zugriffe abhängt, spricht man von einer Race Condition. Dies kann zu inkonsistenten Datenzuständen führen.</p>
                 <div class="image-placeholder">[Diagramm: Homebanking-Transaktionen mit falschem Kontostand]</div>
             </div>
             <h3>Kritischer Abschnitt und Wechselseitiger Ausschluss</h3>
-            <p><span class="key-term">Mutual Exclusion</span> stellt sicher, dass nur ein Thread zur Zeit im kritischen Abschnitt ist.</p>
+            <p>Der Teil des Programmcodes, der auf gemeinsame Ressourcen zugreift, wird als <span class="key-term">kritischer Abschnitt (Critical Section)</span> bezeichnet. Um Race Conditions zu vermeiden, muss sichergestellt werden, dass sich zu jedem Zeitpunkt nur ein einziger Thread oder Prozess in seinem kritischen Abschnitt befinden kann. Dieses Prinzip nennt man <span class="key-term">wechselseitiger Ausschluss (Mutual Exclusion)</span>.</p>
             <h2>Lösungsansätze</h2>
             <h4>1. Interrupts sperren</h4>
-            <p>Sperren von Interrupts verhindert Kontextwechsel, eignet sich nur für Einprozessor-Systeme.</p>
+            <p>Die einfachste Methode auf einem Einprozessorsystem ist das Sperren aller Interrupts vor dem Betreten eines kritischen Abschnitts. Dies verhindert Kontextwechsel und damit den Zugriff durch andere Prozesse. Nachteile sind die Blockade wichtiger E/A-Operationen und die Unwirksamkeit auf Mehrprozessorsystemen.</p>
             <h4>2. Software mit Busy Waiting</h4>
-            <p>Aktives Warten verschwendet CPU-Zyklen; Beispiele: einfache Lock-Variable, Peterson-Algorithmus.</p>
+            <p>Hierbei wartet ein Prozess in einer aktiven Schleife (Busy Waiting), bis er den kritischen Abschnitt betreten darf. Dies verschwendet CPU-Zyklen. Beispiele sind eine einfache Lock-Variable (die jedoch selbst anfällig für Race Conditions ist) oder der komplexere, aber korrekte Peterson-Algorithmus.</p>
             <h4>3. Hardware-Unterstützung</h4>
-            <p>Atomare Befehle wie <code>test_and_set()</code> ermöglichen unteilbares Testen und Setzen.</p>
+            <p>Moderne Prozessoren bieten atomare Befehle wie <code>test_and_set()</code>, die eine Variable in einem unteilbaren Schritt lesen, testen und setzen. Damit lassen sich robuste Locking-Mechanismen implementieren, die allerdings immer noch auf Busy Waiting basieren.</p>
             <h2>Semaphore</h2>
-            <p>Synchronisationsvariable mit atomaren Operationen <code>Wait()</code> und <code>Signal()</code>. Threads werden blockiert statt busy waiting.</p>
-            <p><strong>Binärer Semaphor:</strong> Werte 0 oder 1 als Mutex.</p>
+            <p>Ein von Dijkstra 1965 eingeführtes Synchronisationsinstrument. Ein Semaphor ist im Wesentlichen eine Zählvariable, auf die nur über zwei atomare Operationen zugegriffen werden kann: <code>wait()</code> (auch P genannt, von `proberen` - testen) und <code>signal()</code> (auch V genannt, von `verhogen` - erhöhen). Anstatt CPU-Zeit durch aktives Warten zu verschwenden, werden Prozesse, die auf einen Semaphor warten müssen, vom Scheduler blockiert und in eine Warteschlange eingereiht.</p>
+            <p><strong>Binärer Semaphor (Mutex):</strong> Kann nur die Werte 0 oder 1 annehmen und wird zur Realisierung des wechselseitigen Ausschlusses (Mutex) verwendet. Eine Initialisierung mit 1 bedeutet "frei", 0 bedeutet "besetzt".</p>
             <div class="solution-box">
                 <h4>Beispiel Java-Semaphor</h4>
                 <pre>
 import java.util.concurrent.Semaphore;
 
-static Semaphore mutex = new Semaphore(1);
+// Initialisierung als Mutex (fair: FIFO-Warteschlange)
+static Semaphore mutex = new Semaphore(1, true);
 
-mutex.acquire(); // Eintritt
-// kritischer Abschnitt
-mutex.release(); // Austritt
+try {
+    mutex.acquire(); // Entspricht Wait(S): Eintritt in krit. Abschnitt
+    // ... kritischer Abschnitt ...
+} catch (InterruptedException e) {
+    // ...
+} finally {
+    mutex.release(); // Entspricht Signal(S): Austritt
+}
                 </pre>
             </div>
             <h2>Monitore</h2>
-            <p>Objektorientierte Synchronisation: Methoden sind automatisch wechselseitig ausgeschlossen.</p>
+            <p>Ein Monitor ist ein höheres, objektorientiertes Synchronisationskonzept. Er kapselt Daten zusammen mit den Methoden, die darauf operieren. Der entscheidende Punkt ist, dass der Compiler automatisch dafür sorgt, dass sich zu jedem Zeitpunkt nur ein Thread innerhalb einer der Monitormethoden aufhalten kann. Die Methoden sind also implizit durch einen Mutex geschützt.</p>
             <h4>Bedingungsvariablen</h4>
-            <p><code>wait()</code> und <code>notify()/notifyAll()</code> ermöglichen das Warten und Wecken innerhalb eines Monitors.</p>
+            <p>Um innerhalb eines Monitors eine Kooperation zu ermöglichen (z.B. ein Verbraucher muss warten, bis ein Erzeuger Daten bereitgestellt hat), gibt es Bedingungsvariablen. Diese bieten typischerweise zwei Operationen:
+            <ul>
+                <li><code>wait()</code>: Der aufrufende Thread gibt die Monitorsperre frei und blockiert, bis er von einem anderen Thread geweckt wird.</li>
+                <li><code>notify() / notifyAll()</code>: Weckt einen (notify) oder alle (notifyAll) Threads, die auf derselben Bedingungsvariable warten.</li>
+            </ul></p>
             <div class="solution-box">
                 <h4>Beispiel Java-Monitor</h4>
+                <p>In Java kann jede Klasse als Monitor fungieren. Das Schlüsselwort <code>synchronized</code> vor einer Methode macht diese zu einer Monitormethode. Die Methoden <code>wait()</code>, <code>notify()</code> und <code>notifyAll()</code> sind in der `Object`-Klasse definiert.</p>
                 <pre>
-public synchronized void transfer(int amount) {
-    while(buffer.empty()) wait();
-    // Verarbeitung
+// 'synchronized' macht die Methode zu einem kritischen Abschnitt
+public synchronized void transfer(int amount) throws InterruptedException {
+    // Warten, solange der Puffer leer ist
+    while (buffer.isEmpty()) {
+        wait(); // Gibt die Sperre ab und blockiert
+    }
+    // ... Verarbeitung ...
+    // Einen wartenden Thread aufwecken
     notifyAll();
 }
                 </pre>
             </div>
             <h2>Klassische Probleme</h2>
-            <h4>Erzeuger-Verbraucher</h4>
-            <p>Semaphor- und Monitor-Lösungen für Pufferzugriff und Synchronisation.</p>
+            <h4>Erzeuger-Verbraucher (Producer-Consumer)</h4>
+            <p>Ein oder mehrere Erzeuger-Threads produzieren Daten und legen sie in einem begrenzten Puffer ab. Ein oder mehrere Verbraucher-Threads entnehmen die Daten aus dem Puffer. Die Synchronisation muss sicherstellen, dass Erzeuger nicht in einen vollen und Verbraucher nicht aus einem leeren Puffer zugreifen, und dass der Zugriff auf den Puffer selbst wechselseitig ausgeschlossen ist.</p>
             <h4>Leser-Schreiber</h4>
-            <p>Gleichzeitiges Lesen, exklusives Schreiben mit Zähler und Semaphoren.</p>
+            <p>Mehrere Threads greifen auf eine gemeinsame Datenstruktur zu. Dabei dürfen beliebig viele Leser gleichzeitig zugreifen. Sobald aber ein Schreiber zugreifen will, muss er exklusiven Zugriff erhalten; keine anderen Leser oder Schreiber dürfen aktiv sein.</p>
             <h4>Barriere / Rendezvous</h4>
-            <p>N Threads warten aufeinander, bevor alle fortfahren. Lösung mit Zähler, Mutex und Semaphor.</p>
+            <p>Eine Gruppe von N Threads muss an einem bestimmten Punkt im Code (der Barriere) aufeinander warten. Keiner der Threads darf fortfahren, bevor nicht alle N Threads die Barriere erreicht haben. Dies kann mit einem Zähler, einem Mutex-Semaphor zum Schutz des Zählers und einem zweiten Semaphor als eigentliche Barriere implementiert werden.</p>
             <h2>Generelle Semaphore</h2>
-            <p>Semaphor-Variable kann Werte von -M bis +N annehmen:</p>
+            <p>Ein Semaphor, dessen Zähler beliebige ganze Zahlen annehmen kann.
             <ul>
-                <li><code>Wait(S):</code> S--, wenn S<0 → Blockierung.</li>
-                <li><code>Signal(S):</code> S++, wenn S<=0 → ein Thread wird deblockiert.</li>
-            </ul>
+                <li><code>Wait(S):</code> Dekrementiert S. Wenn S danach negativ ist, wird der Prozess blockiert. Die absolute Höhe des negativen Werts entspricht der Anzahl der wartenden Prozesse.</li>
+                <li><code>Signal(S):</code> Inkrementiert S. Wenn S danach nicht positiv ist (d.h. ≤ 0), wird ein wartender Prozess deblockiert.</li>
+            </ul></p>
             <h2>Synchronisationsdienste in UNIX/Linux</h2>
             <h4>POSIX-Thread-Mutex</h4>
             <pre>
