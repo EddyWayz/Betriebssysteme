@@ -28,3 +28,17 @@ python3 -m http.server
 Danach ist die Seite unter <http://localhost:8000> erreichbar.
 
 Im Ordner `material` liegen zusätzliche PDFs und Beispielcode, die das Studium unterstützen. Unter `examples` findest du kleine, kommentierte C-Programme, die Themen wie Prozess- und Thread-Synchronisation illustrieren.
+
+
+## Tests ausführen
+
+Zur Qualitätssicherung liegen im Ordner `tests` zwei kleine Python-Skripte.
+`check_lang.py` stellt sicher, dass alle HTML-Dateien ein `lang`-Attribut besitzen.
+`check_alt.py` überprüft, ob sämtliche Bilder ein `alt`-Attribut haben.
+
+Ausführen lassen sich die Tests mit:
+
+```bash
+python3 tests/check_lang.py
+python3 tests/check_alt.py
+```
