@@ -1,0 +1,41 @@
+import java.util.concurrent.Semaphore;
+
+/**
+ * Beispiel für Synchronisation mit synchronized
+ * 
+ * @author Tobias Lauer
+ */
+public class KritischerAbschnitt_synchronized {
+
+	static int kontostand = 100; // Gemeinsame Variable
+
+	synchronized static void transfer(int betrag) {		// Um unsynchonisiertes Verhalten zu sehen: "synchronized" entfernen
+		System.out.println("Thread "+Thread.currentThread().getId() + " ist im kritischen Abschnitt");
+		kontostand += betrag;
+		System.out.println("Thread "+Thread.currentThread().getId() + " hat Variable verändert: " + kontostand);
+	}
+	
+	
+	public static void main(String[] args) {
+
+		Thread t1 = new Thread() {
+			public void run() {
+				System.out.println("Thread "+ Thread.currentThread().getId() + " möchte Variable verändern");
+				transfer(40);
+				System.out.println("Thread "+Thread.currentThread().getId() + " hat kritischen Abschnitt verlassen");
+			}
+		};
+
+		Thread t2 = new Thread() {
+			public void run() {
+				System.out.println("Thread "+ Thread.currentThread().getId() + " möchte Variable verändern");
+				transfer(90);
+				System.out.println("Thread "+Thread.currentThread().getId() + " hat kritischen Abschnitt verlassen");
+			}
+		};
+
+		t1.start();
+		t2.start();
+
+	}
+}
