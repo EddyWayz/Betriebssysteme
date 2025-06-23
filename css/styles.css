@@ -1,0 +1,126 @@
+/* Globale Variablen für Farben und Schriftarten */
+:root {
+    --primary-color: #005A9E;    /* Ein sattes Blau */
+    --secondary-color: #eef4f9;  /* Ein sehr helles, kühles Blau */
+    --accent-color: #FFC425;     /* Ein warmes Gelb als Akzent */
+    --text-color: #333;
+    --light-gray: #f4f4f4;
+    --border-color: #ddd;
+    --header-font: 'Roboto', sans-serif;
+    --body-font: 'Roboto', sans-serif;
+    --title-font: 'Zilla Slab', serif;
+}
+
+/* Grundlegende Body-Styles */
+body {
+    font-family: var(--body-font);
+    line-height: 1.7;
+    color: var(--text-color);
+    margin: 0;
+    background-color: var(--light-gray);
+}
+
+/* Container für zentrierten Inhalt */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header-Styling */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 50px 0 30px 0;
+    text-align: center;
+    border-bottom: 5px solid var(--accent-color);
+}
+
+header h1 {
+    font-family: var(--title-font);
+    font-size: 3.5rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+header p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+/* Main-Content-Bereich */
+main {
+    padding: 30px 0;
+}
+
+/* Styling für allgemeine Inhaltsboxen */
+.content-section {
+    background-color: white;
+    padding: 30px 40px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.content-section h2 {
+    font-family: var(--title-font);
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+/* Grid-Layout für die Themenübersicht */
+.topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* Styling für die einzelnen Themen-Karten */
+.topic-card {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.topic-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 90, 158, 0.15);
+    border-color: var(--primary-color);
+}
+
+.topic-card .topic-number {
+    font-family: var(--title-font);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-right: 20px;
+    line-height: 1;
+}
+
+.topic-card .topic-title {
+    font-family: var(--header-font);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* Footer-Styling */
+footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #777;
+    background-color: #e9e9e9;
+}

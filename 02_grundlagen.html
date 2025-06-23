@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2. Grundlagen - Lernportal Betriebssysteme</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .page-nav {
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-family: var(--header-font);
+        }
+        .page-nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .page-nav a:hover {
+            text-decoration: underline;
+        }
+        .content-section h3 {
+            font-family: var(--title-font);
+            font-size: 1.8rem;
+            color: #444;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        .content-section h4 {
+            font-family: var(--title-font);
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-top: 30px;
+        }
+        blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            background-color: var(--secondary-color);
+            padding: 15px 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        .image-placeholder {
+            background-color: #f0f0f0;
+            border: 1px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin: 20px auto;
+            border-radius: 5px;
+            color: #888;
+            max-width: 80%;
+            display: block;
+        }
+        code {
+            background-color: #e9ecef;
+            color: #c7254e;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        .key-term {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="page-nav">
+        <div class="container">
+            <a href="index.html">&larr; Zurück zur Übersicht</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>Kapitel 2: Grundlagen der Rechnerarchitektur</h1>
+            <p>Ein tiefer Einblick in die Hardware-Komponenten, die die Basis für jedes Betriebssystem bilden.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="content-section">
+            <h2>Die Von-Neumann-Architektur</h2>
+            <p>Moderne Computer basieren fast ausnahmslos auf der Von-Neumann-Architektur. Ihr zentrales Merkmal ist, dass sowohl die auszuführenden <span class="key-term">Befehle (das Programm)</span> als auch die zu verarbeitenden <span class="key-term">Daten</span> im selben Hauptspeicher abgelegt sind.</p>
+            <div class="image-placeholder">[Diagramm: Skizze der Von-Neumann-Architektur]</div>
+            <p>Die Hauptkomponenten sind:</p>
+            <ul>
+                <li><strong>Zentraleinheit (CPU - Central Processing Unit):</strong> Das "Gehirn" des Computers. Sie besteht aus:
+                    <ul>
+                        <li><span class="key-term">Steuerwerk:</span> Interpretiert die Programmbefehle und steuert die Abläufe.</li>
+                        <li><span class="key-term">Rechenwerk (ALU - Arithmetic Logic Unit):</span> Führt arithmetische (z.B. Addition) und logische (z.B. UND, ODER) Operationen aus.</li>
+                        <li><span class="key-term">Register:</span> Extrem schnelle, kleine Speichereinheiten direkt in der CPU zur temporären Aufnahme von Daten und Adressen.</li>
+                    </ul>
+                </li>
+                <li><strong>Hauptspeicher (RAM - Random Access Memory):</strong> Ein linear adressierbarer Speicher, der Programme und Daten enthält. Jeder Speicherplatz hat eine eindeutige Adresse.</li>
+                <li><strong>Ein-/Ausgabesystem (E/A-System):</strong> Ermöglicht die Kommunikation mit der Außenwelt über Peripheriegeräte wie Tastatur, Bildschirm, Festplatte etc.</li>
+                <li><strong>Systembus:</strong> Ein Bündel von Leitungen, das die CPU, den Hauptspeicher und das E/A-System miteinander verbindet und den Austausch von Daten, Adressen und Steuersignalen ermöglicht.</li>
+            </ul>
+
+            <h3>Der Befehlszyklus: Wie ein Programm ausgeführt wird</h3>
+            <p>Die CPU arbeitet kontinuierlich einen Zyklus ab, um Programme auszuführen. Dieser wird oft als <span class="key-term">Fetch-Decode-Execute-Zyklus</span> bezeichnet. Das Beispiel der Berechnung <code>z = x + y</code> illustriert dies:</p>
+            <ol>
+                <li><strong>Fetch (Holen):</strong> Das Steuerwerk holt den nächsten Befehl aus dem Hauptspeicher. Die Adresse des Befehls steht im Programmzähler (PC). Beispiel: "Lade den Wert von Speicheradresse 12671 (Variable x) in Register R6".</li>
+                <li><strong>Decode (Dekodieren):</strong> Das Steuerwerk interpretiert den geholten Befehl, um zu wissen, was zu tun ist.</li>
+                <li><strong>Execute (Ausführen):</strong> Das Rechen- oder Steuerwerk führt die Operation aus. Dies kann verschiedene Schritte umfassen:
+                    <ul>
+                        <li>Daten holen (Operand Fetch): Werte von Variablen (x, y) werden aus dem Hauptspeicher in CPU-Register geladen.</li>
+                        <li>Berechnung: Die ALU führt die eigentliche Operation aus (z.B. R5 := R6 + y).</li>
+                        <li>Ergebnis speichern (Write Back): Das Resultat wird aus einem Register zurück in den Hauptspeicher geschrieben.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p>Nach jedem Befehl wird der Programmzähler (PC) erhöht, damit er auf den nächsten Befehl zeigt. Bei Sprungbefehlen wird der PC auf eine neue Adresse gesetzt.</p>
+
+            <h3>Wichtige CPU-Register im Detail</h3>
+            <p>Register sind für die Funktion der CPU unerlässlich. Die wichtigsten Typen sind:</p>
+            <ul>
+                <li><strong>Befehlsregister (Instruction Register):</strong> Enthält den Maschinencode des Befehls, der gerade ausgeführt wird.</li>
+                <li><strong>Programmzähler (Program Counter, PC):</strong> Enthält immer die Speicheradresse des <em>nächsten</em> auszuführenden Befehls. Er bestimmt den Kontrollfluss des Programms.</li>
+                <li><strong>Datenregister:</strong> Dienen als schneller Zwischenspeicher für Operanden und Ergebnisse. Ein herausgehobenes Register ist oft der <span class="key-term">Akkumulator</span>, das zentrale Rechenregister.</li>
+                <li><strong>Adressregister:</strong> Enthalten Speicheradressen, um auf Daten im Hauptspeicher zu zeigen, z.B. der <span class="key-term">Stack Pointer</span> (Stapelzeiger).</li>
+                <li><strong>Programmstatuswort (Program Status Word, PSW):</strong> Eine Sammlung von Bits (Flags), die den aktuellen Zustand der CPU beschreiben. Dazu gehören:
+                    <ul>
+                        <li><strong>Modus-Bit:</strong> Zeigt an, ob die CPU im privilegierten <span class="key-term">Kernel-Modus</span> (Betriebssystem) oder im eingeschränkten <span class="key-term">User-Modus</span> (Anwendungsprogramm) läuft.</li>
+                        <li><strong>Bedingungs-Flags (Condition Codes):</strong> Zeigen Ergebnisse der letzten arithmetischen/logischen Operation an (z.B. war das Ergebnis Null, negativ, gab es einen Überlauf?). Diese Flags sind entscheidend für bedingte Sprünge (z.B. <code>if(x &gt; 0)</code>).</li>
+                        <li><strong>Interrupt-Flag:</strong> Gibt an, ob die CPU auf externe Unterbrechungen reagieren darf oder nicht.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Beispiel für verzweigende Rechenausführung</h3>
+            <p>Ein Beispiel für eine Schleife, die den Wert von <code>y</code> so oft zu <code>x</code> addiert, bis <code>x</code> null ist. Die PSW-Flags entscheiden anhand des Vergleichs, ob ein Sprung erfolgt, und der PC wird entsprechend angepasst.</p>
+            <ol>
+                <li><strong>Initialisierung:</strong> R5 := 0</li>
+                <li><strong>Schleifenkörper:</strong> R6 := R6 - 1</li>
+                <li><strong>Bedingte Verzweigung:</strong> Wenn R6 &gt; 0, springe zurück zu Schritt 2 (<code>if R6 &gt; 0: JMP</code>).</li>
+                <li><strong>Ergebnis speichern:</strong> z := R5</li>
+            </ol>
+            <div class="image-placeholder">[Diagramm: Verzweigende Rechenausführung mit PC und PSW]</div>
+
+            <h3>Der Rechenzustand & Interrupts</h3>
+            <h4>Rechenzustand</h4>
+            <p>Der vollständige Zustand eines laufenden Programms zu einem bestimmten Zeitpunkt lässt sich (vereinfacht) beschreiben durch die Summe der Inhalte aller relevanten Speicherbereiche:</p>
+            <ul>
+                <li>Der Inhalt des gesamten Hauptspeichers, der dem Programm zugeordnet ist.</li>
+                <li>Der Inhalt aller CPU-Register (PC, PSW, Datenregister etc.).</li>
+            </ul>
+            <blockquote>
+                <strong>Merke:</strong> Wenn man diesen Zustand komplett sichert, kann man eine Berechnung unterbrechen und exakt an derselben Stelle später wieder fortführen. Dies ist die fundamentale Grundlage für Multitasking und Prozessumschaltung (Kontextwechsel).
+            </blockquote>
+            
+            <h4>Interrupts (Unterbrechungen)</h4>
+            <p>Ein Interrupt ist ein Mechanismus, der die normale, sequentielle Abarbeitung von Befehlen unterbricht, um auf ein dringendes Ereignis zu reagieren. Wenn ein Interrupt auftritt, sichert die CPU ihren aktuellen Zustand (mindestens den PC und das PSW), springt zu einer vordefinierten Adresse und führt dort eine spezielle <span class="key-term">Interrupt-Service-Routine (ISR)</span> aus. Nach Beendigung der ISR wird der gesicherte Zustand wiederhergestellt und das ursprüngliche Programm fortgesetzt.</p>
+            <p>Arten von Interrupts:</p>
+            <ul>
+                <li><strong>Hardware-Interrupts:</strong> Von E/A-Geräten ausgelöst (z.B. "Daten von Festplatte gelesen" oder "Taste gedrückt").</li>
+                <li><strong>Software-Interrupts (Traps):</strong> Vom Programm selbst ausgelöst, z.B. bei einem Fehler (Division durch Null) oder einem bewussten Systemaufruf an das Betriebssystem.</li>
+                <li><strong>Timer-Interrupts:</strong> Von einem Hardware-Timer in regelmäßigen Abständen ausgelöst. Dies ermöglicht es dem Betriebssystem, einem Prozess die CPU zu entziehen (präemptives Multitasking).</li>
+            </ul>
+
+            <h3>Die Speicherhierarchie</h3>
+            <p>Da schneller Speicher (wie Register) teuer und klein ist, während günstiger Speicher (wie Festplatten) langsam ist, organisieren Computer ihren Speicher in einer Hierarchie. Ziel ist es, die durchschnittliche Zugriffszeit zu minimieren, indem häufig genutzte Daten in den schnelleren Ebenen gehalten werden (Caching).</p>
+            <div class="image-placeholder">[Diagramm: Speicherpyramide]</div>
+            <p>Die typischen Ebenen sind:</p>
+            <ol>
+                <li><strong>CPU-Register:</strong> Schnellster Zugriff (&lt; 1 ns), kleinste Kapazität (&lt; 1 KB).</li>
+                <li><strong>CPU-Cache (L1, L2, L3):</strong> Sehr schnell (ca. 5 ns), Kapazität einige Megabyte.</li>
+                <li><strong>Hauptspeicher (RAM):</strong> Flüchtiger Speicher, Zugriffszeit ca. 50 ns, Kapazität mehrere Gigabyte.</li>
+                <li><strong>Sekundärspeicher (Festplatten, SSD):</strong> Persistent, Zugriffszeiten 0,2–10 ms, Kapazität 100–1000 GB.</li>
+                <li><strong>Tertiärspeicher (z.B. Bänder, Archivsysteme):</strong> Sehr langsam (10–100 s), Kapazität mehrere Terabyte.</li>
+            </ol>
+            
+            <h3>Vom Quellcode zum Programm</h3>
+            <div class="image-placeholder">[Diagramm: Toolchain: Editor -&gt; Compiler -&gt; Linker -&gt; Loader]</div>
+            <p>Ein in einer Hochsprache (z.B. C, Java) geschriebenes Programm muss mehrere Schritte durchlaufen, bevor es von der CPU ausgeführt werden kann:</p>
+            <ol>
+                <li><strong>Compiler:</strong> Übersetzt den Quellcode in Maschinencode und optimiert dabei Registerausnutzung und Befehlsanzahl.</li>
+                <li><strong>Linker:</strong> Verknüpft den kompilierten Code mit Bibliotheksfunktionen, entweder statisch oder dynamisch.</li>
+                <li><strong>Loader:</strong> Lädt die ausführbare Datei in den Hauptspeicher, um die Ausführung durch die CPU zu ermöglichen.</li>
+            </ol>
+
+            <h3>Rolle von Compiler und Linker</h3>
+            <ul>
+                <li><strong>Compiler:</strong>
+                    <ul>
+                        <li>Bildet höhere Programmiersprachen auf Maschinencode ab (z.B. Schleifen → JMP-Anweisungen).</li>
+                        <li>Definiert Speicherbereiche für Programmobjekte.</li>
+                        <li>Optimiert Befehle und Registerausnutzung, um Hauptspeicherzugriffe zu minimieren.</li>
+                        <li>Fügt Laufzeitprüfungen ein (z.B. Array-Grenzen).</li>
+                        <li>Generiert Aufrufe an Bibliotheksfunktionen und Systemaufrufe.</li>
+                    </ul>
+                </li>
+                <li><strong>Linker:</strong>
+                    <ul>
+                        <li>Bindet ergänzende Programmteile aus Bibliotheken statisch oder lädt sie dynamisch zur Laufzeit.</li>
+                        <li>Erzeugt eine ausführbare Datei mit allen notwendigen Abhängigkeiten.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Zusammenfassung</h3>
+            <ul>
+                <li>Ein „Programm“ ist auf Maschinenebene eine Folge von Befehlen zum Lesen, Schreiben und Berechnen von Hauptspeicher- und Registerinhalten.</li>
+                <li>Ein „Programmzustand“ setzt sich aus Hauptspeicher- und Registerinhalten sowie der Adresse des nächsten Befehls zusammen.</li>
+                <li>Befehle verändern Dateninhalte („Werte“) und Kontrollfluss („nächster Befehl“) eines Programms.</li>
+                <li>Dienstprogramme (Compiler, Linker, Loader) unterstützen den Schritt von der höheren Programmiersprache zur maschinenverständlichen Ausführung.</li>
+            </ul>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Erstellt zur Unterstützung der Prüfungsvorbereitung. Viel Erfolg bei der Klausur!</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

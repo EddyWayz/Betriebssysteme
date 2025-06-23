@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1. Einführung & Überblick - Lernportal Betriebssysteme</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Zusätzliche Styles speziell für Inhaltsseiten */
+        .page-nav {
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-family: var(--header-font);
+        }
+        .page-nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .page-nav a:hover {
+            text-decoration: underline;
+        }
+        .content-section h3 {
+            font-family: var(--title-font);
+            font-size: 1.8rem;
+            color: #444;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            background-color: var(--secondary-color);
+            padding: 15px 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        .image-placeholder {
+            background-color: #f0f0f0;
+            border: 1px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 5px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="page-nav">
+        <div class="container">
+            <a href="index.html">&larr; Zurück zur Übersicht</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>Kapitel 1: Einführung & Überblick</h1>
+            <p>Die Grundlagen und die Rolle von Betriebssystemen in der Informatik.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="content-section">
+            <h2>Was ist ein Betriebssystem?</h2>
+            <p>Ein Betriebssystem ist die grundlegende Software, die einen Computer erst funktionsfähig macht. Es agiert als zentrale Schnittstelle zwischen der komplexen Hardware des Rechners und der Anwendungssoftware, die der Benutzer ausführt. Man kann es sich als eine Vermittlungsschicht vorstellen, die die Ressourcen des Computers verwaltet und den Programmen zur Verfügung stellt.</p>
+            <blockquote>
+                <strong>Definition nach DIN 44300:</strong><br>
+                "Die Programme eines digitalen Rechensystems, die zusammen mit den Eigenschaften der Rechenanlage die Grundlage der möglichen Betriebsarten des digitalen Rechensystems bilden und insbesondere die Ausführung von Programmen steuern und überwachen."
+            </blockquote>
+            <div class="image-placeholder">[Bild: Schichtenmodell: Anwendungen &gt; Betriebssystem &gt; Hardware]</div>
+            <p>Im Schichtenmodell eines Computersystems bildet die <strong>Hardware</strong> (CPU, Speicher, Festplatte) die unterste Ebene. Direkt darauf setzt das <strong>Betriebssystem</strong> auf. Es stellt eine Abstraktion der Hardware bereit, sodass Anwendungsprogrammierer nicht direkt mit den Details der Hardware interagieren müssen. Auf dem Betriebssystem laufen dann <strong>Systemprogramme</strong> (Compiler, Editoren, Shells) und <strong>Anwendungen</strong> (Textverarbeitung, Spiele, etc.).</p>
+
+            <h3>Die zentralen Aufgaben eines Betriebssystems</h3>
+            <p>Die Hauptaufgaben lassen sich in mehrere Kernbereiche unterteilen:</p>
+            <ul>
+                <li><strong>Betriebsmittelverwaltung (Ressourcenmanagement):</strong> Verwaltung von CPU-Zeit, Hauptspeicher, E/A-Geräten und Festspeicher.</li>
+                <li><strong>Prozessverwaltung und Scheduling:</strong> Steuerung und Zuweisung der CPU an Prozesse.</li>
+                <li><strong>Speicherverwaltung:</strong> Verwaltung und Schutz des Hauptspeichers.</li>
+                <li><strong>Dateiverwaltung:</strong> Organisation des Festspeichers mit Dateisystemen.</li>
+                <li><strong>Ein-/Ausgabeverwaltung:</strong> Steuerung der Kommunikation mit Peripheriegeräten.</li>
+                <li><strong>Schutz und Sicherheit:</strong> Schutz vor unbefugtem Zugriff und fehlerhaften Programmen.</li>
+                <li><strong>Interprozesskommunikation (IPC):</strong> Mechanismen für Datenaustausch und Synchronisation zwischen Prozessen.</li>
+            </ul>
+
+            <h3>Arten von Betriebssystemen</h3>
+            <p>Betriebssysteme lassen sich nach ihrem Haupteinsatzzweck klassifizieren:</p>
+            <ul>
+                <li><strong>Batch-Systeme:</strong> Stapelverarbeitung ohne Interaktion.</li>
+                <li><strong>Time-Sharing-Systeme:</strong> Interaktive Nutzung durch mehrere Benutzer.</li>
+                <li><strong>Echtzeitbetriebssysteme:</strong> Garantierte Antwortzeiten für kritische Anwendungen.</li>
+                <li><strong>Verteilte Betriebssysteme:</strong> Netzwerkbasierte Koordination mehrerer Rechner.</li>
+                <li><strong>Mobile Betriebssysteme:</strong> Optimiert für Geräte mit begrenzten Ressourcen.</li>
+            </ul>
+
+            <h3>Struktur eines Betriebssystems</h3>
+            <p>Ein Betriebssystem besteht typischerweise aus folgenden Komponenten:</p>
+            <ul>
+                <li><strong>Kernel:</strong> Zentraler Teil, verwaltet Ressourcen und steuert Hardware.</li>
+                <li><strong>Systemaufrufe (System Calls):</strong> Schnittstelle zwischen Anwendungsprogrammen und Kernel.</li>
+                <li><strong>Shell:</strong> Benutzeroberfläche für die Kommunikation mit dem Betriebssystem.</li>
+                <li><strong>Dateisystem:</strong> Abstraktion und Verwaltung des persistenten Speichers.</li>
+                <li><strong>Treiber:</strong> Module für die Ansteuerung spezifischer Hardware.</li>
+            </ul>
+
+            <h3>Kernel-Architekturen</h3>
+            <ul>
+                <li><strong>Monolithischer Kernel:</strong> Alle Dienste laufen im Kernel-Modus (z.B. Linux).</li>
+                <li><strong>Microkernel:</strong> Minimale Kernel-Funktionalität, Dienste als Benutzerprozesse (z.B. Minix).</li>
+                <li><strong>Exo- und Nanokernel:</strong> Weiter reduzierte Kernel, noch mehr Dienste im User-Space.</li>
+            </ul>
+
+            <h3>Systemaufrufe</h3>
+            <p>Systemaufrufe ermöglichen Programmen, Betriebssystemdienste anzufordern, z.B. für Dateien, Prozesse oder E/A. Typischerweise erfolgt der Wechsel vom User- in den Kernel-Modus über eine Trap-Instruction.</p>
+            <div class="image-placeholder">[Diagramm: Ablauf eines System Calls]</div>
+
+            <h3>Historische Entwicklung</h3>
+            <ul>
+                <li><strong>1945–1955:</strong> Erste Generation ohne OS.</li>
+                <li><strong>1955–1965:</strong> Batch-Systeme auf Mainframes.</li>
+                <li><strong>1965–1985:</strong> Time-Sharing und Mehrprogrammbetrieb (OS/360, Multics).</li>
+                <li><strong>1980–1995:</strong> Mikroprozessoren, PCs, MS-DOS, UNIX, frühes Windows.
+                </li>
+                <li><strong>1995–Heute:</strong> Internet, Multicore, Virtualisierung, Cloud.
+                </li>
+            </ul>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Erstellt zur Unterstützung der Prüfungsvorbereitung. Viel Erfolg bei der Klausur!</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

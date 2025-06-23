@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6. Synchronisation - Lernportal Betriebssysteme</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .page-nav { background-color: #f8f9fa; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-family: var(--header-font); }
+        .page-nav a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
+        .page-nav a:hover { text-decoration: underline; }
+        .content-section h3 { font-family: var(--title-font); font-size: 1.8rem; color: #444; margin-top: 40px; margin-bottom: 20px; }
+        .content-section h4 { font-family: var(--title-font); font-size: 1.4rem; color: var(--primary-color); margin-top: 30px; }
+        blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 20px 0; font-style: italic; background-color: var(--secondary-color); padding: 15px 20px; border-radius: 0 5px 5px 0; }
+        .image-placeholder { background-color: #f0f0f0; border: 1px dashed #ccc; padding: 20px; text-align: center; margin: 20px auto; border-radius: 5px; color: #888; max-width: 80%; display: block; font-family: var(--header-font); }
+        code, pre { font-family: Consolas, 'Courier New', monospace; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; }
+        code { padding: 2px 5px; }
+        pre { padding: 15px; overflow-x: auto; white-space: pre-wrap; font-size: 0.9em; }
+        .key-term { font-weight: bold; color: var(--primary-color); }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
+        th { background-color: var(--secondary-color); font-family: var(--header-font); }
+        .problem-box { border: 2px solid #c7254e; padding: 20px; border-radius: 5px; background-color: #f9e2e8; margin-top: 20px;}
+        .solution-box { border: 2px solid #28a745; padding: 20px; border-radius: 5px; background-color: #eaf6ec; margin-top: 20px;}
+    </style>
+</head>
+<body>
+    <nav class="page-nav">
+        <div class="container">
+            <a href="index.html">&larr; Zurück zur Übersicht</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>Kapitel 6: Synchronisation</h1>
+            <p>Die Beherrschung des kontrollierten Chaos von nebenläufigen Prozessen und Threads.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="content-section">
+            <h2>Das Problem der Nebenläufigkeit</h2>
+            <p>Betriebssysteme ermöglichen die <span class="key-term">nebenläufige</span> (concurrent) Ausführung von Prozessen und Threads. Das bedeutet, dass ihre Ausführung ineinander verschachtelt ist und sie unabhängig voneinander Fortschritte machen. Dies führt zu einem <span class="key-term">Indeterminismus</span>: Man kann keine a-priori-Vorhersage treffen, in welcher relativen Reihenfolge die Code-Teile verschiedener Threads ausgeführt werden.</p>
+            <p>Solange die Threads völlig unabhängig sind, ist dies kein Problem. Problematisch wird es, wenn sie:</p>
+            <ul>
+                <li>auf gemeinsame Betriebsmittel zugreifen (z.B. Drucker).</li>
+                <li>gemeinsame Daten verwalten (z.B. globale Variablen, Objekte).</li>
+                <li>miteinander kooperieren müssen.</li>
+            </ul>
+
+            <div class="problem-box">
+                <h4>Wettlaufsituation (Race Condition)</h4>
+                <p>Eine Race Condition entsteht, wenn mehrere Threads auf gemeinsame Daten zugreifen und das Endergebnis vom unvorhersehbaren zeitlichen Ablauf ihrer Operationen abhängt. Das Homebanking-Beispiel aus der Vorlesung illustriert dies perfekt:</p>
+                <div class="image-placeholder">[Diagramm: Zeitlicher Ablauf der Homebanking-Transaktionen von Thread 1 und Thread 2]<br>Thread 1 liest Kontostand (10.000). Thread 2 liest auch 10.000. Thread 2 addiert 3.500 und schreibt 13.500. Thread 1, unwissend von der Änderung, addiert 2.000 zu seinem alten gelesenen Wert und überschreibt das Konto mit 12.000. <strong>Das Ergebnis ist falsch.</strong></div>
+            </div>
+
+            <h3>Kritischer Abschnitt und Wechselseitiger Ausschluss</h3>
+            <p>Um Race Conditions zu verhindern, müssen wir den Code-Teil identifizieren, in dem auf die gemeinsame Ressource zugegriffen wird. Dieser Teil wird als <span class="key-term">Kritischer Abschnitt (Critical Section)</span> bezeichnet.</p>
+            <p>Die fundamentale Bedingung zur Lösung des Problems ist der <span class="key-term">Wechselseitige Ausschluss (Mutual Exclusion)</span>: Es muss sichergestellt werden, dass sich zu jedem Zeitpunkt nur ein einziger Thread in seinem kritischen Abschnitt für eine bestimmte Ressource befinden darf.</p>
+
+            <h2>Lösungsansätze für den Wechselseitigen Ausschluss</h2>
+
+            <h4>1. Interrupts sperren (Einfache Hardware-Lösung)</h4>
+            <p>Die einfachste Idee ist, vor dem Betreten des kritischen Abschnitts alle Interrupts zu sperren und danach wieder zu aktivieren. Da keine Timer-Interrupts mehr stattfinden können, kann kein Kontextwechsel stattfinden und der Thread hat die CPU für sich allein.</p>
+            <ul>
+                <li><strong>Nachteile:</strong> Funktioniert nicht auf Mehrprozessorsystemen (sperrt nur den einen Kern), ist ineffizient und gefährlich, da auch zeitkritische E/A-Operationen blockiert werden.</li>
+            </ul>
+
+            <h4>2. Software-Lösungen mit Aktivem Warten (Busy Waiting)</h4>
+            <p>Hierbei wird in einer Schleife aktiv gewartet, bis der kritische Abschnitt frei wird. Dies verschwendet CPU-Zyklen.</p>
+            <ul>
+                <li><strong>Einfache Lock-Variable:</strong> Eine globale Variable <code>flag</code> wird verwendet. Funktioniert nicht, da das Testen und Setzen der Variable selbst eine Race Condition ist.</li>
+                <li><strong>Peterson-Algorithmus:</strong> Eine funktionierende, aber komplexe Lösung für genau <em>zwei</em> Prozesse, die zwei Variablen (<code>flag[2]</code> und <code>turn</code>) verwendet, um den Zutritt korrekt zu regeln. Für die Praxis aber zu eingeschränkt.</li>
+            </ul>
+
+            <h4>3. Hardware-Unterstützung (Atomare Befehle)</h4>
+            <p>Moderne CPUs bieten atomare (ununterbrechbare) Befehle, die das Testen und Setzen einer Variable in einem einzigen, unteilbaren Schritt durchführen.</p>
+            <ul>
+                <li><strong>Test-and-Set:</strong> Ein Befehl <code>test_and_set(lock)</code> testet, ob die Sperre <code>lock</code> frei ist. Wenn ja, setzt er sie und gibt "Erfolg" zurück. Wenn nicht, gibt er "besetzt" zurück. Dies löst das Problem der Race Condition beim Sperren, führt aber immer noch zu Busy Waiting.</li>
+            </ul>
+            
+            <h2>Semaphore: Die elegante Lösung</h2>
+            <p>Ein von Edsger W. Dijkstra 1965 eingeführtes Konzept, das Busy Waiting vermeidet, indem es den <span class="key-term">Scheduler einbezieht</span>. Ein Thread, der warten muss, wird vom Scheduler blockiert und verbraucht keine CPU-Zeit.</p>
+            <p>Ein Semaphor ist eine Synchronisationsvariable mit einem Zähler und zwei atomaren Operationen:</p>
+            <ul>
+                <li><code>Wait(S)</code> oder <code>acquire()</code>: Versucht, den Zähler zu dekrementieren. Ist der Zähler bereits 0, wird der aufrufende Thread blockiert und in die Warteschlange des Semaphors eingereiht.</li>
+                <li><code>Signal(S)</code> oder <code>release()</code>: Wenn Threads in der Warteschlange sind, wird einer von ihnen aufgeweckt (deblockiert). Wenn niemand wartet, wird der Zähler inkrementiert.</li>
+            </ul>
+            <p>Ein <span class="key-term">binärer Semaphor</span> (Werte 0 und 1), initialisiert auf 1, wird als <strong>Mutex (Mutual Exclusion Lock)</strong> verwendet, um einen kritischen Abschnitt zu schützen.</p>
+
+            <div class="solution-box">
+                <h4>Praxisbeispiel: Kritischer Abschnitt mit Semaphor in Java</h4>
+                <p>Der folgende Code (aus <code>KritischerAbschnitt.java</code>) zeigt, wie zwei Threads sicher den Kontostand verändern:</p>
+                <pre>
+import java.util.concurrent.Semaphore;
+
+public class KritischerAbschnitt {
+    static int kontostand = 100;
+    // Mutex-Semaphor, initialisiert mit 1 (frei)
+    static Semaphore S = new Semaphore(1);
+
+    public static void main(String[] args) {
+        Thread t1 = new Thread(() -> {
+            try {
+                System.out.println("Thread 1 will den kritischen Abschnitt betreten.");
+                S.acquire(); // Entspricht Wait(S)
+                System.out.println("Thread 1 ist im kritischen Abschnitt.");
+                kontostand += 40;
+                System.out.println("Thread 1 hat Variable verändert auf " + kontostand);
+            } catch (InterruptedException e) {} 
+            finally {
+                S.release(); // Entspricht Signal(S), immer freigeben!
+                System.out.println("Thread 1 hat kritischen Abschnitt verlassen.");
+            }
+        });
+        // ... (Thread t2 ist analog mit +90) ...
+        t1.start();
+        t2.start();
+    }
+}
+                </pre>
+            </div>
+
+            <h2>Monitore: Objektorientierte Synchronisation</h2>
+            <p>Ein Monitor ist ein höheres, objektorientiertes Synchronisationskonzept. Man kann ihn sich als eine Klasse vorstellen, deren Methoden automatisch unter <span class="key-term">wechselseitigem Ausschluss</span> ausgeführt werden. Das Betriebssystem bzw. die Programmiersprache sorgt dafür, dass zu jedem Zeitpunkt nur ein Thread eine der als <code>synchronized</code> markierten Methoden des Objekts ausführen kann.</p>
+            
+            <h4>Bedingungsvariablen (Condition Variables)</h4>
+            <p>Was aber, wenn ein Thread innerhalb des Monitors feststellt, dass er nicht weiterarbeiten kann (z.B. Verbraucher bei leerem Puffer)? Er muss warten, aber dabei die Monitorsperre freigeben, damit ein anderer Thread (z.B. ein Erzeuger) den Zustand ändern kann. Dafür gibt es Bedingungsvariablen mit den Operationen:</p>
+            <ul>
+                <li><code>wait()</code>: Der Thread gibt die Monitorsperre ab und legt sich schlafen.</li>
+                <li><code>notify()</code> / <code>notifyAll()</code>: Weckt einen (<code>notify</code>) oder alle (<code>notifyAll</code>) Threads auf, die auf derselben Bedingungsvariable warten.</li>
+            </ul>
+
+            <div class="solution-box">
+                <h4>Praxisbeispiel: Monitor in Java mit <code>synchronized</code></h4>
+                <p>Der gleiche kritische Abschnitt, jetzt mit dem Java-Monitor-Konzept umgesetzt (aus <code>KritischerAbschnitt_synchronized.java</code>).</p>
+                <pre>
+public class KritischerAbschnitt_synchronized {
+    static int kontostand = 100;
+    
+    // Die Methode ist "synchronized", d.h. sie ist Teil des Monitors
+    // der Klasse. Nur ein Thread kann sie gleichzeitig ausführen.
+    synchronized static void transfer(int betrag) {
+        System.out.println("Thread " + Thread.currentThread().getId() + " ist im kritischen Abschnitt.");
+        kontostand += betrag;
+        System.out.println("Thread " + Thread.currentThread().getId() + " hat Variable verändert: " + kontostand);
+    }
+
+    public static void main(String[] args) {
+        // ... (Threads rufen die transfer-Methode auf) ...
+    }
+}
+                </pre>
+            </div>
+            
+            <h2>Klassische Synchronisationsprobleme in der Praxis</h2>
+            
+            <h4>1. Erzeuger-Verbraucher-Problem (Producer-Consumer)</h4>
+            <p>Erzeuger produzieren Daten für einen Puffer, Verbraucher entnehmen sie. Es wird neben dem Mutex für den Pufferzugriff auch eine Synchronisation für "Puffer voll" und "Puffer leer" benötigt.</p>
+            <ul>
+                <li><strong>Lösung mit Semaphoren:</strong> Verwendet drei Semaphore: <code>mutex</code> (für den Pufferzugriff), <code>items</code> (zählt belegte Plätze) und <code>emptySpaces</code> (zählt freie Plätze). Der Code ist in <code>ProducerConsumer.java</code> zu finden.</li>
+                <li><strong>Lösung mit Monitor:</strong> Gilt als eleganter. Der Puffer ist der Monitor. Erzeuger rufen <code>wait()</code> auf, wenn der Puffer voll ist, Verbraucher, wenn er leer ist. Mit <code>notifyAll()</code> werden die wartenden Threads jeweils aufgeweckt. Der Code ist in <code>ProducerConsumerMonitor.java</code> zu finden.</li>
+            </ul>
+
+            <h4>2. Leser-Schreiber-Problem (Readers-Writers)</h4>
+            <p>Viele Leser dürfen gleichzeitig auf eine Ressource zugreifen, aber ein Schreiber benötigt exklusiven Zugriff. Die Lösung aus <code>LeserSchreiber.java</code> verwendet einen Zähler für die Leser und zwei Semaphore: <code>roomEmpty</code> (wird vom Schreiber und dem *ersten* Leser belegt) und <code>mutex</code> (schützt den Lesezähler).</p>
+
+            <h4>3. Barriere / Rendezvous</h4>
+            <p>N Threads sollen an einem Punkt im Code aufeinander warten, bevor alle weitermachen dürfen. Die Lösung aus <code>Barriere.java</code> verwendet einen Zähler, einen Mutex zum Schutz des Zählers, und einen Barrieren-Semaphor, der vom letzten ankommenden Thread geöffnet wird. Ein "Drehkreuz"-Mechanismus mit `barrier.release()` nach dem Warten sorgt dafür, dass alle wartenden Threads die Barriere passieren können.</p>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Erstellt zur Unterstützung der Prüfungsvorbereitung. Viel Erfolg bei der Klausur!</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

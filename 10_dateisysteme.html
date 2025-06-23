@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10. Dateisysteme - Lernportal Betriebssysteme</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .page-nav { background-color: #f8f9fa; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-family: var(--header-font); }
+        .page-nav a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
+        .page-nav a:hover { text-decoration: underline; }
+        .content-section h3 { font-family: var(--title-font); font-size: 1.8rem; color: #444; margin-top: 40px; margin-bottom: 20px; }
+        .content-section h4 { font-family: var(--title-font); font-size: 1.4rem; color: var(--primary-color); margin-top: 30px; }
+        blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 20px 0; font-style: italic; background-color: var(--secondary-color); padding: 15px 20px; border-radius: 0 5px 5px 0; }
+        .image-placeholder { background-color: #f0f0f0; border: 1px dashed #ccc; padding: 20px; text-align: center; margin: 20px auto; border-radius: 5px; color: #888; max-width: 80%; display: block; font-family: var(--header-font); }
+        code, pre { font-family: Consolas, 'Courier New', monospace; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; }
+        code { padding: 2px 5px; }
+        pre { padding: 15px; overflow-x: auto; white-space: pre-wrap; font-size: 0.9em; }
+        .key-term { font-weight: bold; color: var(--primary-color); }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
+        th { background-color: var(--secondary-color); font-family: var(--header-font); }
+    </style>
+</head>
+<body>
+
+    <nav class="page-nav">
+        <div class="container">
+            <a href="index.html">&larr; Zurück zur Übersicht</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>Kapitel 10: Dateisysteme</h1>
+            <p>Die Abstraktionsebene für persistenten Speicher.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="content-section">
+            <h2>Die Rolle und Konzepte des Dateisystems</h2>
+            <p>Während der Hauptspeicher eines Prozesses <span class="key-term">transient</span> (flüchtig) und in seiner Größe begrenzt ist, bieten Festspeicher wie Festplatten oder SSDs eine <span class="key-term">persistente</span> Speichermöglichkeit. Diese Hardware arbeitet jedoch auf einer sehr niedrigen Ebene und versteht nur Befehle wie "Lese Block 4711" oder "Schreibe Block 815".</p>
+            <p>Das <span class="key-term">Dateisystem</span> ist die Abstraktionsebene des Betriebssystems, die diese low-level Block-Struktur in ein für den Menschen verständliches Konzept von <strong>Dateien</strong> und <strong>Verzeichnissen</strong> übersetzt.</p>
+            
+            <h3>Dateikonzepte</h3>
+            <ul>
+                <li><strong>Dateibenennung:</strong> Jedes BS hat eigene Regeln für Dateinamen (Länge, erlaubte Zeichen, Groß-/Kleinschreibung). Dateiendungen (z.B. <code>.pdf</code>) können eine feste Bedeutung haben (Windows) oder nur eine Konvention sein (UNIX).</li>
+                <li><strong>Dateitypen:</strong>
+                    <ul>
+                        <li><strong>Reguläre Dateien:</strong> Enthalten Benutzerdaten, entweder als Text (lesbare Zeichen nach einer Codierung wie ASCII/UTF-8) oder binär (beliebige Byte-Werte, z.B. für Bilder oder Programme).</li>
+                        <li><strong>Verzeichnisse (Directories):</strong> Systemdateien, die Informationen über andere Dateien und Verzeichnisse enthalten.</li>
+                        <li><strong>Spezialdateien (UNIX):</strong> Repräsentieren Hardware-Geräte, z.B. <code>/dev/tty1</code> für ein Terminal (Zeichengerät) oder <code>/dev/hd1</code> für eine Festplattenpartition (Blockgerät).</li>
+                    </ul>
+                </li>
+                <li><strong>Dateizugriff:</strong>
+                    <ul>
+                        <li><strong>Sequentieller Zugriff:</strong> Die Datei wird von Anfang bis Ende Byte für Byte gelesen.</li>
+                        <li><strong>Wahlfreier Zugriff (Random Access):</strong> Man kann an eine beliebige Stelle in der Datei springen und von dort lesen oder schreiben. Essentiell für Datenbanken.</li>
+                    </ul>
+                </li>
+                <li><strong>Dateiattribute (Metadaten):</strong> Informationen über die Datei, die mit ihr gespeichert werden, z.B. Zugriffsrechte, Größe, Erstellungsdatum, letzter Zugriff, Eigentümer.</li>
+            </ul>
+
+            <h3>Verzeichnisstrukturen</h3>
+            <p>Moderne Dateisysteme sind <span class="key-term">hierarchisch</span> organisiert. Ausgehend von einem Wurzelverzeichnis (Root Directory, z.B. <code>/</code> in UNIX oder <code>C:\</code> in Windows) verzweigt sich eine Baumstruktur.</p>
+            <div class="image-placeholder">[Diagramm: Hierarchischer Verzeichnisbaum mit Root-Verzeichnis, Unterverzeichnissen und Dateien.]</div>
+            <ul>
+                <li><strong>Pfadname:</strong> Ein Pfad beschreibt den Weg von einem Startpunkt zu einer Datei.
+                    <ul>
+                        <li><strong>Absoluter Pfad:</strong> Beginnt immer im Wurzelverzeichnis.</li>
+                        <li><strong>Relativer Pfad:</strong> Beginnt im aktuellen Arbeitsverzeichnis.</li>
+                    </ul>
+                </li>
+                <li><strong>Spezielle Einträge:</strong> In UNIX-artigen Systemen haben Verzeichnisse die Einträge <code>.</code> (verweist auf das aktuelle Verzeichnis selbst) und <code>..</code> (verweist auf das übergeordnete Verzeichnis).</li>
+                <li><strong>Links:</strong>
+                    <ul>
+                        <li><strong>Harter Link (Hard Link):</strong> Ein zweiter Verzeichniseintrag, der auf denselben physischen Datei-Index (I-Node in UNIX) verweist. Die Datei existiert so lange, wie mindestens ein Hard Link auf sie zeigt.</li>
+                        <li><strong>Symbolischer Link (Soft Link / Symlink):</strong> Eine spezielle Datei, die nur den Pfadnamen zu einer anderen Datei enthält. Wird der Link geöffnet, folgt das BS dem Pfad. Wird die Zieldatei gelöscht, ist der Link "tot".</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>Technische Implementierung</h2>
+            <h4>Festplattenlayout und Boot-Vorgang</h4>
+            <p>Eine Festplatte wird in eine oder mehrere <span class="key-term">Partitionen</span> aufgeteilt. Jede Partition kann ein eigenes Dateisystem enthalten.</p>
+            <div class="image-placeholder">[Diagramm: Aufbau einer Festplatte mit MBR und Partitionen. Eine Partition ist vergrößert und zeigt ihre interne Struktur: Boot Block, Super Block, Free Space Mgmt, I-Nodes, etc.]</div>
+            <ol>
+                <li><strong>Master Boot Record (MBR):</strong> Der allererste Sektor der Festplatte. Er enthält ein kleines Startprogramm und die <strong>Partitionstabelle</strong>, welche die Anfangs- und Endadressen der Partitionen speichert.</li>
+                <li><strong>Struktur einer Partition:</strong>
+                    <ul>
+                        <li><strong>Boot Block:</strong> Enthält das Programm, um das Betriebssystem von dieser Partition zu laden.</li>
+                        <li><strong>Super Block:</strong> Enthält die wichtigsten Metadaten des Dateisystems (Typ, Größe, Anzahl der Blöcke etc.).</li>
+                        <li><strong>Freispeicherverwaltung:</strong> Eine Datenstruktur (z.B. eine Bitmap), die verfolgt, welche Blöcke auf der Partition frei oder belegt sind.</li>
+                        <li><strong>I-Nodes / FAT:</strong> Der Bereich, der die Metadaten der einzelnen Dateien und die Zeiger auf ihre Datenblöcke enthält.</li>
+                        <li><strong>Wurzelverzeichnis:</strong> Der Startpunkt des Verzeichnisbaums.</li>
+                        <li><strong>Datenbereich:</strong> Der größte Teil der Partition, der die eigentlichen Inhalte der Dateien und Verzeichnisse speichert.</li>
+                    </ul>
+                </li>
+            </ol>
+            <p><strong>Boot-Vorgang:</strong> Das BIOS des Computers liest den MBR (1). Der MBR-Code findet die als "aktiv" markierte Partition (2) und lädt deren Boot Block (3), welcher dann das eigentliche Betriebssystem startet.</p>
+
+            <h3>Methoden der Dateizuordnung</h3>
+            <p>Dies beschreibt, wie die Datenblöcke einer Datei auf der Festplatte angeordnet werden.</p>
+            
+            <h4>1. Zusammenhängende Zuordnung (Contiguous Allocation)</h4>
+            <p>Alle Blöcke einer Datei werden in einem zusammenhängenden Bereich auf der Festplatte gespeichert. Die Verwaltung ist sehr einfach (nur Startblock + Länge).</p>
+            <ul>
+                <li><strong>Vorteile:</strong> Extrem schneller sequentieller Zugriff, da der Lesekopf nicht springen muss.</li>
+                <li><strong>Nachteile:</strong> Führt zu <strong>externer Fragmentierung</strong> (viele kleine, ungenutzte Lücken zwischen Dateien). Die Dateigröße muss im Voraus bekannt sein und kann nicht leicht geändert werden. Wird heute hauptsächlich für Read-Only-Medien wie CDs/DVDs verwendet.</li>
+            </ul>
+
+            <h4>2. Verkettete Zuordnung (Linked Allocation)</h4>
+            <p>Die Blöcke einer Datei können beliebig auf der Platte verstreut sein. Jeder Block enthält einen Zeiger auf den nächsten Block der Datei.</p>
+            <ul>
+                <li><strong>Vorteile:</strong> Keine externe Fragmentierung, flexible Dateigrößen.</li>
+                <li><strong>Nachteile:</strong> Sehr langsamer wahlfreier Zugriff (man muss der Kette folgen). Ein Teil jedes Blocks wird für den Zeiger "verschwendet". Unzuverlässig: Ein zerstörter Zeiger macht den Rest der Datei unerreichbar.</li>
+            </ul>
+            
+            <h4>3. Verkettete Zuordnung mit Tabelle (FAT - File Allocation Table)</h4>
+            <p>Dies ist eine optimierte Variante der verketteten Zuordnung. Die Zeigerkette wird aus den Blöcken entfernt und in einer zentralen Tabelle, der <strong>FAT</strong>, am Anfang der Partition gespeichert. Die FAT wird beim Systemstart in den Hauptspeicher geladen.</p>
+            <ul>
+                <li><strong>Vorteile:</strong> Der wahlfreie Zugriff ist deutlich schneller, da die Kette im schnellen RAM durchlaufen werden kann. Es wird kein Platz in den Datenblöcken verschwendet.</li>
+                <li><strong>Nachteile:</strong> Die gesamte FAT muss im Speicher gehalten werden, was bei sehr großen Festplatten ineffizient werden kann.</li>
+            </ul>
+
+            <h4>4. Indizierte Zuordnung (I-Nodes)</h4>
+            <div class="image-placeholder">[Diagramm: Struktur eines I-Nodes mit direkten, einfach, doppelt und dreifach indirekten Blockzeigern.]</div>
+            <p>Die heute gängigste Methode (verwendet in allen UNIX-Systemen wie Linux, macOS). Für jede Datei existiert ein <span class="key-term">Indexknoten (I-Node)</span>. Der I-Node enthält alle Metadaten der Datei (Größe, Rechte etc.) sowie die Zeiger auf die Datenblöcke.</p>
+            <ul>
+                <li>Für kleine Dateien enthält der I-Node eine Liste von <strong>direkten Blockzeigern</strong>.</li>
+                <li>Für größere Dateien enthält der I-Node zusätzlich <strong>indirekte Blockzeiger</strong>:
+                    <ul>
+                        <li><strong>Einfach indirekt:</strong> Ein Zeiger auf einen Block, der wiederum voller direkter Blockzeiger ist.</li>
+                        <li><strong>Doppelt indirekt:</strong> Ein Zeiger auf einen Block, der voller einfach indirekter Blockzeiger ist.</li>
+                        <li><strong>Dreifach indirekt:</strong> Entsprechend für riesige Dateien.</li>
+                    </ul>
+                </li>
+            </ul>
+            <p><strong>Vorteile:</strong> Effizienter Zugriff auf kleine und große Dateien, unterstützt wahlfreien Zugriff sehr gut. Nur die I-Nodes der geöffneten Dateien müssen im Speicher sein.</p>
+
+            <h3>Moderne Dateisystem-Technologien</h3>
+            <ul>
+                <li><strong>Journaling-Dateisysteme (z.B. NTFS, ext3, ext4):</strong> Um die Konsistenz nach einem Systemabsturz schnell wiederherzustellen, werden Änderungen zunächst in eine Protokolldatei (das Journal) geschrieben. Nach dem Neustart muss nur das Journal geprüft werden, statt die gesamte Festplatte. Dies macht den Systemstart wesentlich schneller und sicherer.</li>
+                <li><strong>Virtual File System (VFS):</strong> Eine Abstraktionsschicht im Kernel, die es ermöglicht, verschiedene Dateisystemtypen (lokale, entfernte über Netzwerk) nahtlos in einen einzigen Verzeichnisbaum zu integrieren. Anwendungen können auf alle Dateien mit denselben Systemaufrufen (<code>open</code>, <code>read</code>, <code>write</code>) zugreifen, unabhängig vom zugrundeliegenden Dateisystem.</li>
+            </ul>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Erstellt zur Unterstützung der Prüfungsvorbereitung. Viel Erfolg bei der Klausur!</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

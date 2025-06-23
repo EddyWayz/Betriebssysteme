@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. Kommunikation - Lernportal Betriebssysteme</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .page-nav { background-color: #f8f9fa; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-family: var(--header-font); }
+        .page-nav a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
+        .page-nav a:hover { text-decoration: underline; }
+        .content-section h3 { font-family: var(--title-font); font-size: 1.8rem; color: #444; margin-top: 40px; margin-bottom: 20px; }
+        .content-section h4 { font-family: var(--title-font); font-size: 1.4rem; color: var(--primary-color); margin-top: 30px; }
+        blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 20px 0; font-style: italic; background-color: var(--secondary-color); padding: 15px 20px; border-radius: 0 5px 5px 0; }
+        .image-placeholder { background-color: #f0f0f0; border: 1px dashed #ccc; padding: 20px; text-align: center; margin: 20px auto; border-radius: 5px; color: #888; max-width: 80%; display: block; font-family: var(--header-font); }
+        code, pre { font-family: Consolas, 'Courier New', monospace; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; }
+        code { padding: 2px 5px; }
+        pre { padding: 15px; overflow-x: auto; white-space: pre-wrap; font-size: 0.9em; }
+        .key-term { font-weight: bold; color: var(--primary-color); }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
+        th { background-color: var(--secondary-color); font-family: var(--header-font); }
+    </style>
+</head>
+<body>
+
+    <nav class="page-nav">
+        <div class="container">
+            <a href="index.html">&larr; Zurück zur Übersicht</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>Kapitel 7: Kommunikation und Kooperation</h1>
+            <p>Wie Prozesse und Threads miteinander interagieren und Daten austauschen.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="content-section">
+            <h2>Grundlagen der Prozessinteraktion</h2>
+            <p>Prozesse laufen selten isoliert ab. Für viele komplexe Aufgaben müssen sie zusammenarbeiten. Diese <span class="key-term">Interaktion</span> umfasst zwei Aspekte:</p>
+            <ul>
+                <li><strong>Synchronisation:</strong> Die zeitliche Abstimmung der Abläufe, wie in Kapitel 6 behandelt.</li>
+                <li><strong>Informationsaustausch:</strong> Die inhaltliche Abstimmung durch das Übertragen von Daten.</li>
+            </ul>
+            <p>Der Informationsaustausch selbst lässt sich in zwei grundlegende Modelle unterteilen:</p>
+            <ol>
+                <li><strong>Kommunikation (Nachrichtenaustausch):</strong> Ein asymmetrisches Modell, bei dem ein Sender explizit eine Nachricht an einen Empfänger schickt.</li>
+                <li><strong>Kooperation (Gemeinsamer Speicher):</strong> Ein symmetrisches Modell, bei dem mehrere Prozesse auf einen gemeinsamen Datenbereich zugreifen und diesen modifizieren.</li>
+            </ol>
+            <p>Das Betriebssystem muss für beide Modelle Mechanismen bereitstellen, die als <span class="key-term">Inter-Process Communication (IPC)</span> zusammengefasst werden.</p>
+            
+            <h2>1. Kommunikation durch Nachrichtenaustausch</h2>
+            <p>Beim nachrichtenbasierten Ansatz stellen Betriebssysteme primitive Operationen zur Verfügung, typischerweise <code>Send</code> und <code>Receive</code>. Die genaue Funktionsweise dieser Operationen wird durch den Synchronisationstyp und den Kanaltyp bestimmt.</p>
+
+            <h4>Synchronisationstypen: Blockierend vs. Nicht-blockierend</h4>
+            <p>Dies beschreibt, wie sich der aufrufende Prozess nach der Operation verhält.</p>
+            <ul>
+                <li><strong>Synchrones (blockierendes) Senden:</strong> Der sendende Prozess ruft <code>Send</code> auf und wird vom Scheduler blockiert, bis der Empfänger die Nachricht erhalten hat.
+                    <ul>
+                        <li><strong>Vorteil:</strong> Implizite Quittung, dass die Nachricht angekommen ist. Benötigt keinen Puffer.</li>
+                        <li><strong>Nachteil:</strong> Der Sender ist für die Dauer der Übertragung blockiert und kann nichts anderes tun.</li>
+                    </ul>
+                </li>
+                <li><strong>Asynchrones (nicht-blockierendes) Senden:</strong> Der <code>Send</code>-Aufruf kehrt sofort zurück und der Sender arbeitet weiter. Die Nachricht wird vom Betriebssystem zwischengepuffert.
+                    <ul>
+                        <li><strong>Vorteil:</strong> Sehr effizient für den Sender.</li>
+                        <li><strong>Nachteil:</strong> Der Sender weiß nicht, ob und wann die Nachricht empfangen wurde. Benötigt potentiell große Puffer im BS.</li>
+                    </ul>
+                </li>
+                <li><strong>Synchrones (blockierendes) Empfangen:</strong> Der empfangende Prozess ruft <code>Receive</code> auf und blockiert, bis eine Nachricht für ihn eintrifft. Dies ist das häufigste Modell.</li>
+                <li><strong>Asynchrones (nicht-blockierendes) Empfangen:</strong> Der Empfänger wird nicht blockiert.
+                    <ul>
+                        <li><strong>Polling:</strong> Der Empfänger fragt aktiv in einer Schleife nach, ob neue Nachrichten da sind ("Busy Wait").</li>
+                        <li><strong>Asynchroner Prozeduraufruf (Handler):</strong> Der Empfänger registriert eine Funktion ("Handler"), die vom Betriebssystem automatisch aufgerufen wird, wenn eine Nachricht eintrifft (ähnlich einem Interrupt).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <table>
+              <caption>Gängige Kommunikationskombinationen</caption>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Synchrones Senden (blockierend)</th>
+                  <th>Asynchrones Senden (nicht-blockierend)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Synchrones Empfangen (blockierend)</strong></td>
+                  <td><strong>Rendezvous:</strong> Starke Synchronisation. Sender & Empfänger warten aufeinander.</td>
+                  <td><strong>Standard Client-Server:</strong> Häufigste Form. Empfänger wartet auf Anfragen.</td>
+                </tr>
+                <tr>
+                  <td><strong>Asynchrones Empfangen (nicht-blockierend)</strong></td>
+                  <td>Ungebräuchlich.</td>
+                  <td>Gebräuchlich für Polling oder asynchrone E/A-Beendigung.</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4>Kanaltypen: Direkt vs. Indirekt</h4>
+            <ul>
+                <li><strong>Direkte Kommunikation:</strong> Die Kommunikation findet explizit zwischen benannten Prozessen statt (z.B. <code>Send(Prozess_B, nachricht)</code>). Dies ist meist eine 1:1-Beziehung.</li>
+                <li><strong>Indirekte Kommunikation:</strong> Die Kommunikation erfolgt über eine Zwischeninstanz, die als <span class="key-term">Mailbox</span> oder <span class="key-term">Port</span> bezeichnet wird. Sender schicken Nachrichten an den Port, Empfänger lesen von dort. Dies entkoppelt Sender und Empfänger und ermöglicht N:M-Kommunikation. Ein bekanntes Beispiel sind die "Well-known Ports" im TCP/IP-Protokoll (z.B. Port 80 für HTTP).</li>
+            </ul>
+
+            <h3>IPC-Mechanismen in der Praxis</h3>
+            <h4>Pipes (UNIX/Windows)</h4>
+            <p>Eine Pipe ist ein gerichteter Kommunikationskanal, der einen Bytestrom nach dem <span class="key-term">FIFO-Prinzip</span> transportiert. Wenn ein Prozess in eine volle Pipe schreibt oder aus einer leeren Pipe liest, wird er blockiert.</p>
+            <ul>
+                <li><strong>Anonymous Pipes:</strong> Können nur zwischen verwandten Prozessen (Eltern/Kind) verwendet werden.</li>
+                <li><strong>Named Pipes:</strong> Haben einen Namen im Dateisystem und können von beliebigen Prozessen für die Kommunikation verwendet werden.</li>
+            </ul>
+
+            <h4>Signale (UNIX)</h4>
+            <p>Signale sind eine einfache, asynchrone Form der Benachrichtigung, um einen Prozess über ein Ereignis zu informieren. Die "Nachricht" ist dabei nur eine einfache Nummer (der Signaltyp).</p>
+            <p>Typische Signale sind <code>SIGINT</code> (Strg+C), <code>SIGSEGV</code> (Speicherzugriffsfehler) oder <code>SIGTERM</code> (Beendigungsanforderung). Ein Prozess kann mit <code>sigaction()</code> einen eigenen <span class="key-term">Signal-Handler</span> registrieren, um auf ein Signal zu reagieren. Da der Handler den normalen Programmfluss unterbricht, sollte er sehr kurz sein und z.B. nur eine globale Variable (Flag) setzen, die im Hauptprogramm ausgewertet wird.</p>
+
+            <h2>2. Kooperation durch gemeinsame Daten</h2>
+            <p>Bei diesem Modell arbeiten Prozesse nicht durch Nachrichtenaustausch, sondern durch den direkten Lese- und Schreibzugriff auf gemeinsame Datenobjekte. Dies ist zwar sehr schnell, erfordert aber eine explizite Synchronisation durch den Programmierer, um Race Conditions zu verhindern.</p>
+
+            <h4>Shared Memory (Gemeinsamer Speicher)</h4>
+            <p>Der effizienteste IPC-Mechanismus. Das Betriebssystem blendet (mapped) einen physischen Speicherbereich in die virtuellen Adressräume mehrerer Prozesse ein. Die Prozesse können dann auf diesen Bereich zugreifen, als wäre es ihr eigener. Da der Kernel nicht bei jedem Datenaustausch involviert ist, ist die Kommunikation extrem schnell. Die Synchronisation muss aber zwingend über andere Mechanismen wie Semaphore erfolgen.</p>
+            
+            <div class="solution-box">
+                <h4>Praxisbeispiel: Shared Memory in UNIX (C-Code)</h4>
+                <p>Der Code (aus <code>OS_7_Kommunikation.pdf</code>) zeigt die Erzeugung, das Anbinden (<code>shmat</code>), Beschreiben, erneute Anbinden an eine andere Adresse und das Freigeben eines Shared Memory Segments.</p>
+                <pre>
+#include &lt;sys/shm.h&gt;
+// ...
+int segment_id;
+char* shared_memory;
+
+// 1. Ein Shared Memory Segment anfordern
+segment_id = shmget(IPC_PRIVATE, size, IPC_CREAT | ...);
+
+// 2. Das Segment an den Adressraum des Prozesses anbinden
+shared_memory = (char*) shmat(segment_id, 0, 0);
+
+// 3. Auf den Speicher zugreifen
+sprintf(shared_memory, "Hallo Welt!");
+
+// 4. Das Segment wieder vom Adressraum lösen
+shmdt(shared_memory);
+
+// 5. Das Segment (wenn nicht mehr gebraucht) dem System zur Freigabe melden
+shmctl(segment_id, IPC_RMID, 0);
+                </pre>
+            </div>
+            
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Erstellt zur Unterstützung der Prüfungsvorbereitung. Viel Erfolg bei der Klausur!</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

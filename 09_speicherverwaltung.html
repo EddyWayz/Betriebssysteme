@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9. Speicherverwaltung - Lernportal Betriebssysteme</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .page-nav { background-color: #f8f9fa; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-family: var(--header-font); }
+        .page-nav a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
+        .page-nav a:hover { text-decoration: underline; }
+        .content-section h3 { font-family: var(--title-font); font-size: 1.8rem; color: #444; margin-top: 40px; margin-bottom: 20px; }
+        .content-section h4 { font-family: var(--title-font); font-size: 1.4rem; color: var(--primary-color); margin-top: 30px; }
+        blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 20px 0; font-style: italic; background-color: var(--secondary-color); padding: 15px 20px; border-radius: 0 5px 5px 0; }
+        .image-placeholder { background-color: #f0f0f0; border: 1px dashed #ccc; padding: 20px; text-align: center; margin: 20px auto; border-radius: 5px; color: #888; max-width: 80%; display: block; font-family: var(--header-font); }
+        code, pre { font-family: Consolas, 'Courier New', monospace; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; }
+        code { padding: 2px 5px; }
+        pre { padding: 15px; overflow-x: auto; white-space: pre-wrap; font-size: 0.9em; }
+        .key-term { font-weight: bold; color: var(--primary-color); }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
+        th { background-color: var(--secondary-color); font-family: var(--header-font); }
+    </style>
+</head>
+<body>
+
+    <nav class="page-nav">
+        <div class="container">
+            <a href="index.html">&larr; Zurück zur Übersicht</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>Kapitel 9: Speicherverwaltung</h1>
+            <p>Die Organisation des Hauptspeichers und das Konzept des virtuellen Speichers.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="content-section">
+            <h2>Grundlagen und Ziele der Speicherverwaltung</h2>
+            <p>Die Speicherverwaltung ist eine der zentralen Aufgaben eines Betriebssystems. Sie wird in enger Zusammenarbeit zwischen der Betriebssystem-Software und spezialisierter Hardware, der <span class="key-term">Memory Management Unit (MMU)</span>, realisiert.</p>
+            <p>Ihre Hauptziele sind:</p>
+            <ul>
+                <li><strong>Abstraktion:</strong> Sie stellt jedem Prozess einen eigenen, privaten Adressraum zur Verfügung und schirmt ihn von anderen Prozessen ab.</li>
+                <li><strong>Effizienz:</strong> Sie verwaltet den begrenzten, physischen Hauptspeicher (RAM) so, dass möglichst viele Prozesse gleichzeitig gehalten werden können und die CPU optimal ausgelastet wird.</li>
+                <li><strong>Schutz:</strong> Sie verhindert, dass ein Prozess auf den Speicher eines anderen Prozesses oder des Betriebssystems selbst zugreift.</li>
+                <li><strong>Virtualisierung:</strong> Sie ermöglicht es Prozessen, einen Adressraum zu nutzen, der viel größer ist als der tatsächlich vorhandene physische Speicher.</li>
+            </ul>
+
+            <h3>Logische vs. Physische Adressräume</h3>
+            <p>Um diese Ziele zu erreichen, unterscheidet das System strikt zwischen zwei Arten von Adressen:</p>
+            <ul>
+                <li>Der <span class="key-term">logische (oder virtuelle) Adressraum</span> ist der Speicher aus Sicht des Prozesses. Er ist ein linearer Adressraum, der typischerweise bei Adresse 0 beginnt und die Segmente für Code, globale Daten, Heap und Stack enthält. Jeder Prozess hat seinen eigenen, unabhängigen logischen Adressraum.</li>
+                <li>Der <span class="key-term">physische Adressraum</span> entspricht den realen Speicherzellen im RAM. Auf diesen Speicher greifen alle Prozesse und das Betriebssystem gemeinsam zu.</li>
+            </ul>
+            <p>Die Aufgabe der MMU ist es, zur Laufzeit jede logische Adresse, die ein Prozess generiert, in eine physische Adresse zu übersetzen.</p>
+
+            <h2>Paging: Seitenbasierte Speicherverwaltung</h2>
+            <p>Paging ist die heute dominierende Methode zur Speicherverwaltung. Die Grundidee ist, das Problem der externen Fragmentierung (viele kleine, ungenutzte Speicherlücken) zu lösen, indem der Speicher nicht mehr in großen, zusammenhängenden Blöcken, sondern in kleinen Einheiten fester Größe verwaltet wird.</p>
+            <ul>
+                <li>Der logische Adressraum eines Prozesses wird in Blöcke fester Größe, die <span class="key-term">Seiten (Pages)</span>, unterteilt.</li>
+                <li>Der physische Hauptspeicher wird in Blöcke derselben Größe, die <span class="key-term">Seitenrahmen (Frames)</span>, unterteilt.</li>
+            </ul>
+            
+            <h4>Adressübersetzung mit Seitentabellen</h4>
+            <div class="image-placeholder">[Diagramm: Adressumsetzung beim Paging]<br>Eine logische Adresse wird in Seitennummer und Offset geteilt. Die Seitennummer dient als Index für die Seitentabelle. Die Seitentabelle liefert die Rahmennummer. Die physische Adresse wird aus Rahmennummer und Offset zusammengesetzt.</div>
+            <p>Eine logische Adresse besteht aus zwei Teilen: <code>[Seitennummer | Offset]</code>.</p>
+            <ol>
+                <li>Die MMU extrahiert die <strong>Seitennummer</strong>.</li>
+                <li>Sie verwendet diese Seitennummer als Index, um in der prozess-spezifischen <span class="key-term">Seitentabelle (Page Table)</span> nachzuschlagen.</li>
+                <li>In der Seitentabelle steht die <strong>Rahmennummer</strong>, also die Startadresse des physischen Speicherrahmens, in dem sich die gesuchte Seite befindet.</li>
+                <li>Die MMU kombiniert die Rahmennummer mit dem <strong>Offset</strong> aus der ursprünglichen logischen Adresse, um die endgültige physische Adresse zu bilden.</li>
+            </ol>
+            <p>Um diese Übersetzung zu beschleunigen, da jeder Speicherzugriff sonst einen zusätzlichen Zugriff auf die Seitentabelle im RAM bedeuten würde, gibt es einen speziellen Hardware-Cache, den <span class="key-term">Translation Lookaside Buffer (TLB)</span>, der die letzten Adressübersetzungen zwischenspeichert.</p>
+
+            <h2>Virtueller Speicher und Seitenfehler</h2>
+            <p>Das Konzept des virtuellen Speichers erweitert Paging, indem es den Sekundärspeicher (Festplatte/SSD) als "verlängerten Arm" des Hauptspeichers nutzt. Ein Prozess kann einen sehr großen logischen Adressraum haben, von dem zu jedem Zeitpunkt nur die aktuell benötigten Seiten tatsächlich im physischen RAM liegen.</p>
+            
+            <div class="image-placeholder">[Diagramm: Ablauf des On-Demand Paging]<br>Ein Prozess greift auf eine Seite zu (Referenz). Ist die Seite nicht im Hauptspeicher (erkennbar am "Not-Present-Bit" in der Seitentabelle), kommt es zu einem Seitenfehler. Das BS lädt die Seite vom Sekundärspeicher in einen Rahmen des Hauptspeichers und aktualisiert die Seitentabelle. Ggf. muss eine andere Seite dafür verdrängt werden.</div>
+            
+            <h4>Der Seitenfehler (Page Fault)</h4>
+            <p>Greift ein Prozess auf eine Adresse zu, deren Seite sich nicht im RAM befindet (in der Seitentabelle als "not present" markiert), löst die MMU einen <span class="key-term">Seitenfehler (Page Fault)</span> aus. Dies ist kein Programmfehler, sondern ein normaler Vorgang, der wie folgt vom Betriebssystem behandelt wird:</p>
+            <ol>
+                <li>Ein Trap (Software-Interrupt) an das Betriebssystem wird ausgelöst.</li>
+                <li>Der aktuelle Zustand des Prozesses wird gesichert und der Prozess wird blockiert.</li>
+                <li>Das BS sucht die fehlende Seite auf dem Sekundärspeicher.</li>
+                <li>Das BS sucht einen freien Rahmen im RAM. Wenn keiner frei ist, muss eine Seite mithilfe eines <strong>Seitenersetzungsalgorithmus</strong> ausgewählt und verdrängt werden. Wurde die verdrängte Seite verändert (Modify-Bit ist gesetzt), muss sie zuvor auf die Festplatte zurückgeschrieben werden.</li>
+                <li>Die angeforderte Seite wird von der Festplatte in den nun freien Rahmen geladen.</li>
+                <li>Die Seitentabelle des Prozesses wird aktualisiert (Rahmennummer und Present-Bit werden gesetzt).</li>
+                <li>Der Prozess wird aus dem blockierten Zustand in die Ready Queue verschoben und kann seine Ausführung fortsetzen.</li>
+            </ol>
+            <p>Dieses Verfahren, bei dem Seiten nur bei Bedarf geladen werden (<span class="key-term">On-Demand Paging</span>), funktioniert dank des <span class="key-term">Lokalitätsprinzips</span>, welches besagt, dass Programme dazu neigen, über längere Zeiträume hinweg auf Speicherbereiche zuzugreifen, die räumlich und zeitlich nahe beieinander liegen.</p>
+            
+            <h2>Seitenersetzungsalgorithmen</h2>
+            <p>Wenn bei einem Seitenfehler kein freier Rahmen verfügbar ist, muss das BS entscheiden, welche der bereits im Speicher befindlichen Seiten "geopfert" wird.</p>
+            
+            <h4>1. Optimaler Algorithmus (OPT / MIN)</h4>
+            <p>Ersetze diejenige Seite, die in der Zukunft am längsten nicht mehr verwendet wird. Dieser Algorithmus ist nicht implementierbar, da er die Zukunft voraussehen müsste, dient aber als theoretischer Maßstab, um andere Algorithmen zu bewerten.</p>
+            
+            <h4>2. First-In, First-Out (FIFO)</h4>
+            <p>Ersetze die Seite, die sich am längsten im Speicher befindet (die "älteste"). Einfach zu implementieren, aber oft ineffizient, da auch häufig genutzte Seiten verdrängt werden können, nur weil sie schon lange im Speicher sind.</p>
+            
+            <h4>3. Least Recently Used (LRU)</h4>
+            <p>Ersetze die Seite, auf die am längsten nicht mehr zugegriffen wurde. Basiert direkt auf dem Lokalitätsprinzip und erzielt in der Praxis sehr gute Ergebnisse. Die Implementierung ist jedoch aufwändig, da das System bei jedem Speicherzugriff Zeitstempel oder eine geordnete Liste pflegen müsste.</p>
+
+            <h4>4. Clock-Algorithmus (Second-Chance)</h4>
+            <div class="image-placeholder">[Diagramm: Die "Uhr" der Seitenrahmen]<br>Ein Zeiger wandert im Kreis über die Rahmen. Jeder Rahmen hat ein Use-Bit. Ist es 1, wird es auf 0 gesetzt und der Zeiger rückt weiter (zweite Chance). Ist es 0, wird dieser Rahmen ersetzt.</div>
+            <p>Ein effizienter und weit verbreiteter Algorithmus zur Annäherung an LRU. Die Seitenrahmen werden als zirkuläre Liste ("Uhr") verwaltet. Jede Seite hat ein <span class="key-term">Use-Bit</span> (oder Reference-Bit).</p>
+            <ul>
+                <li>Bei jedem Zugriff auf eine Seite wird deren Use-Bit auf 1 gesetzt.</li>
+                <li>Muss eine Seite ersetzt werden, wandert ein "Uhrzeiger" über die Rahmen:
+                    <ul>
+                        <li>Trifft er auf ein Use-Bit=1, setzt er es auf 0 und rückt weiter. Die Seite bekommt eine "zweite Chance".</li>
+                        <li>Trifft er auf ein Use-Bit=0, wird diese Seite ersetzt. Dies ist eine Seite, auf die seit dem letzten Umlauf des Zeigers nicht mehr zugegriffen wurde.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Thrashing</h3>
+            <p>Thrashing ist ein kritischer Systemzustand, bei dem das System fast seine gesamte Zeit mit dem Ein- und Auslagern von Seiten verbringt, anstatt nützliche Arbeit zu verrichten. Die CPU-Auslastung bricht ein, während die Festplattenaktivität extrem hoch ist.</p>
+            <div class="image-placeholder">[Diagramm: Kurve der CPU-Auslastung]<br>Die Auslastung steigt mit der Anzahl der Prozesse, erreicht ein Maximum und bricht dann bei zu vielen Prozessen dramatisch ein (Thrashing-Bereich).</div>
+            <p><strong>Ursache:</strong> Der gesamte Speicherbedarf der aktiven Prozesse (ihre "Working Sets") übersteigt den verfügbaren physischen Speicher bei Weitem. Die Prozesse stehlen sich gegenseitig ständig die benötigten Seiten.</p>
+            <p><strong>Abhilfe:</strong> Das Betriebssystem muss den Grad des Mehrprogrammbetriebs reduzieren, d.h. einen oder mehrere Prozesse komplett suspendieren und all ihre Seiten aus dem Speicher entfernen, um den verbleibenden Prozessen genügend Speicher zur Verfügung zu stellen.</p>
+
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Erstellt zur Unterstützung der Prüfungsvorbereitung. Viel Erfolg bei der Klausur!</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

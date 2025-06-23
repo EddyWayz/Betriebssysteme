@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8. Deadlocks - Lernportal Betriebssysteme</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .page-nav { background-color: #f8f9fa; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-family: var(--header-font); }
+        .page-nav a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
+        .page-nav a:hover { text-decoration: underline; }
+        .content-section h3 { font-family: var(--title-font); font-size: 1.8rem; color: #444; margin-top: 40px; margin-bottom: 20px; }
+        .content-section h4 { font-family: var(--title-font); font-size: 1.4rem; color: var(--primary-color); margin-top: 30px; }
+        blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 20px 0; font-style: italic; background-color: var(--secondary-color); padding: 15px 20px; border-radius: 0 5px 5px 0; }
+        .image-placeholder { background-color: #f0f0f0; border: 1px dashed #ccc; padding: 20px; text-align: center; margin: 20px auto; border-radius: 5px; color: #888; max-width: 80%; display: block; font-family: var(--header-font); }
+        code, pre { font-family: Consolas, 'Courier New', monospace; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; }
+        code { padding: 2px 5px; }
+        pre { padding: 15px; overflow-x: auto; white-space: pre-wrap; font-size: 0.9em; }
+        .key-term { font-weight: bold; color: var(--primary-color); }
+        .condition-list { list-style-type: none; padding-left: 0; }
+        .condition-list li { background-color: #f8f9fa; margin-bottom: 10px; padding: 15px; border-left: 5px solid var(--accent-color); }
+    </style>
+</head>
+<body>
+
+    <nav class="page-nav">
+        <div class="container">
+            <a href="index.html">&larr; Zurück zur Übersicht</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>Kapitel 8: Deadlocks (Verklemmungen)</h1>
+            <p>Der fatale Stillstand, wenn Prozesse ewig aufeinander warten.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="content-section">
+            <h2>Was ist ein Deadlock?</h2>
+            <blockquote>
+                <strong>Definition:</strong> Eine Menge von Prozessen befindet sich in einem Deadlock, wenn jeder Prozess in der Menge auf ein Ereignis wartet, das nur von einem anderen Prozess in derselben Menge ausgelöst werden kann.
+            </blockquote>
+            <p>Da alle Prozesse warten, kann keiner von ihnen das Ereignis auslösen, auf das die anderen warten. Das Resultat ist ein permanenter Stillstand, den die Prozesse nicht von selbst auflösen können. Betroffene Ressourcen sind typischerweise <span class="key-term">nicht-verdrängbare (non-preemptible)</span> Ressourcen wie Drucker, Dateien oder Semaphore.</p>
+            
+            <h4>Klassisches Beispiel: Die speisenden Philosophen</h4>
+            <div class="image-placeholder">[Bild: Fünf Philosophen am runden Tisch mit fünf Stäbchen dazwischen.]</div>
+            <p>Fünf Philosophen sitzen am Tisch und tun zwei Dinge: denken oder essen. Zum Essen benötigt jeder Philosoph zwei Essstäbchen. Zwischen je zwei Philosophen liegt genau ein Stäbchen.
+            <br><strong>Deadlock-Szenario:</strong> Jeder Philosoph nimmt gleichzeitig das Stäbchen zu seiner Linken auf. Nun hält jeder Philosoph eine Ressource (ein Stäbchen) und wartet auf eine zweite (das rechte Stäbchen), die aber von seinem Nachbarn gehalten wird. Es entsteht eine zirkuläre Abhängigkeit, und kein Philosoph kann jemals mit dem Essen beginnen.</p>
+
+            <h3>Die vier notwendigen Bedingungen für einen Deadlock</h3>
+            <p>Ein Deadlock kann nur dann auftreten, wenn <strong>alle vier</strong> der folgenden Bedingungen gleichzeitig erfüllt sind. Dies ist eine extrem wichtige Prüfungsfrage.</p>
+            <ol class="condition-list">
+                <li>
+                    <strong>1. Wechselseitiger Ausschluss (Mutual Exclusion):</strong> Mindestens eine Ressource muss in einem nicht-teilbaren Modus gehalten werden. Nur ein Prozess kann die Ressource zu einem Zeitpunkt nutzen. (Ein Drucker kann nicht von zwei Prozessen gleichzeitig genutzt werden).
+                </li>
+                <li>
+                    <strong>2. Halten und Warten (Hold and Wait):</strong> Ein Prozess hält mindestens eine Ressource, während er auf eine weitere Ressource wartet, die von einem anderen Prozess gehalten wird. (Ein Philosoph hält sein linkes Stäbchen und wartet auf das rechte).
+                </li>
+                <li>
+                    <strong>3. Keine vorzeitige Entziehung (No Preemption):</strong> Eine Ressource kann einem Prozess nicht gewaltsam entzogen werden. Sie muss vom haltenden Prozess explizit freigegeben werden. (Man kann dem Philosophen sein Stäbchen nicht einfach aus der Hand nehmen).
+                </li>
+                <li>
+                    <strong>4. Zirkuläres Warten (Circular Wait):</strong> Es existiert eine Kette von wartenden Prozessen {P₀, P₁, ..., Pₙ}, bei der P₀ auf eine Ressource von P₁ wartet, P₁ auf eine von P₂, ..., und Pₙ auf eine Ressource wartet, die von P₀ gehalten wird.
+                </li>
+            </ol>
+
+            <h3>Der Betriebsmittelgraph (Resource-Allocation Graph)</h3>
+            <p>Ein Betriebsmittelgraph ist ein gerichteter Graph, der den Zustand der Ressourcenvergabe im System visualisiert. Er besteht aus:</p>
+            <ul>
+                <li><strong>Prozessknoten</strong> (Kreise)</li>
+                <li><strong>Ressourcenknoten</strong> (Rechtecke, mit Punkten für jede Instanz der Ressource)</li>
+                <li><strong>Anforderungskanten (Request Edge):</strong> Ein Pfeil von einem Prozess zu einer Ressource (P → R).</li>
+                <li><strong>Zuweisungskanten (Assignment Edge):</strong> Ein Pfeil von einer Ressource zu einem Prozess (R → P).</li>
+            </ul>
+            <div class="image-placeholder">[Diagramm: Beispiel für einen Betriebsmittelgraphen mit und ohne Zyklus.]<br>Links: P1 hält R1 und fordert R2 an. P2 hält R2 und fordert R1 an. --> Ein Zyklus, also ein Deadlock.<br>Rechts: P1 fordert R1 an, P2 hält R1 und fordert R2 an, P3 hält R2. --> Kein Zyklus, kein Deadlock.</div>
+            <blockquote>
+                <strong>Regel:</strong> Ein Zyklus im Betriebsmittelgraphen ist eine <em>notwendige</em>, aber nicht immer <em>hinreichende</em> Bedingung für einen Deadlock. Wenn jede Ressource nur eine Instanz hat, ist ein Zyklus hinreichend. Gibt es mehrere Instanzen, kann ein Zyklus bestehen, ohne dass ein Deadlock vorliegt.
+            </blockquote>
+            
+            <h2>Strategien zum Umgang mit Deadlocks</h2>
+            
+            <h4>1. Ignorieren (Vogel-Strauß-Algorithmus)</h4>
+            <p>Die einfachste Strategie ist, das Problem zu ignorieren. Man geht davon aus, dass Deadlocks so selten auftreten, dass der Aufwand für ihre Behandlung in keinem Verhältnis zum Nutzen steht. Wenn ein Deadlock doch einmal auftritt, wird das System vom Benutzer oder Administrator manuell neu gestartet. Dies ist der gängige Ansatz in den meisten Alltagsbetriebssystemen wie Windows und Linux.</p>
+
+            <h4>2. Erkennung und Behebung (Detection and Recovery)</h4>
+            <p>Das System lässt Deadlocks zu, verfügt aber über Mechanismen, um sie zu erkennen und aufzulösen.</p>
+            <ul>
+                <li><strong>Erkennung:</strong> Das Betriebssystem unterhält intern einen Betriebsmittelgraphen und lässt periodisch einen Algorithmus laufen, der nach Zyklen sucht.</li>
+                <li><strong>Behebung (Recovery):</strong>
+                    <ul>
+                        <li><strong>Prozesse beenden:</strong> Man bricht einen oder mehrere Prozesse im Zyklus ab, bis der Deadlock aufgelöst ist. Dies ist die brutalste, aber einfachste Methode.</li>
+                        <li><strong>Ressourcenentzug (Preemption):</strong> Man entzieht einem Prozess eine Ressource und gibt sie einem anderen. Dies ist sehr komplex, da der "beraubte" Prozess in einen sicheren Zustand zurückgesetzt (Rollback) werden muss, was oft nicht trivial ist.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>3. Verhinderung (Prevention)</h4>
+            <p>Hierbei wird sichergestellt, dass das System niemals in einen Deadlock-Zustand geraten kann, indem man mindestens eine der vier notwendigen Bedingungen strukturell ausschließt.</p>
+            <ul>
+                <li><strong>Mutual Exclusion aufheben:</strong> Selten möglich. Man kann aber dedizierte Ressourcen durch Spooling (z.B. für einen Drucker) in teilbare Ressourcen umwandeln.</li>
+                <li><strong>Hold and Wait aufheben:</strong> Ein Prozess muss entweder alle benötigten Ressourcen auf einmal anfordern oder darf keine Ressourcen halten, wenn er neue anfordert. Führt zu schlechter Ressourcenauslastung und möglicherweise Starvation.</li>
+                <li><strong>No Preemption aufheben:</strong> Wenn ein Prozess eine Ressource anfordert, die nicht verfügbar ist, muss er alle bereits gehaltenen Ressourcen freigeben.</li>
+                <li><strong>Circular Wait aufheben:</strong> Dies ist die praktischste Methode. Alle Ressourcen werden eindeutig nummeriert (z.B. Drucker=1, Festplatte=2, Scanner=3). Ein Prozess darf Ressourcen nur in aufsteigender Reihenfolge anfordern. Er kann also nicht die Ressource 3 halten und dann die Ressource 1 anfordern. Dies verhindert Zyklen.</li>
+            </ul>
+
+            <h4>4. Vermeidung (Avoidance)</h4>
+            <p>Diese dynamische Methode erfordert, dass jeder Prozess vorab seinen <span class="key-term">maximalen Ressourcenbedarf</span> deklariert. Das Betriebssystem prüft dann bei *jeder* Ressourcenanforderung, ob die Zuteilung das System in einen <span class="key-term">unsicheren Zustand</span> führen würde.</p>
+            <ul>
+                <li>Ein <strong>sicherer Zustand</strong> ist ein Zustand, in dem es mindestens eine Reihenfolge gibt, in der alle Prozesse ihre maximalen Ressourcen erhalten und terminieren können, selbst wenn sie alle gleichzeitig ihre Maximalforderung stellen.</li>
+                <li>Ein <strong>unsicherer Zustand</strong> ist ein Zustand, der nicht sicher ist. Er führt nicht zwangsläufig zu einem Deadlock, aber er *könnte* es.</li>
+            </ul>
+            <p>Der bekannteste Algorithmus hierfür ist der <span class="key-term">Banker's Algorithm</span>. Da die Vorhersage des maximalen Bedarfs oft schwierig ist, wird dieser Ansatz in der Praxis selten verwendet.</p>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Erstellt zur Unterstützung der Prüfungsvorbereitung. Viel Erfolg bei der Klausur!</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
