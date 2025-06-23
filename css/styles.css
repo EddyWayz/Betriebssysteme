@@ -1,11 +1,12 @@
 /* Globale Variablen für Farben und Schriftarten */
 :root {
-    --primary-color: #005A9E;    /* Ein sattes Blau */
-    --secondary-color: #eef4f9;  /* Ein sehr helles, kühles Blau */
-    --accent-color: #FFC425;     /* Ein warmes Gelb als Akzent */
-    --text-color: #333;
-    --light-gray: #f4f4f4;
-    --border-color: #ddd;
+    /* Aktualisierte Farbpalette */
+    --primary-color: #2a7b6e;    /* Dunkles Türkis */
+    --secondary-color: #e3f6f2;  /* Sehr helles Türkis */
+    --accent-color: #e67e22;     /* Kräftiges Orange */
+    --text-color: #2c3e50;       /* Dunkles Blaugrau */
+    --light-gray: #f9f9f9;       /* Sehr helles Grau */
+    --border-color: #ccc;        /* Dezentes Grau */
     --header-font: 'Roboto', sans-serif;
     --body-font: 'Roboto', sans-serif;
     --title-font: 'Zilla Slab', serif;
