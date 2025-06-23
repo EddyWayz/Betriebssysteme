@@ -11,6 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(html => {
                 navElement.innerHTML = html;
                 initNav();
+            })
+            .catch(err => {
+                console.error("Navigation konnte nicht geladen werden:", err);
+                initNav();
             });
     } else {
         initNav();
