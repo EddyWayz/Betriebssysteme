@@ -47,9 +47,48 @@ function initNav() {
         }
         darkToggle.addEventListener("click", () => {
             document.body.classList.toggle("dark-mode");
-            localStorage.setItem("darkMode",
+            localStorage.setItem(
+                "darkMode",
                 document.body.classList.contains("dark-mode")
             );
         });
     }
+
+    initSearch();
+}
+
+// Suchfunktion
+function initSearch() {
+    const pages = [
+        {title: 'Einführung', href: '01_einfuehrung.html'},
+        {title: 'Grundlagen', href: '02_grundlagen.html'},
+        {title: 'Prozesse', href: '03_prozesse.html'},
+        {title: 'Threads', href: '04_threads.html'},
+        {title: 'CPU-Scheduling', href: '05_scheduling.html'},
+        {title: 'Synchronisation', href: '06_synchronisation.html'},
+        {title: 'Kommunikation', href: '07_kommunikation.html'},
+        {title: 'Deadlocks', href: '08_deadlocks.html'},
+        {title: 'Speicherverwaltung', href: '09_speicherverwaltung.html'},
+        {title: 'Dateisysteme', href: '10_dateisysteme.html'},
+        {title: 'Übungen', href: 'uebungen.html'}
+    ];
+
+    const input = document.getElementById('search-input');
+    const button = document.getElementById('search-btn');
+    if (!input || !button) return;
+
+    function runSearch() {
+        const q = input.value.toLowerCase();
+        const page = pages.find(p => p.title.toLowerCase().includes(q));
+        if (page) {
+            window.location.href = page.href;
+        } else {
+            alert('Kein passendes Kapitel gefunden');
+        }
+    }
+
+    button.addEventListener('click', runSearch);
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') runSearch();
+    });
 }
