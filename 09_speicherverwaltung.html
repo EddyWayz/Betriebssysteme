@@ -3,47 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kapitel 9 - Speicherverwaltung."/>
     <title>9. Speicherverwaltung - Lernportal Betriebssysteme</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
-    <style>
-        .page-nav { background-color: #f8f9fa; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-family: var(--header-font); }
-        .page-nav a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
-        .page-nav a:hover { text-decoration: underline; }
-        .content-section h3 { font-family: var(--title-font); font-size: 1.8rem; color: #444; margin-top: 40px; margin-bottom: 20px; }
-        .content-section h4 { font-family: var(--title-font); font-size: 1.4rem; color: var(--primary-color); margin-top: 30px; }
-        blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 20px 0; font-style: italic; background-color: var(--secondary-color); padding: 15px 20px; border-radius: 0 5px 5px 0; }
-        .image-placeholder { background-color: #f0f0f0; border: 1px dashed #ccc; padding: 20px; text-align: center; margin: 20px auto; border-radius: 5px; color: #888; max-width: 80%; display: block; font-family: var(--header-font); }
-        code, pre { font-family: Consolas, 'Courier New', monospace; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; }
-        code { padding: 2px 5px; }
-        pre { padding: 15px; overflow-x: auto; white-space: pre-wrap; font-size: 0.9em; }
-        .key-term { font-weight: bold; color: var(--primary-color); }
-        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
-        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
-        th { background-color: var(--secondary-color); font-family: var(--header-font); }
-    </style>
 </head>
 <body>
 
-    <nav class="site-nav">
-        <div class="container">
-        <button class="nav-toggle" aria-label="Menü umschalten">&#9776;</button>
-        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Dark Mode umschalten">🌙</button>
-            <a href="index.html">Zurück zur Übersicht</a>
-            <a href="01_einfuehrung.html">1</a>
-            <a href="02_grundlagen.html">2</a>
-            <a href="03_prozesse.html">3</a>
-            <a href="04_threads.html">4</a>
-            <a href="05_scheduling.html">5</a>
-            <a href="06_synchronisation.html">6</a>
-            <a href="07_kommunikation.html">7</a>
-            <a href="08_deadlocks.html">8</a>
-            <a href="09_speicherverwaltung.html" class="active">9</a>
-            <a href="10_dateisysteme.html">10</a>
-        </div>
-    </nav>
+<nav class="site-nav"></nav>
 
     <header>
         <div class="container">
@@ -80,7 +49,7 @@
             </ul>
             
             <h4>Adressübersetzung mit Seitentabellen</h4>
-            <div class="image-placeholder">[Diagramm: Adressumsetzung beim Paging]<br>Eine logische Adresse wird in Seitennummer und Offset geteilt. Die Seitennummer dient als Index für die Seitentabelle. Die Seitentabelle liefert die Rahmennummer. Die physische Adresse wird aus Rahmennummer und Offset zusammengesetzt.</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Adressumsetzung beim Paging Eine logische Adresse wird in Seitennummer und Offset geteilt. Die Seitennummer dient als Index für die Seitentabelle. Die Seitentabelle liefert die Rahmennummer. Die physische Adresse wird aus Rahmennummer und Offset zusammengesetzt.">
             <p>Eine logische Adresse besteht aus zwei Teilen: <code>[Seitennummer | Offset]</code>.</p>
             <ol>
                 <li>Die MMU extrahiert die <strong>Seitennummer</strong>.</li>
@@ -93,7 +62,7 @@
             <h2>Virtueller Speicher und Seitenfehler</h2>
             <p>Das Konzept des virtuellen Speichers erweitert Paging, indem es den Sekundärspeicher (Festplatte/SSD) als "verlängerten Arm" des Hauptspeichers nutzt. Ein Prozess kann einen sehr großen logischen Adressraum haben, von dem zu jedem Zeitpunkt nur die aktuell benötigten Seiten tatsächlich im physischen RAM liegen.</p>
             
-            <div class="image-placeholder">[Diagramm: Ablauf des On-Demand Paging]<br>Ein Prozess greift auf eine Seite zu (Referenz). Ist die Seite nicht im Hauptspeicher (erkennbar am "Not-Present-Bit" in der Seitentabelle), kommt es zu einem Seitenfehler. Das BS lädt die Seite vom Sekundärspeicher in einen Rahmen des Hauptspeichers und aktualisiert die Seitentabelle. Ggf. muss eine andere Seite dafür verdrängt werden.</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Ablauf des On-Demand Paging Ein Prozess greift auf eine Seite zu (Referenz). Ist die Seite nicht im Hauptspeicher (erkennbar am "Not-Present-Bit" in der Seitentabelle), kommt es zu einem Seitenfehler. Das BS lädt die Seite vom Sekundärspeicher in einen Rahmen des Hauptspeichers und aktualisiert die Seitentabelle. Ggf. muss eine andere Seite dafür verdrängt werden.">
             
             <h4>Der Seitenfehler (Page Fault)</h4>
             <p>Greift ein Prozess auf eine Adresse zu, deren Seite sich nicht im RAM befindet (in der Seitentabelle als "not present" markiert), löst die MMU einen <span class="key-term">Seitenfehler (Page Fault)</span> aus. Dies ist kein Programmfehler, sondern ein normaler Vorgang, der wie folgt vom Betriebssystem behandelt wird:</p>
@@ -121,7 +90,7 @@
             <p>Ersetze die Seite, auf die am längsten nicht mehr zugegriffen wurde. Basiert direkt auf dem Lokalitätsprinzip und erzielt in der Praxis sehr gute Ergebnisse. Die Implementierung ist jedoch aufwändig, da das System bei jedem Speicherzugriff Zeitstempel oder eine geordnete Liste pflegen müsste.</p>
 
             <h4>4. Clock-Algorithmus (Second-Chance)</h4>
-            <div class="image-placeholder">[Diagramm: Die "Uhr" der Seitenrahmen]<br>Ein Zeiger wandert im Kreis über die Rahmen. Jeder Rahmen hat ein Use-Bit. Ist es 1, wird es auf 0 gesetzt und der Zeiger rückt weiter (zweite Chance). Ist es 0, wird dieser Rahmen ersetzt.</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Die "Uhr" der Seitenrahmen Ein Zeiger wandert im Kreis über die Rahmen. Jeder Rahmen hat ein Use-Bit. Ist es 1, wird es auf 0 gesetzt und der Zeiger rückt weiter (zweite Chance). Ist es 0, wird dieser Rahmen ersetzt.">
             <p>Ein effizienter und weit verbreiteter Algorithmus zur Annäherung an LRU. Die Seitenrahmen werden als zirkuläre Liste ("Uhr") verwaltet. Jede Seite hat ein <span class="key-term">Use-Bit</span> (oder Reference-Bit).</p>
             <ul>
                 <li>Bei jedem Zugriff auf eine Seite wird deren Use-Bit auf 1 gesetzt.</li>
@@ -135,7 +104,7 @@
 
             <h3>Thrashing</h3>
             <p>Thrashing ist ein kritischer Systemzustand, bei dem das System fast seine gesamte Zeit mit dem Ein- und Auslagern von Seiten verbringt, anstatt nützliche Arbeit zu verrichten. Die CPU-Auslastung bricht ein, während die Festplattenaktivität extrem hoch ist.</p>
-            <div class="image-placeholder">[Diagramm: Kurve der CPU-Auslastung]<br>Die Auslastung steigt mit der Anzahl der Prozesse, erreicht ein Maximum und bricht dann bei zu vielen Prozessen dramatisch ein (Thrashing-Bereich).</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Kurve der CPU-Auslastung Die Auslastung steigt mit der Anzahl der Prozesse, erreicht ein Maximum und bricht dann bei zu vielen Prozessen dramatisch ein (Thrashing-Bereich).">
             <p><strong>Ursache:</strong> Der gesamte Speicherbedarf der aktiven Prozesse (ihre "Working Sets") übersteigt den verfügbaren physischen Speicher bei Weitem. Die Prozesse stehlen sich gegenseitig ständig die benötigten Seiten.</p>
             <p><strong>Abhilfe:</strong> Das Betriebssystem muss den Grad des Mehrprogrammbetriebs reduzieren, d.h. einen oder mehrere Prozesse komplett suspendieren und all ihre Seiten aus dem Speicher entfernen, um den verbleibenden Prozessen genügend Speicher zur Verfügung zu stellen.</p>
 

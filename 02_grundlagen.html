@@ -3,91 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kapitel 2 - Grundlagen."/>
     <title>2. Grundlagen - Lernportal Betriebssysteme</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
-    <style>
-        .page-nav {
-            background-color: #f8f9fa;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-            font-family: var(--header-font);
-        }
-        .page-nav a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .page-nav a:hover {
-            text-decoration: underline;
-        }
-        .content-section h3 {
-            font-family: var(--title-font);
-            font-size: 1.8rem;
-            color: #444;
-            margin-top: 40px;
-            margin-bottom: 20px;
-        }
-        .content-section h4 {
-            font-family: var(--title-font);
-            font-size: 1.4rem;
-            color: var(--primary-color);
-            margin-top: 30px;
-        }
-        blockquote {
-            border-left: 4px solid var(--primary-color);
-            padding-left: 20px;
-            margin: 20px 0;
-            font-style: italic;
-            background-color: var(--secondary-color);
-            padding: 15px 20px;
-            border-radius: 0 5px 5px 0;
-        }
-        .image-placeholder {
-            background-color: #f0f0f0;
-            border: 1px dashed #ccc;
-            padding: 20px;
-            text-align: center;
-            margin: 20px auto;
-            border-radius: 5px;
-            color: #888;
-            max-width: 80%;
-            display: block;
-        }
-        code {
-            background-color: #e9ecef;
-            color: #c7254e;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 0.9em;
-        }
-        .key-term {
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-    </style>
 </head>
 <body>
 
-    <nav class="site-nav">
-        <div class="container">
-        <button class="nav-toggle" aria-label="Menü umschalten">&#9776;</button>
-        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Dark Mode umschalten">🌙</button>
-            <a href="index.html">Zurück zur Übersicht</a>
-            <a href="01_einfuehrung.html">1</a>
-            <a href="02_grundlagen.html" class="active">2</a>
-            <a href="03_prozesse.html">3</a>
-            <a href="04_threads.html">4</a>
-            <a href="05_scheduling.html">5</a>
-            <a href="06_synchronisation.html">6</a>
-            <a href="07_kommunikation.html">7</a>
-            <a href="08_deadlocks.html">8</a>
-            <a href="09_speicherverwaltung.html">9</a>
-            <a href="10_dateisysteme.html">10</a>
-        </div>
-    </nav>
+<nav class="site-nav"></nav>
 
     <header>
         <div class="container">
@@ -100,7 +25,7 @@
         <article class="content-section">
             <h2>Die Von-Neumann-Architektur</h2>
             <p>Moderne Computer basieren fast ausnahmslos auf der Von-Neumann-Architektur. Ihr zentrales Merkmal ist, dass sowohl die auszuführenden <span class="key-term">Befehle (das Programm)</span> als auch die zu verarbeitenden <span class="key-term">Daten</span> im selben Hauptspeicher abgelegt sind.</p>
-            <div class="image-placeholder">[Diagramm: Skizze der Von-Neumann-Architektur]</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Skizze der Von-Neumann-Architektur">
             <p>Die Hauptkomponenten sind:</p>
             <ul>
                 <li><strong>Zentraleinheit (CPU - Central Processing Unit):</strong> Das "Gehirn" des Computers. Sie besteht aus:
@@ -154,7 +79,7 @@
                 <li><strong>Bedingte Verzweigung:</strong> Wenn R6 > 0, springe zurück zu Schritt 2 (<code>if R6 > 0: JMP</code>).</li>
                 <li><strong>Ergebnis speichern:</strong> z := R5</li>
             </ol>
-            <div class="image-placeholder">[Diagramm: Verzweigende Rechenausführung mit PC und PSW]</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Verzweigende Rechenausführung mit PC und PSW">
 
             <h3>Der Rechenzustand & Interrupts</h3>
             <h4>Rechenzustand</h4>
@@ -178,7 +103,7 @@
 
             <h3>Die Speicherhierarchie</h3>
             <p>Da schneller Speicher (wie Register) teuer und klein ist, während günstiger Speicher (wie Festplatten) langsam ist, organisieren Computer ihren Speicher in einer Hierarchie. Ziel ist es, die durchschnittliche Zugriffszeit zu minimieren, indem häufig genutzte Daten in den schnelleren Ebenen gehalten werden (Caching).</p>
-            <div class="image-placeholder">[Diagramm: Speicherpyramide]</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Speicherpyramide">
             <p>Die typischen Ebenen sind:</p>
             <ol>
                 <li><strong>CPU-Register:</strong> Schnellster Zugriff (< 1 ns), kleinste Kapazität (< 1 KB).</li>
@@ -189,7 +114,7 @@
             </ol>
             
             <h3>Vom Quellcode zum Programm</h3>
-            <div class="image-placeholder">[Diagramm: Toolchain: Editor -> Compiler -> Linker -> Loader]</div>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Toolchain: Editor -> Compiler -> Linker -> Loader">
             <p>Ein in einer Hochsprache (z.B. C, Java) geschriebenes Programm muss mehrere Schritte durchlaufen, bevor es von der CPU ausgeführt werden kann:</p>
             <ol>
                 <li><strong>Compiler:</strong> Übersetzt den Quellcode in Maschinencode und optimiert dabei Registerausnutzung und Befehlsanzahl.</li>
