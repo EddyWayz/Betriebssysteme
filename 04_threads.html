@@ -103,6 +103,11 @@
                 </li>
             </ul>
 
+            <div class="solution-box">
+                <h4>Lösung für blockierende Aufrufe: Jacketing</h4>
+                <p>Das Problem der blockierenden Systemaufrufe bei User-Threads kann durch eine Technik namens <strong>Jacketing</strong> (dt. Ummantelung) gemindert werden. Die Idee ist, einen blockierenden Systemaufruf (wie <code>read()</code>) durch eine benutzerdefinierte Wrapper-Funktion zu ersetzen. Diese Wrapper-Funktion prüft zuerst, ob der Aufruf blockieren würde (z.B. durch einen nicht-blockierenden Testaufruf). Wenn er blockieren würde, ruft die Wrapper-Funktion nicht den blockierenden Systemaufruf auf, sondern übergibt stattdessen die Kontrolle an den Thread-Scheduler der User-Bibliothek, der einen anderen Thread desselben Prozesses ausführen kann.</p>
+            </div>
+
             <h4>Kernel-Level-Threads</h4>
             <p>Jeder Thread wird direkt vom Betriebssystem-Kernel verwaltet. Der Kernel kennt jeden Thread und plant (scheduled) ihn wie einen Prozess. Dies ist der Ansatz, der von modernen Betriebssystemen wie Windows und Linux verwendet wird.</p>
             <ul>

@@ -78,31 +78,46 @@
             <p>Dieses Verfahren, bei dem Seiten nur bei Bedarf geladen werden (<span class="key-term">On-Demand Paging</span>), funktioniert dank des <span class="key-term">Lokalitätsprinzips</span>, welches besagt, dass Programme dazu neigen, über längere Zeiträume hinweg auf Speicherbereiche zuzugreifen, die räumlich und zeitlich nahe beieinander liegen.</p>
             
             <h2 id="page-replacement">Seitenersetzungsalgorithmen</h2>
-            <p>Wenn bei einem Seitenfehler kein freier Rahmen verfügbar ist, muss das BS entscheiden, welche der bereits im Speicher befindlichen Seiten "geopfert" wird.</p>
+            <p>Wenn bei einem Seitenfehler kein freier Rahmen verfügbar ist, muss das BS entscheiden, welche der bereits im Speicher befindlichen Seiten "geopfert" wird. Die folgenden Beispiele basieren auf einer Anforderungssequenz aus der Klausur WS19/20 und 3 verfügbaren Rahmen.</p>
             
             <h4>1. Optimaler Algorithmus (OPT / MIN)</h4>
             <p>Ersetze diejenige Seite, die in der Zukunft am längsten nicht mehr verwendet wird. Dieser Algorithmus ist nicht implementierbar, da er die Zukunft voraussehen müsste, dient aber als theoretischer Maßstab, um andere Algorithmen zu bewerten.</p>
-            
+            <table>
+              <thead><tr><th>Anforderung</th><th>5</th><th>1</th><th>2</th><th>1</th><th>3</th><th>4</th><th>5</th><th>1</th><th>5</th><th>4</th><th>2</th><th>1</th><th>5</th></tr></thead>
+              <tbody>
+                <tr><td>Rahmen 1</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td>1</td><td>1</td></tr>
+                <tr><td>Rahmen 2</td><td></td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>5</td><td>1</td><td>5</td><td>5</td><td>2</td><td>2</td><td>5</td></tr>
+                <tr><td>Rahmen 3</td><td></td><td></td><td>2</td><td>2</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+                <tr><td>Page Fault?</td><td>F</td><td>F</td><td>F</td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td></td><td>F</td><td>F</td><td>F</td></tr>
+              </tbody>
+            </table>
+            <p><em>Anmerkung: Bei der Anforderung 4 wird Seite 2 ersetzt, da 2 in der Zukunft nicht mehr vorkommt, während 5 und 1 noch benötigt werden.</em></p>
+
             <h4>2. First-In, First-Out (FIFO)</h4>
-            <p>Ersetze die Seite, die sich am längsten im Speicher befindet (die "älteste"). Einfach zu implementieren, aber oft ineffizient, da auch häufig genutzte Seiten verdrängt werden können, nur weil sie schon lange im Speicher sind.</p>
-            
+            <p>Ersetze die Seite, die sich am längsten im Speicher befindet (die "älteste"). Einfach zu implementieren, aber oft ineffizient, da auch häufig genutzte Seiten verdrängt werden können.</p>
+            <table>
+              <thead><tr><th>Anforderung</th><th>5</th><th>1</th><th>2</th><th>1</th><th>3</th><th>4</th><th>5</th><th>1</th><th>5</th><th>4</th><th>2</th><th>1</th><th>5</th></tr></thead>
+              <tbody>
+                <tr><td>Rahmen 1</td><td>5</td><td>5</td><td>5</td><td>5</td><td>3</td><td>3</td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td></tr>
+                <tr><td>Rahmen 2</td><td></td><td>1</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td>1</td><td>1</td></tr>
+                <tr><td>Rahmen 3</td><td></td><td></td><td>2</td><td>2</td><td>2</td><td>2</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td></tr>
+                <tr><td>Page Fault?</td><td>F</td><td>F</td><td>F</td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td></td><td></td><td>F</td><td>F</td><td>F</td></tr>
+              </tbody>
+            </table>
+
             <h4>3. Least Recently Used (LRU)</h4>
-            <p>Ersetze die Seite, auf die am längsten nicht mehr zugegriffen wurde. Basiert direkt auf dem Lokalitätsprinzip und erzielt in der Praxis sehr gute Ergebnisse. Die Implementierung ist jedoch aufwändig, da das System bei jedem Speicherzugriff Zeitstempel oder eine geordnete Liste pflegen müsste.</p>
-
-            <h4>4. Clock-Algorithmus (Second-Chance)</h4>
-            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Die "Uhr" der Seitenrahmen Ein Zeiger wandert im Kreis über die Rahmen. Jeder Rahmen hat ein Use-Bit. Ist es 1, wird es auf 0 gesetzt und der Zeiger rückt weiter (zweite Chance). Ist es 0, wird dieser Rahmen ersetzt.">
-            <p>Ein effizienter und weit verbreiteter Algorithmus zur Annäherung an LRU. Die Seitenrahmen werden als zirkuläre Liste ("Uhr") verwaltet. Jede Seite hat ein <span class="key-term">Use-Bit</span> (oder Reference-Bit).</p>
-            <ul>
-                <li>Bei jedem Zugriff auf eine Seite wird deren Use-Bit auf 1 gesetzt.</li>
-                <li>Muss eine Seite ersetzt werden, wandert ein "Uhrzeiger" über die Rahmen:
-                    <ul>
-                        <li>Trifft er auf ein Use-Bit=1, setzt er es auf 0 und rückt weiter. Die Seite bekommt eine "zweite Chance".</li>
-                        <li>Trifft er auf ein Use-Bit=0, wird diese Seite ersetzt. Dies ist eine Seite, auf die seit dem letzten Umlauf des Zeigers nicht mehr zugegriffen wurde.</li>
-                    </ul>
-                </li>
-            </ul>
-
-            <h3>Thrashing</h3>
+            <p>Ersetze die Seite, auf die am längsten nicht mehr zugegriffen wurde. Basiert direkt auf dem Lokalitätsprinzip und erzielt in der Praxis sehr gute Ergebnisse. Die Implementierung ist jedoch aufwändig.</p>
+            <table>
+              <thead><tr><th>Anforderung</th><th>5</th><th>1</th><th>2</th><th>1</th><th>3</th><th>4</th><th>5</th><th>1</th><th>5</th><th>4</th><th>2</th><th>1</th><th>5</th></tr></thead>
+              <tbody>
+                <tr><td>Rahmen 1</td><td>5</td><td>5</td><td>5</td><td>5</td><td>3</td><td>3</td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td></tr>
+                <tr><td>Rahmen 2</td><td></td><td>1</td><td>1</td><td>1</td><td>1</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td><td>1</td><td>1</td></tr>
+                <tr><td>Rahmen 3</td><td></td><td></td><td>2</td><td>2</td><td>2</td><td>2</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td></tr>
+                <tr><td>Page Fault?</td><td>F</td><td>F</td><td>F</td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td></td><td>F</td><td>F</td><td></td></tr>
+              </tbody>
+            </table>
+            <p><em>Anmerkung: Bei der Anforderung 3 wurde auf 2 und 1 zuletzt zugegriffen, daher wird 5 als "am längsten nicht benutzt" ersetzt.</em></p>
+<h3>Thrashing</h3>
             <p>Thrashing ist ein kritischer Systemzustand, bei dem das System fast seine gesamte Zeit mit dem Ein- und Auslagern von Seiten verbringt, anstatt nützliche Arbeit zu verrichten. Die CPU-Auslastung bricht ein, während die Festplattenaktivität extrem hoch ist.</p>
             <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Kurve der CPU-Auslastung Die Auslastung steigt mit der Anzahl der Prozesse, erreicht ein Maximum und bricht dann bei zu vielen Prozessen dramatisch ein (Thrashing-Bereich).">
             <p><strong>Ursache:</strong> Der gesamte Speicherbedarf der aktiven Prozesse (ihre "Working Sets") übersteigt den verfügbaren physischen Speicher bei Weitem. Die Prozesse stehlen sich gegenseitig ständig die benötigten Seiten.</p>

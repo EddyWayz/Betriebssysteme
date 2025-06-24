@@ -70,6 +70,13 @@
             <img src="images/placeholder.svg" class="illustration" alt="Komplexes Beispiel: Mehrere Prozesse (P1–P5) und Ressourcen (R1–R8), das zeigt, dass ein Zyklus nicht zwingend zu einem Deadlock führen muss, wenn Ressourcen mehrfach vorhanden sind.">
             <p>Im obigen komplexeren Graph werden mehrere Ressourceninstanzen betrachtet. Ein Zyklus zeigt hier nicht zwingend einen Deadlock an, da Prozesse auf andere Instanzen derselben Ressource zugreifen können.</p>
 
+            <h4>Beispielgraph: Speisende Philosophen im Deadlock</h4>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Betriebsmittelgraph für die speisenden Philosophen. P0 hält G0 und will G1. P1 hält G1 und will G2 usw. Es ergibt sich ein geschlossener Kreis.">
+            <p>Im obigen Graphen (P = Philosoph, G = Gabel) sieht man die zirkuläre Wartebeziehung deutlich: $P_0 \rightarrow G_1 \leftarrow P_1 \rightarrow G_2 \leftarrow P_2 \dots \rightarrow G_0 \leftarrow P_0$.</p>
+            <blockquote>
+                <strong>Regel:</strong> Ein Zyklus im Betriebsmittelgraphen ist eine <em>notwendige</em> Bedingung für einen Deadlock. Wenn jede Ressource nur eine Instanz hat, ist ein Zyklus auch eine <em>hinreichende</em> Bedingung.
+            </blockquote>
+
             <h2>Strategien zum Umgang mit Deadlocks</h2>
 
             <h4>1. Ignorieren (Vogel-Strauß-Algorithmus)</h4>

@@ -75,14 +75,32 @@
                 <li>Optimal bezüglich der minimalen durchschnittlichen Wartezeit, aber es besteht die Gefahr des Verhungerns für lange Prozesse.</li>
             </ul>
             <div class="gantt">Ablauf (SJF nicht-präemptiv, Start bei t=0): P1(6), P2(8), P3(7), P4(3)<br>|--P4(3)--|---P1(6)---|---P3(7)---|----P2(8)----|<br>Ø Wartezeit = (3 + 16 + 9 + 0) / 4 = 7</div>
+            <div class="gantt">Beispiel (SRT, präemptiv):<br>
+            t=0: P1 an (Rechenzeit 8)<br>
+            t=1: P2 an (Rechenzeit 4)<br>
+            t=2: P3 an (Rechenzeit 9)<br>
+            t=3: P4 an (Rechenzeit 5)<br><br>
+            | P1 |---P2---|---P4---|-P1 cont.-|-------P3-------|<br>
+            0&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;26
+            </div>
 
             <h3>Prioritätsbasiertes Scheduling</h3>
             <ul>
                 <li>Prozesse erhalten Prioritäten (statisch oder dynamisch). Der Prozess mit der höchsten Priorität wird ausgewählt.</li>
                 <li>Meist präemptiv: Ein ankommender Prozess mit höherer Priorität verdrängt den laufenden Prozess.</li>
                 <li>Problem: Verhungern von Prozessen mit niedriger Priorität. Lösung: "Aging", bei dem die Priorität wartender Prozesse mit der Zeit erhöht wird.</li>
-                <li>Problem: <strong>Prioritätsinversion</strong>. Ein Prozess hoher Priorität wartet auf eine Ressource, die von einem Prozess niedriger Priorität gehalten wird, welcher wiederum von einem Prozess mittlerer Priorität verdrängt wird. Lösung: Priority Inheritance oder Priority Ceiling.</li>
+                <li>Problem: <strong>Prioritätsinversion</strong> (siehe unten).</li>
             </ul>
+            <div class="problem-box">
+                <h4>Problem: Prioritätsinversion</h4>
+                <p>Prioritätsinversion tritt auf, wenn ein Prozess mit hoher Priorität (A) auf eine Ressource warten muss, die von einem Prozess mit niedriger Priorität (C) gehalten wird. Wenn nun ein dritter Prozess mit mittlerer Priorität (B) rechenbereit wird, verdrängt dieser den niedrigprioren Prozess C. Dadurch kann C die Ressource nicht freigeben, und der hochpriore Prozess A muss warten, bis der mittelpriore Prozess B seine CPU-Zeit beendet hat. Effektiv hat der Prozess mit mittlerer Priorität den Prozess mit hoher Priorität blockiert.</p>
+                <img src="images/placeholder.svg" class="illustration" alt="Diagramm zur Prioritätsinversion">
+                <p><strong>Lösungen:</strong></p>
+                <ul>
+                    <li><strong>Priority Inheritance (Prioritätsvererbung):</strong> Der niedrigpriore Prozess C "erbt" temporär die hohe Priorität von Prozess A, solange er die von A benötigte Ressource hält. Dadurch kann er nicht mehr von B verdrängt werden, gibt die Ressource schnell frei, und A kann weiterarbeiten.</li>
+                    <li><strong>Priority Ceiling (Prioritätsschranke):</strong> Jeder Ressource wird eine Priorität zugewiesen, die der höchsten Priorität aller Prozesse entspricht, die sie jemals anfordern könnten. Ein Prozess, der eine Ressource anfordert, erhält temporär diese hohe Priorität.</li>
+                </ul>
+            </div>
 
             <h3>Round Robin (RR)</h3>
             <ul>
@@ -101,6 +119,15 @@
             <h3>Echtzeit-Scheduling</h3>
             <h4>Earliest Deadline First (EDF)</h4>
             <p>Dynamisches, präemptives Verfahren, das dem Prozess mit der frühesten Deadline die höchste Priorität gibt. Es ist optimal auf einem Prozessor, d.h., wenn eine Abfolge existiert, die alle Deadlines einhält, wird EDF sie finden. Unter Überlast kann es jedoch zu einem Dominoeffekt kommen, bei dem viele Tasks ihre Deadlines verpassen.</p>
+            <div class="gantt">Beispiel (aus Klausur WS15/16):<br>
+            T1: A=3, C=4, D=11<br>
+            T2: A=5, C=2, D=10<br>
+            T3: A=2, C=2, D=22<br>
+            T4: A=0, C=7, D=12<br><br>
+            |---T4(3)---|--T3(2)--|--T2(2)--|--T1(4)---|---T4(4)----|<br>
+            0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15<br>
+            Verdrängungen (V): bei t=2 (T4->T3), t=3 (T3->T1), t=5 (T1->T2). Deadlines werden hier eingehalten.
+            </div>
             
             <h4>Rate Monotonic Scheduling (RMS)</h4>
             <p>Statisches, präemptives Verfahren für periodische Tasks. Die Priorität wird fest basierend auf der Periodendauer vergeben: je kürzer die Periode, desto höher die Priorität. RMS ist optimal, solange die CPU-Auslastung eine bestimmte Schranke nicht überschreitet: $\sum (C_i / P_i) \leq n(2^{1/n}-1)$, wobei C die Ausführungszeit und P die Periode ist. Für viele Prozesse konvergiert diese Schranke gegen $\ln(2) \approx 69.3\%$.</p>

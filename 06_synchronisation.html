@@ -36,14 +36,72 @@
             </div>
             <h3>Kritischer Abschnitt und Wechselseitiger Ausschluss</h3>
             <p>Der Teil des Programmcodes, der auf gemeinsame Ressourcen zugreift, wird als <span id="kritischer-abschnitt" class="key-term">kritischer Abschnitt (Critical Section)</span> bezeichnet. Um Race Conditions zu vermeiden, muss sichergestellt werden, dass sich zu jedem Zeitpunkt nur ein einziger Thread oder Prozess in seinem kritischen Abschnitt befinden kann. Dieses Prinzip nennt man <span class="key-term">wechselseitiger Ausschluss (Mutual Exclusion)</span>.</p>
-            <h2>Lösungsansätze</h2>
-            <h4>1. <a class="quicklink" href="02_grundlagen.html#interrupts">Interrupts</a> sperren</h4>
-            <p>Die einfachste Methode auf einem Einprozessorsystem ist das Sperren aller Interrupts vor dem Betreten eines kritischen Abschnitts. Dies verhindert Kontextwechsel und damit den Zugriff durch andere Prozesse. Nachteile sind die Blockade wichtiger E/A-Operationen und die Unwirksamkeit auf Mehrprozessorsystemen.</p>
-            <h4>2. Software mit Busy Waiting</h4>
-            <p>Hierbei wartet ein Prozess in einer aktiven Schleife (Busy Waiting), bis er den kritischen Abschnitt betreten darf. Dies verschwendet CPU-Zyklen. Beispiele sind eine einfache Lock-Variable (die jedoch selbst anfällig für Race Conditions ist) oder der komplexere, aber korrekte Peterson-Algorithmus.</p>
-            <h4>3. Hardware-Unterstützung</h4>
-            <p>Moderne Prozessoren bieten atomare Befehle wie <code>test_and_set()</code>, die eine Variable in einem unteilbaren Schritt lesen, testen und setzen. Damit lassen sich robuste Locking-Mechanismen implementieren, die allerdings immer noch auf Busy Waiting basieren.</p>
-            <h2 id="semaphore">Semaphore</h2>
+            <h2>Lösungsansätze für den wechselseitigen Ausschluss</h2>
+
+<h4>1. Interrupts sperren</h4>
+<p>Die einfachste Methode auf einem Einprozessorsystem ist das Sperren aller Interrupts vor dem Betreten eines kritischen Abschnitts. Dies verhindert Kontextwechsel und damit den Zugriff durch andere Prozesse. Nachteile sind die Blockade wichtiger E/A-Operationen und die Unwirksamkeit auf Mehrprozessorsystemen, da nur der lokale Prozessor betroffen ist.</p>
+
+<h4>2. Softwarelösungen mit aktivem Warten (Busy Waiting)</h4>
+<p>Hierbei wartet ein Prozess in einer aktiven Schleife (Busy Waiting), bis er den kritischen Abschnitt betreten darf. Dies verschwendet CPU-Zyklen. Eine einfache Lock-Variable ist hierfür nicht geeignet, da das Testen und Setzen der Variable selbst einer Race Condition unterliegt.</p>
+<div class="solution-box">
+    <h4>Peterson-Algorithmus</h4>
+    <p>Der Peterson-Algorithmus ist eine korrekte Softwarelösung für zwei Prozesse, die ebenfalls auf Busy Waiting basiert, aber durch geschickte Verwendung von zwei Variablen (<code>flag</code>-Array und <code>turn</code>-Variable) den wechselseitigen Ausschluss garantiert.</p>
+    <pre>
+// Initialisierung
+volatile int turn = 0;
+volatile boolean flag[2] = {false, false};
+
+// Eintrittsprotokoll für Prozess Pi (other = 1 - i)
+flag[i] = true;
+turn = other;
+while (flag[other] && turn == other) {
+    // busy wait
+}
+
+// ... Kritischer Abschnitt ...
+
+// Austrittsprotokoll
+flag[i] = false;
+    </pre>
+</div>
+
+<h4>3. Hardware-Unterstützung</h4>
+<p>Moderne Prozessoren bieten <span class="key-term">atomare Befehle</span>, die eine Operation (z.B. Lesen und Schreiben) in einem einzigen, ununterbrechbaren Schritt ausführen. Ein typisches Beispiel ist der <code>test_and_set()</code>-Befehl. Er testet den Wert einer Speicherzelle, setzt ihn auf 1 und gibt den alten Wert zurück. Damit lassen sich robuste Locking-Mechanismen implementieren, die allerdings immer noch auf Busy Waiting basieren.</p>
+
+<h4>Barriere / Rendezvous</h4>
+<p>Eine Gruppe von N Threads muss an einem bestimmten Punkt im Code (der Barriere) aufeinander warten. Keiner der Threads darf fortfahren, bevor nicht alle N Threads die Barriere erreicht haben. Dies kann mit einem Zähler, einem Mutex-Semaphor zum Schutz des Zählers und einem zweiten Semaphor als eigentliche Barriere implementiert werden.</p>
+<div class="solution-box">
+    <h4>Pseudocode für eine Barriere mit Semaphoren</h4>
+    <p>Dies ist eine häufige Klausuraufgabe. Hier die Lösung für N Threads.</p>
+    <pre>
+// Initialisierung
+int n = 5; // Anzahl der Threads
+int count = 0;
+Semaphore mutex = new Semaphore(1); // Schützt den Zähler count
+Semaphore barrier = new Semaphore(0); // Die eigentliche Barriere, anfangs geschlossen
+
+// Code, der von jedem der N Threads ausgeführt wird:
+// ... Arbeit vor der Barriere ...
+
+mutex.acquire();
+count++;
+mutex.release();
+
+if (count == n) {
+    // Der letzte Thread öffnet die Barriere für alle
+    barrier.release();
+}
+
+barrier.acquire();
+// Das "Drehkreuz": Jeder Thread, der die Barriere passiert, 
+// gibt sie sofort für den nächsten frei.
+barrier.release(); 
+
+// ... Arbeit nach der Barriere ...
+    </pre>
+</div>
+
+<h2 id="semaphore">Semaphore</h2>
             <p>Ein von Dijkstra 1965 eingeführtes Synchronisationsinstrument. Ein Semaphor ist im Wesentlichen eine Zählvariable, auf die nur über zwei atomare Operationen zugegriffen werden kann: <code>wait()</code> (auch P genannt, von `proberen` - testen) und <code>signal()</code> (auch V genannt, von `verhogen` - erhöhen). Anstatt CPU-Zeit durch aktives Warten zu verschwenden, werden Prozesse, die auf einen Semaphor warten müssen, vom Scheduler blockiert und in eine Warteschlange eingereiht.</p>
             <p><strong>Binärer Semaphor (Mutex):</strong> Kann nur die Werte 0 oder 1 annehmen und wird zur Realisierung des wechselseitigen Ausschlusses (Mutex) verwendet. Eine Initialisierung mit 1 bedeutet "frei", 0 bedeutet "besetzt".</p>
             <div class="solution-box">
@@ -93,8 +151,6 @@ public synchronized void transfer(int amount) throws InterruptedException {
             <p>Ein oder mehrere Erzeuger-Threads produzieren Daten und legen sie in einem begrenzten Puffer ab. Ein oder mehrere Verbraucher-Threads entnehmen die Daten aus dem Puffer. Die Synchronisation muss sicherstellen, dass Erzeuger nicht in einen vollen und Verbraucher nicht aus einem leeren Puffer zugreifen, und dass der Zugriff auf den Puffer selbst wechselseitig ausgeschlossen ist.</p>
             <h4>Leser-Schreiber</h4>
             <p>Mehrere Threads greifen auf eine gemeinsame Datenstruktur zu. Dabei dürfen beliebig viele Leser gleichzeitig zugreifen. Sobald aber ein Schreiber zugreifen will, muss er exklusiven Zugriff erhalten; keine anderen Leser oder Schreiber dürfen aktiv sein.</p>
-            <h4>Barriere / Rendezvous</h4>
-            <p>Eine Gruppe von N Threads muss an einem bestimmten Punkt im Code (der Barriere) aufeinander warten. Keiner der Threads darf fortfahren, bevor nicht alle N Threads die Barriere erreicht haben. Dies kann mit einem Zähler, einem Mutex-Semaphor zum Schutz des Zählers und einem zweiten Semaphor als eigentliche Barriere implementiert werden.</p>
             <h2>Generelle Semaphore</h2>
             <p>Ein Semaphor, dessen Zähler beliebige ganze Zahlen annehmen kann.
             <ul>
