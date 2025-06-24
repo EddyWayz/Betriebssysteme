@@ -16,7 +16,7 @@
 
     <header role="banner">
         <div class="container">
-            <h1>Kapitel 7: Kommunikation und Kooperation</h1>
+            <h1 id="kommunikation">Kapitel 7: Kommunikation und Kooperation</h1>
             <p>Wie Prozesse und Threads miteinander interagieren und Daten austauschen.</p>
         </div>
     </header>
@@ -34,7 +34,7 @@
                 <li><strong>Kommunikation (Nachrichtenaustausch):</strong> Ein asymmetrisches Modell, bei dem ein Sender explizit eine Nachricht an einen Empfänger schickt.</li>
                 <li><strong>Kooperation (Gemeinsamer Speicher):</strong> Ein symmetrisches Modell, bei dem mehrere Prozesse auf einen gemeinsamen Datenbereich zugreifen und diesen modifizieren.</li>
             </ol>
-            <p>Das Betriebssystem muss für beide Modelle Mechanismen bereitstellen, die als <span class="key-term">Inter-Process Communication (IPC)</span> zusammengefasst werden.</p>
+            <p>Das Betriebssystem muss für beide Modelle Mechanismen bereitstellen, die als <span id="ipc" class="key-term">Inter-Process Communication (IPC)</span> zusammengefasst werden.</p>
             
             <h2>1. Kommunikation durch Nachrichtenaustausch</h2>
             <p>Beim nachrichtenbasierten Ansatz stellen Betriebssysteme primitive Operationen zur Verfügung, typischerweise <code>Send</code> und <code>Receive</code>. Die genaue Funktionsweise dieser Operationen wird durch den Synchronisationstyp und den Kanaltyp bestimmt.</p>
@@ -110,7 +110,7 @@
                 <li><strong>Named Pipes:</strong> Haben einen Namen im Dateisystem und können von beliebigen Prozessen für die Kommunikation verwendet werden.</li>
             </ul>
 
-            <h4>Nachrichten-Warteschlangen (Mailboxes/Message Queues)</h4>
+            <h4 id="mailboxes">Nachrichten-Warteschlangen (Mailboxes/Message Queues)</h4>
             <p>IPC-Dienste wie POSIX-Message-Queues oder System V Message Queues stellen Warteschlangen zur Verfügung:</p>
             <ul>
                 <li><strong>FIFO oder Prioritäten:</strong> Nachrichten werden in Warteschlangen nach Reihenfolge oder Priorität geordnet.</li>
@@ -142,8 +142,8 @@
                 <li><strong>Concurrent Read:</strong> Leser und Schreiber gleichzeitig erlaubt.</li>
             </ul>
 
-            <h4>Shared Memory (Gemeinsamer Speicher)</h4>
-            <p>Der effizienteste IPC-Mechanismus. Das Betriebssystem blendet (mapped) einen physischen Speicherbereich in die virtuellen Adressräume mehrerer Prozesse ein. Die Prozesse können dann auf diesen Bereich zugreifen, als wäre es ihr eigener. Da der Kernel nicht bei jedem Datenaustausch involviert ist, ist die Kommunikation extrem schnell. Die Synchronisation muss aber zwingend über andere Mechanismen wie Semaphore erfolgen.</p>
+            <h4 id="shared-memory">Shared Memory (Gemeinsamer Speicher)</h4>
+            <p>Der effizienteste IPC-Mechanismus. Das Betriebssystem blendet (mapped) einen physischen Speicherbereich in die virtuellen <a class="quicklink" href="09_speicherverwaltung.html#adressraeume">Adressräume</a> mehrerer Prozesse ein. Die Prozesse können dann auf diesen Bereich zugreifen, als wäre es ihr eigener. Da der Kernel nicht bei jedem Datenaustausch involviert ist, ist die Kommunikation extrem schnell. Die Synchronisation muss aber zwingend über andere Mechanismen wie <a class="quicklink" href="06_synchronisation.html#semaphore">Semaphore</a> erfolgen.</p>
             <div class="solution-box">
                 <h4>Praxisbeispiel: Shared Memory in UNIX (C-Code)</h4>
                 <p>Der Code (aus <code>OS_7_Kommunikation.pdf</code>) zeigt die Erzeugung, das Anbinden (<code>shmat</code>), Beschreiben, erneute Anbinden an eine andere Adresse und das Freigeben eines Shared Memory Segments.</p>

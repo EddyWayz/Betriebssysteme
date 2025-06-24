@@ -15,14 +15,14 @@
 <nav class="site-nav" role="navigation" aria-label="Hauptnavigation"></nav>
     <header role="banner">
         <div class="container">
-            <h1>Kapitel 6: Synchronisation</h1>
+            <h1 id="synchronisation">Kapitel 6: Synchronisation</h1>
             <p>Die Beherrschung des kontrollierten Chaos von nebenläufigen Prozessen und Threads.</p>
         </div>
     </header>
     <main class="container" role="main">
         <article class="content-section">
             <h2>Das Problem der Nebenläufigkeit</h2>
-            <p>Betriebssysteme ermöglichen die <span class="key-term">nebenläufige</span> Ausführung von Prozessen und Threads. Dies führt zu einem <span class="key-term">Indeterminismus</span>: Die relative Ausführungsreihenfolge ist nicht vorhersagbar.</p>
+            <p>Betriebssysteme ermöglichen die <span class="key-term">nebenläufige</span> Ausführung von <a class="quicklink" href="03_prozesse.html#prozess">Prozessen</a> und <a class="quicklink" href="04_threads.html#threads">Threads</a>. Dies führt zu einem <span class="key-term">Indeterminismus</span>: Die relative Ausführungsreihenfolge ist nicht vorhersagbar.</p>
             <p>Problematisch, wenn:</p>
             <ul>
                 <li>Gemeinsame Betriebsmittel (z.B. Drucker) genutzt werden.</li>
@@ -30,20 +30,20 @@
                 <li>Prozesse kooperieren müssen.</li>
             </ul>
             <div class="problem-box">
-                <h4>Wettlaufsituation (Race Condition)</h4>
+                <h4 id="race-condition">Wettlaufsituation (Race Condition)</h4>
                 <p>Wenn mehrere Threads oder Prozesse auf dieselben gemeinsam genutzten Daten zugreifen und das Endergebnis von der nicht vorhersagbaren Reihenfolge der Zugriffe abhängt, spricht man von einer Race Condition. Dies kann zu inkonsistenten Datenzuständen führen.</p>
                 <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Homebanking-Transaktionen mit falschem Kontostand">
             </div>
             <h3>Kritischer Abschnitt und Wechselseitiger Ausschluss</h3>
-            <p>Der Teil des Programmcodes, der auf gemeinsame Ressourcen zugreift, wird als <span class="key-term">kritischer Abschnitt (Critical Section)</span> bezeichnet. Um Race Conditions zu vermeiden, muss sichergestellt werden, dass sich zu jedem Zeitpunkt nur ein einziger Thread oder Prozess in seinem kritischen Abschnitt befinden kann. Dieses Prinzip nennt man <span class="key-term">wechselseitiger Ausschluss (Mutual Exclusion)</span>.</p>
+            <p>Der Teil des Programmcodes, der auf gemeinsame Ressourcen zugreift, wird als <span id="kritischer-abschnitt" class="key-term">kritischer Abschnitt (Critical Section)</span> bezeichnet. Um Race Conditions zu vermeiden, muss sichergestellt werden, dass sich zu jedem Zeitpunkt nur ein einziger Thread oder Prozess in seinem kritischen Abschnitt befinden kann. Dieses Prinzip nennt man <span class="key-term">wechselseitiger Ausschluss (Mutual Exclusion)</span>.</p>
             <h2>Lösungsansätze</h2>
-            <h4>1. Interrupts sperren</h4>
+            <h4>1. <a class="quicklink" href="02_grundlagen.html#interrupts">Interrupts</a> sperren</h4>
             <p>Die einfachste Methode auf einem Einprozessorsystem ist das Sperren aller Interrupts vor dem Betreten eines kritischen Abschnitts. Dies verhindert Kontextwechsel und damit den Zugriff durch andere Prozesse. Nachteile sind die Blockade wichtiger E/A-Operationen und die Unwirksamkeit auf Mehrprozessorsystemen.</p>
             <h4>2. Software mit Busy Waiting</h4>
             <p>Hierbei wartet ein Prozess in einer aktiven Schleife (Busy Waiting), bis er den kritischen Abschnitt betreten darf. Dies verschwendet CPU-Zyklen. Beispiele sind eine einfache Lock-Variable (die jedoch selbst anfällig für Race Conditions ist) oder der komplexere, aber korrekte Peterson-Algorithmus.</p>
             <h4>3. Hardware-Unterstützung</h4>
             <p>Moderne Prozessoren bieten atomare Befehle wie <code>test_and_set()</code>, die eine Variable in einem unteilbaren Schritt lesen, testen und setzen. Damit lassen sich robuste Locking-Mechanismen implementieren, die allerdings immer noch auf Busy Waiting basieren.</p>
-            <h2>Semaphore</h2>
+            <h2 id="semaphore">Semaphore</h2>
             <p>Ein von Dijkstra 1965 eingeführtes Synchronisationsinstrument. Ein Semaphor ist im Wesentlichen eine Zählvariable, auf die nur über zwei atomare Operationen zugegriffen werden kann: <code>wait()</code> (auch P genannt, von `proberen` - testen) und <code>signal()</code> (auch V genannt, von `verhogen` - erhöhen). Anstatt CPU-Zeit durch aktives Warten zu verschwenden, werden Prozesse, die auf einen Semaphor warten müssen, vom Scheduler blockiert und in eine Warteschlange eingereiht.</p>
             <p><strong>Binärer Semaphor (Mutex):</strong> Kann nur die Werte 0 oder 1 annehmen und wird zur Realisierung des wechselseitigen Ausschlusses (Mutex) verwendet. Eine Initialisierung mit 1 bedeutet "frei", 0 bedeutet "besetzt".</p>
             <div class="solution-box">
@@ -64,7 +64,7 @@ try {
 }
                 </pre>
             </div>
-            <h2>Monitore</h2>
+            <h2 id="monitore">Monitore</h2>
             <p>Ein Monitor ist ein höheres, objektorientiertes Synchronisationskonzept. Er kapselt Daten zusammen mit den Methoden, die darauf operieren. Der entscheidende Punkt ist, dass der Compiler automatisch dafür sorgt, dass sich zu jedem Zeitpunkt nur ein Thread innerhalb einer der Monitormethoden aufhalten kann. Die Methoden sind also implizit durch einen Mutex geschützt.</p>
             <h4>Bedingungsvariablen</h4>
             <p>Um innerhalb eines Monitors eine Kooperation zu ermöglichen (z.B. ein Verbraucher muss warten, bis ein Erzeuger Daten bereitgestellt hat), gibt es Bedingungsvariablen. Diese bieten typischerweise zwei Operationen:
@@ -148,8 +148,8 @@ ReleaseSemaphore(hSem, 1, NULL);
         <section class="quiz-section">
             <form class="chapter-quiz" data-answer="b">
                 <p>Welches Problem verhindert ein Mutex?</p>
-                <label><input type="radio" name="q1" value="a"> Deadlock</label><br>
-                <label><input type="radio" name="q1" value="b"> Datenrennen</label><br>
+                <label><input type="radio" name="q1" value="a"> <a class="quicklink" href="08_deadlocks.html#deadlock">Deadlock</a></label><br>
+                <label><input type="radio" name="q1" value="b"> <a class="quicklink" href="06_synchronisation.html#race-condition">Datenrennen</a></label><br>
                 <label><input type="radio" name="q1" value="c"> Paging</label><br>
                 <button type="submit">Prüfen</button>
                 <p class="quiz-result"></p>

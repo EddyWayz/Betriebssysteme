@@ -16,18 +16,18 @@
 
     <header role="banner">
         <div class="container">
-            <h1>Kapitel 8: Deadlocks (Verklemmungen)</h1>
+            <h1 id="deadlocks">Kapitel 8: Deadlocks (Verklemmungen)</h1>
             <p>Der fatale Stillstand, wenn Prozesse ewig aufeinander warten.</p>
         </div>
     </header>
 
     <main class="container" role="main">
         <article class="content-section">
-            <h2>Was ist ein Deadlock?</h2>
+            <h2 id="deadlock">Was ist ein Deadlock?</h2>
             <blockquote>
                 <strong>Definition:</strong> Eine Menge von Prozessen befindet sich in einem Deadlock, wenn jeder Prozess in der Menge auf ein Ereignis wartet, das nur von einem anderen Prozess in derselben Menge ausgelöst werden kann.
             </blockquote>
-            <p>Da alle Prozesse warten, kann keiner von ihnen das Ereignis auslösen, auf das die anderen warten. Das Resultat ist ein permanenter Stillstand, den die Prozesse nicht von selbst auflösen können. Betroffene Ressourcen sind typischerweise <span class="key-term">nicht-verdrängbare (non-preemptible)</span> Ressourcen wie Drucker, Dateien oder Semaphore.</p>
+            <p>Da alle Prozesse warten, kann keiner von ihnen das Ereignis auslösen, auf das die anderen warten. Das Resultat ist ein permanenter Stillstand, den die Prozesse nicht von selbst auflösen können. Betroffene Ressourcen sind typischerweise <span class="key-term">nicht-verdrängbare (non-preemptible)</span> Ressourcen wie Drucker, Dateien oder <a class="quicklink" href="06_synchronisation.html#semaphore">Semaphore</a>.</p>
             
             <h4>Klassisches Beispiel: Die speisenden Philosophen</h4>
             <img src="images/placeholder.svg" class="illustration" alt="Bild: Fünf Philosophen am runden Tisch mit fünf Stäbchen dazwischen.">
@@ -42,7 +42,7 @@
             <p>Ein Deadlock kann nur dann auftreten, wenn <strong>alle vier</strong> der folgenden Bedingungen gleichzeitig erfüllt sind. Dies ist eine extrem wichtige Prüfungsfrage.</p>
             <ol class="condition-list">
                 <li>
-                    <strong>1. Wechselseitiger Ausschluss (Mutual Exclusion):</strong> Mindestens eine Ressource muss in einem nicht-teilbaren, exklusiven Modus gehalten werden. Nur ein Prozess kann die Ressource zu einem Zeitpunkt nutzen.
+                    <strong>1. <a class="quicklink" href="06_synchronisation.html#kritischer-abschnitt">Wechselseitiger Ausschluss (Mutual Exclusion)</a>:</strong> Mindestens eine Ressource muss in einem nicht-teilbaren, exklusiven Modus gehalten werden. Nur ein Prozess kann die Ressource zu einem Zeitpunkt nutzen.
                 </li>
                 <li>
                     <strong>2. Halten und Warten (Hold and Wait):</strong> Ein Prozess hält mindestens eine Ressource, während er auf eine weitere Ressource wartet, die von einem anderen Prozess gehalten wird.
@@ -102,7 +102,7 @@
                 <li>Ein <strong>sicherer Zustand</strong> ist ein Zustand, von dem aus es mindestens eine Ausführungsreihenfolge gibt, in der alle Prozesse ihre Ressourcen erhalten und terminieren können, selbst im ungünstigsten Fall.</li>
                 <li>Ein <strong>unsicherer Zustand</strong> ist ein Zustand, der potenziell zu einem Deadlock führen <em>kann</em>. Das Betriebssystem wird eine Ressourcenanforderung verweigern, wenn sie zu einem unsicheren Zustand führen würde.</li>
             </ul>
-            <p>Das bekannteste Verfahren hierfür ist der <span class="key-term">Banker's Algorithm</span>. In der Praxis wird diese Methode selten verwendet, da der maximale Ressourcenbedarf oft schwer vorherzusagen ist.</p>
+            <p>Das bekannteste Verfahren hierfür ist der <span id="banker" class="key-term">Banker's Algorithm</span>. In der Praxis wird diese Methode selten verwendet, da der maximale Ressourcenbedarf oft schwer vorherzusagen ist.</p>
 
             <h4>5. Weitere Anmerkungen</h4>
             <ul>
@@ -115,7 +115,7 @@
         <section class="quiz-section">
             <form class="chapter-quiz" data-answer="b">
                 <p>Welche Bedingung ist kein notwendiger Teil eines Deadlocks?</p>
-                <label><input type="radio" name="q1" value="a"> Wechselseitiger Ausschluss</label><br>
+                <label><input type="radio" name="q1" value="a"> <a class="quicklink" href="06_synchronisation.html#kritischer-abschnitt">Wechselseitiger Ausschluss</a></label><br>
                 <label><input type="radio" name="q1" value="b"> Präemption</label><br>
                 <label><input type="radio" name="q1" value="c"> Hold and Wait</label><br>
                 <button type="submit">Prüfen</button>

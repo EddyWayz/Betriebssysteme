@@ -89,10 +89,10 @@
                 <li>Der Inhalt aller CPU-Register (PC, PSW, Datenregister etc.).</li>
             </ul>
             <blockquote>
-                <strong>Merke:</strong> Wenn man diesen Zustand komplett sichert, kann man eine Berechnung unterbrechen und exakt an derselben Stelle später wieder fortführen. Dies ist die fundamentale Grundlage für Multitasking und Prozessumschaltung (Kontextwechsel).
+                <strong>Merke:</strong> Wenn man diesen Zustand komplett sichert, kann man eine Berechnung unterbrechen und exakt an derselben Stelle später wieder fortführen. Dies ist die fundamentale Grundlage für Multitasking und Prozessumschaltung (<a class="quicklink" href="03_prozesse.html#kontextwechsel">Kontextwechsel</a>).
             </blockquote>
             
-            <h4>Interrupts (Unterbrechungen)</h4>
+            <h4 id="interrupts">Interrupts (Unterbrechungen)</h4>
             <p>Ein Interrupt ist ein Mechanismus, der die normale, sequentielle Abarbeitung von Befehlen unterbricht, um auf ein dringendes Ereignis zu reagieren. Wenn ein Interrupt auftritt, sichert die CPU ihren aktuellen Zustand (mindestens den PC und das PSW), springt zu einer vordefinierten Adresse und führt dort eine spezielle <span class="key-term">Interrupt-Service-Routine (ISR)</span> aus. Nach Beendigung der ISR wird der gesicherte Zustand wiederhergestellt und das ursprüngliche Programm fortgesetzt.</p>
             <p>Arten von Interrupts:</p>
             <ul>

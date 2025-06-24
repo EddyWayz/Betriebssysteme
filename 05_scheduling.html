@@ -28,15 +28,15 @@
 
     <header role="banner">
         <div class="container">
-            <h1>Kapitel 5: CPU-Scheduling</h1>
-            <p>Die Kunst, zu entscheiden, welcher Prozess als Nächstes die CPU erhält.</p>
+            <h1 id="scheduling">Kapitel 5: CPU-Scheduling</h1>
+            <p>Die Kunst, zu entscheiden, welcher <a class="quicklink" href="03_prozesse.html#prozess">Prozess</a> als Nächstes die CPU erhält.</p>
         </div>
     </header>
 
     <main class="container" role="main">
         <article class="content-section">
 
-            <h2>Die Rolle und Ziele des Schedulers</h2>
+            <h2 id="scheduler">Die Rolle und Ziele des Schedulers</h2>
             <p>Der <span class="key-term">Scheduler</span> (oder Dispatcher) ist die Komponente, die bestimmt, welcher Prozess als nächstes die CPU erhält. Entscheidungen fallen bei Zustandswechseln, z.B. wenn ein aktiver Prozess blockiert wird, ein Prozess seine Zeitscheibe aufgebraucht hat oder neue Prozesse in die Ready-Queue kommen.</p>
             <h3>Kriterien und Zielkonflikte</h3>
             <p>Ein Scheduler muss verschiedene, teils widersprüchliche Ziele ausbalancieren:</p>
@@ -87,7 +87,7 @@
             <h3>Round Robin (RR)</h3>
             <ul>
                 <li>Jeder Prozess erhält eine feste Zeitscheibe (Quantum). Nach Ablauf des Quantums wird der Prozess verdrängt und ans Ende der Ready-Queue gestellt.</li>
-                <li>Fair und sorgt für gute Antwortzeiten, aber ein zu kleines Quantum führt zu hohem Overhead durch häufige Kontextwechsel.</li>
+                <li>Fair und sorgt für gute Antwortzeiten, aber ein zu kleines Quantum führt zu hohem Overhead durch häufige <a class="quicklink" href="03_prozesse.html#kontextwechsel">Kontextwechsel</a>.</li>
             </ul>
             <div class="gantt">Beispiel (Quantum=4): P1(24), P2(3), P3(3)<br>|P1(4)|P2(3)|P3(3)|P1(4)|P1(4)|P1(4)|P1(4)|P1(4)|</div>
 
@@ -108,20 +108,20 @@
             <h2>Scheduling in Mehrprozessorumgebungen</h2>
             <ul>
                 <li><strong>Prozessoraffinität:</strong> Prozesse sollten möglichst auf derselben CPU bleiben, um die im lokalen Cache gehaltenen Daten weiter nutzen zu können und Cache-Invalidierungen zu minimieren.</li>
-                <li><strong>Gang Scheduling:</strong> Gruppen von Threads, die eng zusammenarbeiten (eine "Gang"), werden gleichzeitig auf verschiedenen CPUs ausgeführt, um ineffiziente Wartezeiten zu vermeiden.</li>
+                <li><strong>Gang Scheduling:</strong> Gruppen von <a class="quicklink" href="04_threads.html#threads">Threads</a>, die eng zusammenarbeiten (eine "Gang"), werden gleichzeitig auf verschiedenen CPUs ausgeführt, um ineffiziente Wartezeiten zu vermeiden.</li>
             </ul>
 
             <h2>Scheduling in der Praxis</h2>
             <h3>Windows</h3>
             <ul>
                 <li>Prioritätsbasiertes, präemptives Scheduling mit 32 Prioritätsstufen.</li>
-                <li>Dynamische Prioritätsanpassung: Interaktive Threads (z.B. nach einer E/A-Operation) erhalten einen Prioritäts-Boost, während CPU-lastige Threads in der Priorität abgesenkt werden.</li>
-                <li>Ein "Priority Boost" wird auch für lange wartende Threads (Anti-Starvation) durchgeführt.</li>
+                <li>Dynamische Prioritätsanpassung: Interaktive <a class="quicklink" href="04_threads.html#threads">Threads</a> (z.B. nach einer E/A-Operation) erhalten einen Prioritäts-Boost, während CPU-lastige <a class="quicklink" href="04_threads.html#threads">Threads</a> in der Priorität abgesenkt werden.</li>
+                <li>Ein "Priority Boost" wird auch für lange wartende <a class="quicklink" href="04_threads.html#threads">Threads</a> (Anti-Starvation) durchgeführt.</li>
             </ul>
             <h3>Linux</h3>
             <ul>
                 <li>Echtzeit-Klassen (FIFO, RR) haben Vorrang vor allen anderen.</li>
-                <li>Der Standard-Scheduler für Nicht-Echtzeit-Prozesse (CFS - Completely Fair Scheduler) zielt darauf ab, jedem Prozess einen fairen Anteil an der CPU-Zeit zu geben, wobei I/O-lastige Threads bevorzugt werden, um die Antwortzeiten zu verbessern.</li>
+                <li>Der Standard-Scheduler für Nicht-Echtzeit-Prozesse (CFS - Completely Fair Scheduler) zielt darauf ab, jedem Prozess einen fairen Anteil an der CPU-Zeit zu geben, wobei I/O-lastige <a class="quicklink" href="04_threads.html#threads">Threads</a> bevorzugt werden, um die Antwortzeiten zu verbessern.</li>
             </ul>
 
             <h2>Zusammenfassung</h2>

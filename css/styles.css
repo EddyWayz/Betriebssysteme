@@ -250,6 +250,11 @@ pre {
     color: var(--primary-color);
 }
 
+a.quicklink {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
 table {
     width: 100%;
     margin-top: 20px;
