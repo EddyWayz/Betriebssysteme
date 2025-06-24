@@ -130,10 +130,11 @@
             <p>Typische Signale sind <code>SIGINT</code> (Strg+C), <code>SIGSEGV</code> (Speicherzugriffsfehler) oder <code>SIGTERM</code> (Beendigungsanforderung). Ein Prozess kann mit <code>sigaction()</code> einen eigenen <span class="key-term">Signal-Handler</span> registrieren, um auf ein Signal zu reagieren. Da der Handler den normalen Programmfluss unterbricht, sollte er sehr kurz sein und z.B. nur eine globale Variable (Flag) setzen, die im Hauptprogramm ausgewertet wird.</p>
             <div class="solution-box">
                 <h4>Praxisbeispiel: Signal-Handler in C (UNIX)</h4>
-                <p>Der folgende Code zeigt, wie ein Handler für das Signal <code>SIGUSR1</code> registriert und im Hauptprogramm darauf reagiert wird.</p>
+                <p>Der folgende Code, basierend auf den Folien, zeigt, wie ein Handler für das Signal <code>SIGUSR1</code> registriert wird. Der Handler selbst sollte kurz sein und nur ein Flag setzen, das in der Hauptschleife des Programms ausgewertet wird.</p>
                 <pre>
 #include &lt;signal.h&gt;
 #include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
 
 // Globale Variable, die vom Handler gesetzt wird
 static volatile int flag = 0;
@@ -150,16 +151,20 @@ int main() {
     // Handler für das Signal SIGUSR1 registrieren
     sigaction(SIGUSR1, &sa, NULL);
 
+    printf("Prozess-ID: %d. Warte auf Signal SIGUSR1...\n", getpid());
+
     while (1) {
         if (flag) {
             printf("Signal empfangen!\n");
-            flag = 0; // Flag zurücksetzen
+            flag = 0; // Flag für den nächsten Empfang zurücksetzen
         }
-        // ... andere Aufgaben erledigen ...
+        // Programm kann hier andere Aufgaben erledigen
+        sleep(1);
     }
     return 0;
 }
                 </pre>
+                <p>Um dieses Programm zu testen, kompilieren Sie es (z.B. <code>gcc signal_test.c -o signal_test</code>), starten es und senden ihm von einem zweiten Terminal aus ein Signal mit <code>kill -SIGUSR1 [Prozess-ID]</code>.</p>
             </div>
 
             <h3>2. Kooperation durch gemeinsame Daten</h3>

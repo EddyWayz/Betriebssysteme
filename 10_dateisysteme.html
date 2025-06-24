@@ -135,7 +135,58 @@
                         <br>4.096 Bytes (direkt) + 262.144 Bytes (indirekt) = <strong>266.240 Bytes (oder 260 KiB)</strong>.</li>
                 </ol>
             </div>
+
             <p><strong>Vorteile:</strong> Effizienter Zugriff auf kleine und große Dateien, unterstützt wahlfreien Zugriff sehr gut. Nur die I-Nodes der geöffneten Dateien müssen im Speicher sein.</p>
+
+            <h3>Vergleich der Dateizuordnungsmethoden</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Eigenschaft</th>
+                        <th>Zusammenhängend (Contiguous)</th>
+                        <th>Verkettete Liste</th>
+                        <th>FAT</th>
+                        <th>Indiziert (I-Node)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Speicheranordnung</strong></td>
+                        <td>Blöcke liegen am Stück</td>
+                        <td>Blöcke verstreut, Zeiger im Block</td>
+                        <td>Blöcke verstreut, Zeiger in zentraler Tabelle</td>
+                        <td>Blöcke verstreut, Zeiger im I-Node</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sequentieller Zugriff</strong></td>
+                        <td style="background-color: #d4edda;">Sehr schnell</td>
+                        <td style="background-color: #f8d7da;">Langsam (viele Sprünge)</td>
+                        <td>Mittel (Kette im RAM)</td>
+                        <td style="background-color: #d4edda;">Schnell</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wahlfreier Zugriff</strong></td>
+                        <td style="background-color: #d4edda;">Sehr schnell</td>
+                        <td style="background-color: #f8d7da;">Sehr langsam</td>
+                        <td>Mittel</td>
+                        <td style="background-color: #d4edda;">Sehr schnell</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fragmentierung</strong></td>
+                        <td style="background-color: #f8d7da;">Externe Fragmentierung</td>
+                        <td style="background-color: #d4edda;">Keine externe Fragmentierung</td>
+                        <td style="background-color: #d4edda;">Keine externe Fragmentierung</td>
+                        <td style="background-color: #d4edda;">Keine externe Fragmentierung</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Speicheroverhead</strong></td>
+                        <td>Keiner</td>
+                        <td>Hoch (Zeiger in jedem Block)</td>
+                        <td>Mittel (FAT muss im RAM sein)</td>
+                        <td>Gering (nur I-Node der Datei)</td>
+                    </tr>
+                </tbody>
+            </table>
 
             <h3>Moderne Dateisystem-Technologien</h3>
             <ul>

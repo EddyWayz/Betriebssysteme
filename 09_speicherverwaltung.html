@@ -59,6 +59,31 @@
             </ol>
             <p>Um diese Übersetzung zu beschleunigen, da jeder Speicherzugriff sonst einen zusätzlichen Zugriff auf die Seitentabelle im RAM bedeuten würde, gibt es einen speziellen Hardware-Cache, den <span class="key-term">Translation Lookaside Buffer (TLB)</span>, der die letzten Adressübersetzungen zwischenspeichert.</p>
 
+            <div class="solution-box">
+                <h4>Klausurbeispiel: Virtuelle Adresse zerlegen</h4>
+                <p>Gegeben: Ein System mit 32-Bit virtuellen Adressen und einer Seitengröße von 4 KiB ($2^{12}$ Bytes).</p>
+                <p><strong>1. Offset-Bits bestimmen:</strong><br>
+                Die Anzahl der Bits für den Offset entspricht dem Logarithmus zur Basis 2 der Seitengröße.<br>
+                Offset-Bits = $\log_2(4096) = 12$ Bits.</p>
+                <p><strong>2. Seitennummer-Bits bestimmen:</strong><br>
+                Die restlichen Bits der Adresse bilden die Seitennummer.<br>
+                Seitennummer-Bits = Gesamt-Bits - Offset-Bits = $32 - 12 = 20$ Bits.</p>
+                <p><strong>3. Adresse zerlegen (Beispiel: <code>0x1A2B3C4D</code>):</strong><br>
+                Eine 32-Bit Hex-Adresse besteht aus 8 Hex-Ziffern (je 4 Bit). Die 12 Offset-Bits entsprechen den letzten 3 Hex-Ziffern.</p>
+                <ul>
+                    <li><strong>Virtuelle Adresse:</strong> <code>0x1A2B3C4D</code></li>
+                    <li><strong>Aufteilung:</strong> Die vorderen 5 Ziffern (20 Bits) sind die Seitennummer, die letzten 3 (12 Bits) der Offset.</li>
+                    <li><strong>Seitennummer:</strong> <code>0x1A2B3</code></li>
+                    <li><strong>Offset:</strong> <code>0xC4D</code></li>
+                </ul>
+                <p><strong>4. Adressbereich einer Seite bestimmen:</strong><br>
+                Die Seite <code>0x1A2B3</code> beginnt bei einem Offset von 0 und endet bei einem Offset von FFF (Hex für 4095).</p>
+                <ul>
+                    <li><strong>Startadresse der Seite:</strong> <code>0x1A2B3000</code></li>
+                    <li><strong>Endadresse der Seite:</strong> <code>0x1A2B3FFF</code></li>
+                </ul>
+            </div>
+
             <h2>Virtueller Speicher und Seitenfehler</h2>
             <p>Das Konzept des virtuellen Speichers erweitert Paging, indem es den Sekundärspeicher (Festplatte/SSD) als "verlängerten Arm" des Hauptspeichers nutzt. Ein Prozess kann einen sehr großen logischen Adressraum haben, von dem zu jedem Zeitpunkt nur die aktuell benötigten Seiten tatsächlich im physischen RAM liegen.</p>
             
@@ -117,6 +142,29 @@
               </tbody>
             </table>
             <p><em>Anmerkung: Bei der Anforderung 3 wurde auf 2 und 1 zuletzt zugegriffen, daher wird 5 als "am längsten nicht benutzt" ersetzt.</em></p>
+            <h4>4. Second-Chance (Clock) Algorithmus</h4>
+            <p>Ein effizienter und weit verbreiteter Algorithmus zur Annäherung an LRU. Die Seitenrahmen werden als zirkuläre Liste ("Uhr") verwaltet. Jede Seite hat ein <strong>Use-Bit (oder Reference-Bit)</strong>, das von der Hardware auf 1 gesetzt wird, sobald auf die Seite zugegriffen wird.</p>
+            <p>Bei einem Seitenfehler durchläuft ein "Uhrzeiger" die Rahmen:</p>
+            <ol>
+                <li>Wenn das Use-Bit des aktuellen Rahmens <strong>1</strong> ist, gibt der Algorithmus der Seite eine "zweite Chance": Er setzt das Use-Bit auf <strong>0</strong> und rückt zum nächsten Rahmen vor.</li>
+                <li>Wenn das Use-Bit <strong>0</strong> ist, wird die Seite in diesem Rahmen ersetzt. Der Zeiger wird dann auf den nächsten Rahmen weitergerückt.</li>
+            </ol>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm des Clock-Algorithmus. Ein Zeiger durchläuft eine zirkuläre Liste von Seitenrahmen. Er sucht nach einem Rahmen mit Use-Bit=0, um ihn zu ersetzen, und setzt unterwegs Use-Bits von 1 auf 0.">
+
+            <div class="solution-box">
+                <h5>Beispiel: Clock-Algorithmus (Klausur SS09)</h5>
+                <p>3 Rahmen (R1, R2, R3). Sequenz: <strong>8, 7, 8, 3, 2, 8, 3, 7, 3</strong>. Initial: R1=8, R2=4, R3=2. Alle Use-Bits seien 1. Der Zeiger steht anfangs auf R1.</p>
+                <table>
+                  <thead><tr><th>Anforderung</th><th>Initial</th><th>8</th><th>7</th><th>8</th><th>3</th><th>2</th><th>8</th><th>3</th><th>7</th><th>3</th></tr></thead>
+                  <tbody>
+                    <tr><td>R1</td><td>8 (1)</td><td>8 (1)</td><td>7 (1)</td><td>7 (1)</td><td>7 (1)</td><td>2 (1)</td><td>2 (1)</td><td>2 (1)</td><td>7 (1)</td><td>7 (1)</td></tr>
+                    <tr><td>R2</td><td>4 (1)</td><td>4 (1)</td><td>4 (0)</td><td>4 (0)</td><td>3 (1)</td><td>3 (1)</td><td>8 (1)</td><td>8 (1)</td><td>8 (0)</td><td>3 (1)</td></tr>
+                    <tr><td>R3</td><td>2 (1)</td><td>2 (1)</td><td>2 (1)</td><td>8 (1)</td><td>8 (0)</td><td>8 (0)</td><td>8 (1)</td><td>3 (1)</td><td>3 (1)</td><td>3 (1)</td></tr>
+                    <tr><td>Page Fault?</td><td></td><td></td><td>F</td><td>F</td><td>F</td><td>F</td><td>F</td><td></td><td>F</td><td></td></tr>
+                  </tbody>
+                </table>
+                <p><em>Erläuterung zum Schritt "7": Zeiger steht auf R1. Use-Bit von R1(8) ist 1 -> wird auf 0 gesetzt, Zeiger auf R2. Use-Bit von R2(4) ist 1 -> wird auf 0, Zeiger auf R3. Use-Bit von R3(2) ist 1 -> wird auf 0, Zeiger auf R1. Use-Bit von R1(8) ist jetzt 0 -> Seite 8 wird durch 7 ersetzt.</em></p>
+            </div>
 <h3>Thrashing</h3>
             <p>Thrashing ist ein kritischer Systemzustand, bei dem das System fast seine gesamte Zeit mit dem Ein- und Auslagern von Seiten verbringt, anstatt nützliche Arbeit zu verrichten. Die CPU-Auslastung bricht ein, während die Festplattenaktivität extrem hoch ist.</p>
             <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Kurve der CPU-Auslastung Die Auslastung steigt mit der Anzahl der Prozesse, erreicht ein Maximum und bricht dann bei zu vielen Prozessen dramatisch ein (Thrashing-Bereich).">
