@@ -131,6 +131,45 @@
             
             <h4>Rate Monotonic Scheduling (RMS)</h4>
             <p>Statisches, präemptives Verfahren für periodische Tasks. Die Priorität wird fest basierend auf der Periodendauer vergeben: je kürzer die Periode, desto höher die Priorität. RMS ist optimal, solange die CPU-Auslastung eine bestimmte Schranke nicht überschreitet: $\sum (C_i / P_i) \leq n(2^{1/n}-1)$, wobei C die Ausführungszeit und P die Periode ist. Für viele Prozesse konvergiert diese Schranke gegen $\ln(2) \approx 69.3\%$.</p>
+            <div class="solution-box">
+                <h4>Klausurbeispiel: Rate Monotonic Scheduling (RMS)</h4>
+                <p>Gegeben seien folgende periodische Tasks (aus Klausur WS19/20):</p>
+                <ul>
+                    <li><b>Task T1:</b> Ausführungsdauer $C_1=3$, Periode $P_1=8$</li>
+                    <li><b>Task T2:</b> Ausführungsdauer $C_2=2$, Periode $P_2=5$</li>
+                    <li><b>Task T3:</b> Ausführungsdauer $C_3=1$, Periode $P_3=6$</li>
+                </ul>
+                <p><strong>1. Prioritätenvergabe:</strong><br>
+                Die Priorität richtet sich nach der Rate (1/Periode). Je kürzer die Periode, desto höher die Priorität.<br>
+                Prio(T2) &gt; Prio(T3) &gt; Prio(T1)</p>
+                <p><strong>2. Notwendige Bedingung (CPU-Auslastung):</strong><br>
+                Die gesamte CPU-Auslastung darf 100% nicht übersteigen.<br>
+                $\sum_{i=1}^{n} \frac{C_i}{P_i} = \frac{3}{8} + \frac{2}{5} + \frac{1}{6} = 0.375 + 0.4 + 0.166... = 0.941... \leq 1$<br>
+                Die Bedingung ist erfüllt. Ein Scheduling ist also grundsätzlich möglich.</p>
+                <p><strong>3. Hinreichende Bedingung (Schedulability Test nach Liu &amp; Layland):</strong><br>
+                Diese Bedingung garantiert, dass RMS alle Deadlines einhält.<br>
+                $\sum_{i=1}^{n} \frac{C_i}{P_i} \leq n(2^{1/n}-1)$<br>
+                Für n=3 Tasks ist die Schranke: $3(2^{1/3}-1) \approx 3(1.2599-1) \approx 0.779$<br>
+                Unsere Auslastung von 0.941 ist <strong>größer als</strong> 0.779. Das bedeutet, RMS kann die Einhaltung der Deadlines <strong>nicht garantieren</strong>. Es könnte funktionieren, muss aber nicht (was das Gantt-Diagramm zeigen wird).</p>
+                <p><strong>4. Gantt-Diagramm (Ablauf):</strong><br>
+                Annahmen: T1 startet bei t=0, T2 bei t=1, T3 bei t=4.</p>
+                <div class="gantt">
+                t=0: T1 startet (Prio 3)<br>
+                t=1: T2 (Prio 1) kommt, verdrängt T1<br>
+                t=3: T2 fertig, T1 läuft weiter<br>
+                t=4: T3 (Prio 2) kommt, verdrängt T1<br>
+                t=5: T3 fertig, T1 läuft weiter<br>
+                t=6: T1 fertig. T2 (neu) startet<br>
+                t=8: T2 fertig. CPU idle.<br>
+                t=8: T1 (neu) startet<br>
+                t=10: T3 (neu) kommt, T2 (neu) kommt. T2 (höchste Prio) verdrängt T1.<br>
+                t=12: T2 fertig. T3 läuft.<br>
+                t=13: T3 fertig. T1 läuft weiter.<br>
+                ...<br><br>
+                |T1|--T2--|T1|T3|T1|--T2--| idle |---T1---|--T2--|T3|--T1--|...<br>
+                0--1-------3--4--5--6-------8-------9--------11------12--13--14-----
+                </div>
+            </div>
 
             <h2>Scheduling in Mehrprozessorumgebungen</h2>
             <ul>

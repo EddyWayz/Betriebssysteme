@@ -30,9 +30,30 @@
                 <li>Prozesse kooperieren müssen.</li>
             </ul>
             <div class="problem-box">
-                <h4 id="race-condition">Wettlaufsituation (Race Condition)</h4>
-                <p>Wenn mehrere Threads oder Prozesse auf dieselben gemeinsam genutzten Daten zugreifen und das Endergebnis von der nicht vorhersagbaren Reihenfolge der Zugriffe abhängt, spricht man von einer Race Condition. Dies kann zu inkonsistenten Datenzuständen führen.</p>
-                <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Homebanking-Transaktionen mit falschem Kontostand">
+                <h4 id="race-condition">Wettlaufsituation (Race Condition) im Detail</h4>
+                <p>Eine Race Condition entsteht, wenn das Ergebnis einer Operation von der unvorhersehbaren Reihenfolge abhängt, in der mehrere Threads auf gemeinsame Daten zugreifen und diese verändern. Selbst eine scheinbar einfache Operation wie <code>counter++</code> ist nicht atomar. Sie zerfällt auf Maschinenebene in drei Schritte:</p>
+                <ol>
+                    <li><strong>Lesen:</strong> Der aktuelle Wert von <code>counter</code> wird aus dem Speicher in ein CPU-Register geladen.</li>
+                    <li><strong>Inkrementieren:</strong> Der Wert im Register wird um eins erhöht.</li>
+                    <li><strong>Schreiben:</strong> Der neue Wert wird aus dem Register zurück in den Speicher geschrieben.</li>
+                </ol>
+                <p>Wenn zwei Threads diese Sequenz nebenläufig ausführen, kann es zu folgendem Fehler kommen:</p>
+                <pre>
+Anfangszustand: counter = 5
+
+Thread A: Liest counter (5) in sein Register.
+          --> Kontextwechsel zu Thread B
+Thread B: Liest counter (5) in sein Register.
+Thread B: Inkrementiert sein Register (wird zu 6).
+Thread B: Schreibt 6 zurück in counter.
+          --> Kontextwechsel zu Thread A
+Thread A: Inkrementiert sein Register (das immer noch 5 enthält, wird zu 6).
+Thread A: Schreibt 6 zurück in counter.
+
+Endzustand: counter = 6 (FALSCH!)
+Erwartet:   counter = 7
+                </pre>
+                <p>Ein Inkrement ging verloren, weil Thread A mit einem veralteten Wert gearbeitet hat. Dieses Problem wird durch Mechanismen wie Mutexe oder Semaphore gelöst, die sicherstellen, dass die gesamte Lese-Modifiziere-Schreibe-Sequenz als ununterbrechbarer <strong>kritischer Abschnitt</strong> ausgeführt wird.</p>
             </div>
             <h3>Kritischer Abschnitt und Wechselseitiger Ausschluss</h3>
             <p>Der Teil des Programmcodes, der auf gemeinsame Ressourcen zugreift, wird als <span id="kritischer-abschnitt" class="key-term">kritischer Abschnitt (Critical Section)</span> bezeichnet. Um Race Conditions zu vermeiden, muss sichergestellt werden, dass sich zu jedem Zeitpunkt nur ein einziger Thread oder Prozess in seinem kritischen Abschnitt befinden kann. Dieses Prinzip nennt man <span class="key-term">wechselseitiger Ausschluss (Mutual Exclusion)</span>.</p>
@@ -98,6 +119,105 @@ barrier.acquire();
 barrier.release(); 
 
 // ... Arbeit nach der Barriere ...
+    </pre>
+</div>
+<div class="solution-box">
+    <h4>Praxisbeispiel: Barriere für N Threads mit Semaphoren</h4>
+    <p>Eine Gruppe von N Threads muss an einem bestimmten Punkt im Code (der Barriere) aufeinander warten. Keiner der Threads darf fortfahren, bevor nicht alle N Threads die Barriere erreicht haben. Dies wird mit einem Zähler, einem Mutex-Semaphor zum Schutz des Zählers, und einem zweiten Semaphor als eigentliche Barriere implementiert. Dieses Beispiel stammt aus der Datei <code>Barriere.java</code>.</p>
+    <pre>
+import java.util.concurrent.Semaphore;
+
+public class Barriere {
+    static final int NUMBER_OF_THREADS = 5;
+    public static Semaphore mutex, barrier;
+    static int count = 0;
+
+    public static void main(String[] args) {
+        mutex = new Semaphore(1);   // Semaphor für kritischen Abschnitt, anfangs offen
+        barrier = new Semaphore(0); // Semaphor für Barriere, anfangs geschlossen
+
+        for (int i=0; i&lt;NUMBER_OF_THREADS; i++) {
+            new BarrierThread(i).start();
+        }
+    }
+
+    static class BarrierThread extends Thread {
+        int myID;
+        public BarrierThread(int ID) { this.myID = ID; }
+
+        public void run() {
+            try {
+                System.out.println("Thread "+myID+" arbeitet vor der Barriere.");
+                
+                // Ankunft an der Barriere
+                mutex.acquire();
+                count++;
+                mutex.release();
+
+                if (count == NUMBER_OF_THREADS) {
+                    System.out.println("Letzter Thread (ID "+myID+") öffnet die Barriere.");
+                    barrier.release(); // Der letzte Thread öffnet die Barriere
+                }
+
+                barrier.acquire(); // Alle Threads warten hier
+                
+                // "Drehkreuz"-Mechanismus: Jeder Thread, der die Barriere passiert,
+                // gibt sie sofort für den nächsten frei, damit alle durch können.
+                barrier.release(); 
+                
+                System.out.println("Thread "+myID+" arbeitet nach der Barriere.");
+
+            } catch (InterruptedException e) {}
+        }
+    }
+}
+    </pre>
+</div>
+<div class="solution-box">
+    <h4>Klassisches Problem: Rendezvous für zwei Threads</h4>
+    <p>Beim Rendezvous (oder einer 2-Thread-Barriere) müssen zwei Threads an einem bestimmten Punkt aufeinander warten. Keiner darf weiterlaufen, bevor der andere ebenfalls diesen Punkt erreicht hat. Dies kann elegant mit zwei Semaphoren gelöst werden, die jeweils mit 0 initialisiert sind. Jeder Thread signalisiert seine Ankunft auf dem einen Semaphor und wartet auf dem anderen.</p>
+    <pre>
+import java.util.concurrent.Semaphore;
+
+public class Rendezvous {
+    public static void main(String[] args) {
+        // Zwei Semaphore, beide anfangs geschlossen (Wert 0)
+        Semaphore s1 = new Semaphore(0);
+        Semaphore s2 = new Semaphore(0);
+
+        // Thread 1 signalisiert auf s1 und wartet auf s2
+        new RendezvousThread(1, s1, s2).start();
+        // Thread 2 signalisiert auf s2 und wartet auf s1
+        new RendezvousThread(2, s2, s1).start();
+    }
+}
+
+class RendezvousThread extends Thread {
+    int id;
+    Semaphore mySemaphore, otherSemaphore;
+
+    public RendezvousThread(int id, Semaphore mySem, Semaphore otherSem) {
+        this.id = id;
+        this.mySemaphore = mySem;
+        this.otherSemaphore = otherSem;
+    }
+
+    public void run() {
+        try {
+            System.out.println("Thread " + id + ": Arbeit vor dem Rendezvous...");
+            Thread.sleep((long)(Math.random() * 100)); // Simuliert Arbeit
+
+            System.out.println("Thread " + id + " ist am Treffpunkt angekommen.");
+            mySemaphore.release();  // Signalisiere: "Ich bin da!"
+            otherSemaphore.acquire(); // Warte, bis der andere da ist.
+
+            System.out.println("Thread " + id + ": Beide sind da, weiter geht's!");
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
     </pre>
 </div>
 

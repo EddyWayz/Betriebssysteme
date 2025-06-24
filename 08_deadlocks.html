@@ -109,7 +109,25 @@
                 <li>Ein <strong>sicherer Zustand</strong> ist ein Zustand, von dem aus es mindestens eine Ausführungsreihenfolge gibt, in der alle Prozesse ihre Ressourcen erhalten und terminieren können, selbst im ungünstigsten Fall.</li>
                 <li>Ein <strong>unsicherer Zustand</strong> ist ein Zustand, der potenziell zu einem Deadlock führen <em>kann</em>. Das Betriebssystem wird eine Ressourcenanforderung verweigern, wenn sie zu einem unsicheren Zustand führen würde.</li>
             </ul>
-            <p>Das bekannteste Verfahren hierfür ist der <span id="banker" class="key-term">Banker's Algorithm</span>. In der Praxis wird diese Methode selten verwendet, da der maximale Ressourcenbedarf oft schwer vorherzusagen ist.</p>
+            <div class="solution-box">
+                <h4 id="banker">Deadlock-Vermeidung: Der Banker's Algorithm</h4>
+                <p>Der Banker's Algorithm ist das klassische Verfahren zur Deadlock-Vermeidung. Es erfordert, dass jeder Prozess vorab seinen <strong>maximalen Ressourcenbedarf</strong> deklariert. Der Algorithmus stellt sicher, dass das System niemals in einen unsicheren Zustand gerät.</p>
+                <p>Dazu verwaltet das Betriebssystem folgende Datenstrukturen:</p>
+                <ul>
+                    <li><strong>Available:</strong> Ein Vektor, der angibt, wie viele Instanzen jeder Ressource aktuell verfügbar sind.</li>
+                    <li><strong>Max:</strong> Eine Matrix, die den maximalen Bedarf jedes Prozesses für jede Ressource angibt.</li>
+                    <li><strong>Allocation:</strong> Eine Matrix, die angibt, wie viele Instanzen jeder Ressource aktuell jedem Prozess zugewiesen sind.</li>
+                    <li><strong>Need:</strong> Eine Matrix, die den noch verbleibenden Bedarf jedes Prozesses angibt. Sie wird berechnet als <code>Need = Max - Allocation</code>.</li>
+                </ul>
+                <h5>Der Sicherheitsalgorithmus</h5>
+                <p>Wenn ein Prozess eine Ressource anfordert, simuliert das System die Zuteilung und prüft dann mit dem Sicherheitsalgorithmus, ob der resultierende Zustand sicher ist:</p>
+                <ol>
+                    <li>Finde einen Prozess P<sub>i</sub>, dessen verbleibender Bedarf (<code>Need</code>) kleiner oder gleich den verfügbaren Ressourcen (<code>Available</code>) ist. Wenn kein solcher Prozess existiert, ist das System in einem <strong>unsicheren Zustand</strong>.</li>
+                    <li>Wenn ein solcher Prozess gefunden wird: Simuliere, dass dieser Prozess alle seine benötigten Ressourcen erhält, seine Aufgabe beendet und danach <strong>alle seine bisher gehaltenen Ressourcen</strong> (gemäß <code>Allocation</code>) wieder freigibt. Diese freigegebenen Ressourcen werden zu <code>Available</code> addiert.</li>
+                    <li>Wiederhole die Schritte 1 und 2, bis alle Prozesse "terminiert" werden konnten.</li>
+                </ol>
+                <p>Wenn der Algorithmus eine Reihenfolge findet, in der alle Prozesse terminieren können (eine "sichere Sequenz"), ist der Zustand <strong>sicher</strong>, und die ursprüngliche Ressourcenanforderung kann gewährt werden. Ansonsten wird sie verweigert und der anfordernde Prozess muss warten.</p>
+            </div>
 
             <h4>5. Weitere Anmerkungen</h4>
             <ul>
