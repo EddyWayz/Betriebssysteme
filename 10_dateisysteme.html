@@ -24,7 +24,7 @@
     <main class="container" role="main">
         <article class="content-section">
             <h2>Die Rolle und Konzepte des Dateisystems</h2>
-            <p>Während der Hauptspeicher eines Prozesses <span class="key-term">transient</span> (flüchtig) und in seiner Größe begrenzt ist, bieten Festspeicher wie Festplatten oder SSDs eine <span class="key-term">persistente</span> Speichermöglichkeit. Diese Hardware arbeitet jedoch auf einer sehr niedrigen Ebene und versteht nur Befehle wie "Lese Block 4711" oder "Schreibe Block 815".</p>
+            <p>Während der Hauptspeicher eines Prozesses <span class="key-term">transient</span> (flüchtig) und in seiner Größe begrenzt ist, bieten Festspeicher wie <a class="quicklink" href="11_ea-verwaltung.html#ea-verwaltung">Festplatten</a> oder SSDs eine <span class="key-term">persistente</span> Speichermöglichkeit. Diese Hardware arbeitet jedoch auf einer sehr niedrigen Ebene und versteht nur Befehle wie "Lese Block 4711" oder "Schreibe Block 815".</p>
             <p>Das <span class="key-term">Dateisystem</span> ist die Abstraktionsebene des Betriebssystems, die diese low-level Block-Struktur in ein für den Menschen verständliches Konzept von <strong>Dateien</strong> und <strong>Verzeichnissen</strong> übersetzt.</p>
             
             <h3>Dateikonzepte</h3>
@@ -104,7 +104,7 @@
             <h4>3. Verkettete Zuordnung mit Tabelle (FAT - File Allocation Table)</h4>
             <p>Dies ist eine optimierte Variante der verketteten Zuordnung. Die Zeigerkette wird aus den Blöcken entfernt und in einer zentralen Tabelle, der <strong>FAT</strong>, am Anfang der Partition gespeichert. Die FAT wird beim Systemstart in den Hauptspeicher geladen.</p>
             <ul>
-                <li><strong>Vorteile:</strong> Der wahlfreie Zugriff ist deutlich schneller, da die Kette im schnellen RAM durchlaufen werden kann. Es wird kein Platz in den Datenblöcken verschwendet.</li>
+                <li><strong>Vorteile:</strong> Der wahlfreie Zugriff ist deutlich schneller, da die Kette im schnellen <a class="quicklink" href="09_speicherverwaltung.html#speicherverwaltung">RAM</a> durchlaufen werden kann. Es wird kein Platz in den Datenblöcken verschwendet.</li>
                 <li><strong>Nachteile:</strong> Die gesamte FAT muss im Speicher gehalten werden, was bei sehr großen Festplatten ineffizient werden kann.</li>
             </ul>
 

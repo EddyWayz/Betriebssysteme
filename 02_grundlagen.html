@@ -35,8 +35,8 @@
                         <li><span class="key-term">Register:</span> Extrem schnelle, kleine Speichereinheiten direkt in der CPU zur temporären Aufnahme von Daten und Adressen.</li>
                     </ul>
                 </li>
-                <li><strong>Hauptspeicher (RAM - Random Access Memory):</strong> Ein linear adressierbarer Speicher, der Programme und Daten enthält. Jeder Speicherplatz hat eine eindeutige Adresse.</li>
-                <li><strong>Ein-/Ausgabesystem (E/A-System):</strong> Ermöglicht die Kommunikation mit der Außenwelt über Peripheriegeräte wie Tastatur, Bildschirm, Festplatte etc.</li>
+                <li><strong><a class="quicklink" href="09_speicherverwaltung.html#speicherverwaltung">Hauptspeicher (RAM - Random Access Memory)</a>:</strong> Ein linear adressierbarer Speicher, der Programme und Daten enthält. Jeder Speicherplatz hat eine eindeutige Adresse.</li>
+                <li><strong><a class="quicklink" href="11_ea-verwaltung.html#ea-verwaltung">Ein-/Ausgabesystem (E/A-System)</a>:</strong> Ermöglicht die Kommunikation mit der Außenwelt über Peripheriegeräte wie Tastatur, Bildschirm, Festplatte etc.</li>
                 <li><strong>Systembus:</strong> Ein Bündel von Leitungen, das die CPU, den Hauptspeicher und das E/A-System miteinander verbindet und den Austausch von Daten, Adressen und Steuersignalen ermöglicht.</li>
             </ul>
 
@@ -64,7 +64,7 @@
                 <li><strong>Adressregister:</strong> Enthalten Speicheradressen, um auf Daten im Hauptspeicher zu zeigen, z.B. der <span class="key-term">Stack Pointer</span> (Stapelzeiger).</li>
                 <li><strong>Programmstatuswort (Program Status Word, PSW):</strong> Eine Sammlung von Bits (Flags), die den aktuellen Zustand der CPU beschreiben. Dazu gehören:
                     <ul>
-                        <li><strong>Modus-Bit:</strong> Zeigt an, ob die CPU im privilegierten <span class="key-term">Kernel-Modus</span> (Betriebssystem) oder im eingeschränkten <span class="key-term">User-Modus</span> (Anwendungsprogramm) läuft.</li>
+                        <li><strong>Modus-Bit:</strong> Zeigt an, ob die CPU im privilegierten <span class="key-term"><a class="quicklink" href="12_sicherheit.html#sicherheit">Kernel-Modus</a></span> (Betriebssystem) oder im eingeschränkten <span class="key-term">User-Modus</span> (Anwendungsprogramm) läuft.</li>
                         <li><strong>Bedingungs-Flags (Condition Codes):</strong> Zeigen Ergebnisse der letzten arithmetischen/logischen Operation an (z.B. war das Ergebnis Null, negativ, gab es einen Überlauf?). Diese Flags sind entscheidend für bedingte Sprünge (z.B. <code>if(x > 0)</code>).</li>
                         <li><strong>Interrupt-Flag:</strong> Gibt an, ob die CPU auf externe Unterbrechungen reagieren darf oder nicht.</li>
                     </ul>
@@ -98,7 +98,7 @@
             <ul>
                 <li><strong>Hardware-Interrupts:</strong> Von E/A-Geräten ausgelöst (z.B. "Daten von Festplatte gelesen" oder "Taste gedrückt").</li>
                 <li><strong>Software-Interrupts (Traps):</strong> Vom Programm selbst ausgelöst, z.B. bei einem Fehler (Division durch Null) oder einem bewussten Systemaufruf an das Betriebssystem.</li>
-                <li><strong>Timer-Interrupts:</strong> Von einem Hardware-Timer in regelmäßigen Abständen ausgelöst. Dies ermöglicht es dem Betriebssystem, einem Prozess die CPU zu entziehen (präemptives Multitasking).</li>
+                <li><strong>Timer-Interrupts:</strong> Von einem Hardware-Timer in regelmäßigen Abständen ausgelöst. Dies ermöglicht es dem Betriebssystem, einem Prozess die CPU zu entziehen (<a class="quicklink" href="05_scheduling.html#scheduler">präemptives Multitasking</a>).</li>
             </ul>
 
             <h3>Die Speicherhierarchie</h3>

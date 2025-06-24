@@ -26,7 +26,7 @@
             <ul>
                 <li>Der <strong>Programmcode</strong> (Maschinenbefehle).</li>
                 <li>Der aktuelle <strong>Prozesszustand</strong>, repräsentiert durch die Inhalte der CPU-Register (insbesondere Programmzähler und Prozessstatuswort).</li>
-                <li>Zugeordnete <strong>Speicherbereiche</strong> (Textsegment, Datensegment, Heap, Stack).</li>
+                <li>Zugeordnete <strong>Speicherbereiche</strong> (Textsegment, Datensegment, <a class="quicklink" href="09_speicherverwaltung.html#heap">Heap</a>, <a class="quicklink" href="09_speicherverwaltung.html#stack">Stack</a>).</li>
                 <li>Weitere <strong>Betriebsmittel</strong> wie geöffnete Dateien, Netzwerkverbindungen oder E/A-Geräte.</li>
             </ul>
 
@@ -89,7 +89,7 @@ z := R5</code></pre>
                 <li>Aktiv &rarr; Terminiert: Prozess endet freiwillig oder durch Fehler.</li>
             </ul>
             <h4>Beispiel für Zustandswechsel bei Kommunikation</h4>
-            <p>Ein kommunizierender Prozess wechselt zwischen Aktiv, Blockiert und Bereit, wenn er Nachrichten sendet/empfängt:</p>
+            <p>Ein kommunizierender Prozess wechselt zwischen Aktiv, Blockiert und Bereit, wenn er Nachrichten sendet/empfängt (siehe <a class="quicklink" href="07_kommunikation.html#ipc">Kapitel 7</a>):</p>
             <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Zustandswechsel eines kommunizierenden Prozesses">
             <h4>Warum Verdrängung sinnvoll ist</h4>
             <p>Verdrängung sorgt für gerechte CPU-Verteilung (Fairness) und schnelle Reaktionszeiten, da keine Prozesse die CPU monopolisiert.</p>
