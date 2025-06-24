@@ -16,7 +16,7 @@
 
     <header role="banner">
         <div class="container">
-            <h1>Kapitel 4: Threads</h1>
+            <h1 id="threads">Kapitel 4: Threads</h1>
             <p>Leichtgewichtige Prozesse für effiziente Parallelität.</p>
         </div>
     </header>
@@ -24,53 +24,53 @@
     <main class="container" role="main">
         <article class="content-section">
             <h2>Was sind Threads?</h2>
-            <p>Ein Thread (engl. für "Faden" im Sinne eines Ausführungsstrangs) ist die kleinste Ausführungseinheit, die von einem Betriebssystem-Scheduler verwaltet werden kann. Man kann sich Threads als <span class="key-term">"leichtgewichtige Prozesse"</span> vorstellen, die innerhalb eines "schwergewichtigen" Hauptprozesses laufen. Jeder Prozess hat mindestens einen Thread, kann aber auch mehrere beherbergen, die dann (konzeptionell) parallel zueinander ablaufen.</p>
+            <p>Ein Thread (engl. für "Faden" im Sinne eines Ausführungsstrangs) ist die kleinste Ausführungseinheit, die von einem <a class="quicklink" href="05_scheduling.html#scheduler">Betriebssystem-Scheduler</a> verwaltet werden kann. Man kann sich Threads als <a class="quicklink" href="03_prozesse.html#prozess">"leichtgewichtige Prozesse"</a> vorstellen, die innerhalb eines "schwergewichtigen" Hauptprozesses laufen. Jeder Prozess hat mindestens einen Thread, kann aber auch mehrere beherbergen, die dann (konzeptionell) parallel zueinander ablaufen.</p>
             
             <h4>Gemeinsame vs. Eigene Ressourcen</h4>
             <p>Das entscheidende Merkmal von Threads ist die Aufteilung der Ressourcen:</p>
             <p><strong>Alle Threads desselben Prozesses TEILEN sich:</strong></p>
             <ul>
-                <li>Den gesamten <strong>Adressraum</strong> des Prozesses.</li>
+                <li>Den gesamten <a class="quicklink" href="09_speicherverwaltung.html#adressraeume"><strong>Adressraum</strong></a> des Prozesses.</li>
                 <li>Daraus folgend: Den <strong>Programmcode</strong> und <strong>globale Variablen</strong>.</li>
-                <li>Den <strong>Heap</strong> für dynamisch allokierte Objekte.</li>
+                <li>Den <a class="quicklink" href="09_speicherverwaltung.html#heap"><strong>Heap</strong></a> für dynamisch allokierte Objekte.</li>
                 <li>Die <strong>Betriebsmittel</strong> des Prozesses wie geöffnete Dateien oder Netzwerkverbindungen.</li>
             </ul>
             <p><strong>Jeder Thread hat jedoch SEINE EIGENEN:</strong></p>
             <ul>
                 <li>Einen eindeutigen <strong>Thread-Zustand</strong> (Aktiv, Bereit, Blockiert).</li>
                 <li>Einen eigenen <strong>Programmzähler (PC)</strong> und einen eigenen Satz von <strong>CPU-Registern</strong>.</li>
-                <li>Einen eigenen <strong>Stack (Kellerstapel)</strong> für lokale Variablen, Funktionsparameter und Rücksprungadressen.</li>
+                <li>Einen eigenen <a class="quicklink" href="09_speicherverwaltung.html#stack"><strong>Stack (Kellerstapel)</strong></a> für lokale Variablen, Funktionsparameter und Rücksprungadressen.</li>
             </ul>
 
-            <h3>Threads im Vergleich zu Prozessen</h3>
+            <h3>Threads im Vergleich zu <a class="quicklink" href="03_prozesse.html#prozess">Prozessen</a></h3>
             <table>
                 <thead>
                     <tr>
                         <th>Eigenschaft</th>
-                        <th>Prozesse</th>
+                        <th><a class="quicklink" href="03_prozesse.html#prozess">Prozesse</a></th>
                         <th>Threads (innerhalb desselben Prozesses)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td><strong>Gewicht / Overhead</strong></td>
-                        <td>Schwergewichtig. Erzeugung und Kontextwechsel sind teuer (langsamer).</td>
-                        <td>Leichtgewichtig. Erzeugung und Kontextwechsel sind billiger (schneller).</td>
+                        <td>Schwergewichtig. Erzeugung und <a class="quicklink" href="03_prozesse.html#kontextwechsel">Kontextwechsel</a> sind teuer (langsamer).</td>
+                        <td>Leichtgewichtig. Erzeugung und <a class="quicklink" href="03_prozesse.html#kontextwechsel">Kontextwechsel</a> sind billiger (schneller).</td>
                     </tr>
                     <tr>
-                        <td><strong>Adressraum</strong></td>
-                        <td>Jeder Prozess hat seinen eigenen, privaten Adressraum.</td>
-                        <td>Teilen sich den Adressraum ihres Elternprozesses.</td>
+                        <td><a class="quicklink" href="09_speicherverwaltung.html#adressraeume"><strong>Adressraum</strong></a></td>
+                        <td>Jeder Prozess hat seinen eigenen, privaten <a class="quicklink" href="09_speicherverwaltung.html#adressraeume">Adressraum</a>.</td>
+                        <td>Teilen sich den <a class="quicklink" href="09_speicherverwaltung.html#adressraeume">Adressraum</a> ihres Elternprozesses.</td>
                     </tr>
                     <tr>
                         <td><strong>Kommunikation</strong></td>
-                        <td>Aufwändig. Benötigt explizite Interprozesskommunikation (IPC) wie Pipes oder Shared Memory.</td>
+                        <td>Aufwändig. Benötigt explizite <a class="quicklink" href="07_kommunikation.html#ipc">Interprozesskommunikation (IPC)</a> wie Pipes oder <a class="quicklink" href="07_kommunikation.html#shared-memory">Shared Memory</a>.</td>
                         <td>Einfach. Können direkt über globale Variablen und gemeinsame Objekte kommunizieren.</td>
                     </tr>
                     <tr>
                         <td><strong>Schutz / Isolation</strong></td>
                         <td>Stark. Prozesse sind durch das BS voneinander isoliert. Ein Absturz betrifft nur den eigenen Prozess.</td>
-                        <td>Schwach. Ein fehlerhafter Thread kann den gesamten Adressraum und damit alle anderen Threads im Prozess beschädigen oder zum Absturz bringen.</td>
+                        <td>Schwach. Ein fehlerhafter Thread kann den gesamten <a class="quicklink" href="09_speicherverwaltung.html#adressraeume">Adressraum</a> und damit alle anderen Threads im Prozess beschädigen oder zum Absturz bringen.</td>
                     </tr>
                 </tbody>
             </table>
@@ -86,7 +86,7 @@
             <h3>Implementierungsmodelle: User-Threads vs. Kernel-Threads</h3>
             <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Gegenüberstellung von reinen User-Level-Threads, reinen Kernel-Level-Threads und einem kombinierten Modell.">
             <h4>User-Level-Threads</h4>
-            <p>Die gesamte Thread-Verwaltung (Erzeugung, Scheduling, Synchronisation) findet im User-Space durch eine Thread-Bibliothek statt. Das Betriebssystem weiß nichts von den einzelnen Threads; es sieht nur den einen Hauptprozess.</p>
+            <p>Die gesamte Thread-Verwaltung (Erzeugung, Scheduling, <a class="quicklink" href="06_synchronisation.html#synchronisation">Synchronisation</a>) findet im User-Space durch eine Thread-Bibliothek statt. Das Betriebssystem weiß nichts von den einzelnen Threads; es sieht nur den einen Hauptprozess.</p>
             <ul>
                 <li><strong>Vorteile:</strong>
                     <ul>
@@ -114,7 +114,7 @@
                 </li>
                 <li><strong>Nachteile:</strong>
                     <ul>
-                        <li>Die Erzeugung und der Kontextwechsel sind langsamer als bei User-Threads, da jeder Vorgang einen Systemaufruf (Wechsel in den Kernel-Modus) erfordert.</li>
+                        <li>Die Erzeugung und der <a class="quicklink" href="03_prozesse.html#kontextwechsel">Kontextwechsel</a> sind langsamer als bei User-Threads, da jeder Vorgang einen Systemaufruf (Wechsel in den Kernel-Modus) erfordert.</li>
                     </ul>
                 </li>
             </ul>
@@ -178,7 +178,7 @@ public class Threading {
             </pre>
 
             <h4>Code-Beispiel 2: Problem des gemeinsamen Zugriffs (`Threading_shared_resource.java`)</h4>
-            <p>Dieses Beispiel demonstriert eine <span class="key-term">Race Condition</span>. Beide Threads greifen auf dieselbe statische Variable <code>ch</code> zu. Da der Zugriff nicht synchronisiert ist, "stiehlt" ein Thread der Variable den Wert des anderen, bevor dieser ihn ausgeben kann.</p>
+            <p>Dieses Beispiel demonstriert eine <span class="key-term"><a class="quicklink" href="06_synchronisation.html#race-condition">Race Condition</a></span>. Beide Threads greifen auf dieselbe statische Variable <code>ch</code> zu. Da der Zugriff nicht synchronisiert ist, "stiehlt" ein Thread der Variable den Wert des anderen, bevor dieser ihn ausgeben kann.</p>
             <pre>
 public class Threading_shared_resource {
     static char ch; // Gemeinsame Ressource
@@ -206,7 +206,7 @@ public class Threading_shared_resource {
     }
 }
             </pre>
-            <p>Mögliche Ausgabe: <code>--</code> oder <code>**</code> statt des erwarteten <code>*-</code>. Dies passiert, weil z.B. Thread 1 <code>ch</code> auf <code>*</code> setzt, dann aber unterbrochen wird. Thread 2 setzt <code>ch</code> auf <code>-</code>. Dann wird Thread 1 wieder aktiv und gibt das <code>ch</code> aus, das inzwischen den Wert <code>-</code> hat. Dieses Problem wird in Kapitel 6 (Synchronisation) gelöst.</p>
+            <p>Mögliche Ausgabe: <code>--</code> oder <code>**</code> statt des erwarteten <code>*-</code>. Dies passiert, weil z.B. Thread 1 <code>ch</code> auf <code>*</code> setzt, dann aber unterbrochen wird. Thread 2 setzt <code>ch</code> auf <code>-</code>. Dann wird Thread 1 wieder aktiv und gibt das <code>ch</code> aus, das inzwischen den Wert <code>-</code> hat. Dieses Problem wird in Kapitel&nbsp;6 (<a class="quicklink" href="06_synchronisation.html#synchronisation">Synchronisation</a>) gelöst.</p>
 
 
         </article>
@@ -222,7 +222,7 @@ public class Threading_shared_resource {
         <section class="quiz-section">
             <form class="chapter-quiz" data-answer="b">
                 <p>Was teilen sich Threads innerhalb eines Prozesses?</p>
-                <label><input type="radio" name="q1" value="a"> Einen eigenen Adressraum</label><br>
+                <label><input type="radio" name="q1" value="a"> Einen eigenen <a class="quicklink" href="09_speicherverwaltung.html#adressraeume">Adressraum</a></label><br>
                 <label><input type="radio" name="q1" value="b"> Gemeinsamen Speicher</label><br>
                 <label><input type="radio" name="q1" value="c"> Unterschiedliche Executables</label><br>
                 <button type="submit">Prüfen</button>

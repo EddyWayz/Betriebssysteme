@@ -16,7 +16,7 @@
 
     <header role="banner">
         <div class="container">
-            <h1>Kapitel 9: Speicherverwaltung</h1>
+            <h1 id="speicherverwaltung">Kapitel 9: Speicherverwaltung</h1>
             <p>Die Organisation des Hauptspeichers und das Konzept des virtuellen Speichers.</p>
         </div>
     </header>
@@ -33,10 +33,10 @@
                 <li><strong>Virtualisierung:</strong> Sie ermöglicht es Prozessen, einen Adressraum zu nutzen, der viel größer ist als der tatsächlich vorhandene physische Speicher.</li>
             </ul>
 
-            <h3>Logische vs. Physische Adressräume</h3>
+            <h3 id="adressraeume">Logische vs. Physische Adressräume</h3>
             <p>Um diese Ziele zu erreichen, unterscheidet das System strikt zwischen zwei Arten von Adressen:</p>
             <ul>
-                <li>Der <span class="key-term">logische (oder virtuelle) Adressraum</span> ist der Speicher aus Sicht des Prozesses. Er ist ein linearer Adressraum, der typischerweise bei Adresse 0 beginnt und die Segmente für Code, globale Daten, Heap und Stack enthält. Jeder Prozess hat seinen eigenen, unabhängigen logischen Adressraum.</li>
+                <li>Der <span class="key-term">logische (oder virtuelle) Adressraum</span> ist der Speicher aus Sicht des Prozesses. Er ist ein linearer Adressraum, der typischerweise bei Adresse 0 beginnt und die Segmente für Code, globale Daten, <span id="heap" class="key-term">Heap</span> und <span id="stack" class="key-term">Stack</span> enthält. Jeder Prozess hat seinen eigenen, unabhängigen logischen Adressraum.</li>
                 <li>Der <span class="key-term">physische Adressraum</span> entspricht den realen Speicherzellen im RAM. Auf diesen Speicher greifen alle Prozesse und das Betriebssystem gemeinsam zu.</li>
             </ul>
             <p>Die Aufgabe der MMU ist es, zur Laufzeit jede logische Adresse, die ein Prozess generiert, in eine physische Adresse zu übersetzen.</p>

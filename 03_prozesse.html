@@ -20,7 +20,7 @@
     </header>
     <main class="container" role="main">
         <article class="content-section">
-            <h2>Was ist ein Prozess?</h2>
+            <h2 id="prozess">Was ist ein Prozess?</h2>
             <p>Ein Prozess ist eines der fundamentalsten Konzepte eines Betriebssystems. Er repräsentiert die <span class="key-term">aktive Ablaufinstanz eines Programms</span>. Während ein Programm auf der Festplatte nur eine passive Ansammlung von Befehlen ist, ist ein Prozess dieses Programm, nachdem es in den Speicher geladen wurde und von der CPU ausgeführt wird.</p>
             <p>Zu einem Prozess gehören alle Ressourcen, die zur Ausführung benötigt werden:</p>
             <ul>
@@ -55,9 +55,9 @@ z := R5</code></pre>
                 <li>Einige Prozesse sind <strong>aktiv</strong> und erhalten CPU-Zeit.</li>
                 <li>Viele Prozesse sind <strong>passiv</strong> (blockiert, warten auf Ereignisse).</li>
             </ul>
-            <p>Das Betriebssystem ist verantwortlich für die <span class="key-term">Prozessverwaltung</span>, insbesondere für das Scheduling der CPU.</p>
+            <p>Das Betriebssystem ist verantwortlich für die <span class="key-term">Prozessverwaltung</span>, insbesondere für das <a class="quicklink" href="05_scheduling.html#scheduler">Scheduling</a> der CPU.</p>
 
-            <h3>Der Prozesskontrollblock (Process Control Block, PCB)</h3>
+            <h3 id="pcb">Der Prozesskontrollblock (Process Control Block, PCB)</h3>
             <p>Um die vielen laufenden Prozesse verwalten zu können, legt das Betriebssystem für jeden einzelnen Prozess einen <span class="key-term">Prozesskontrollblock (PCB)</span> an. Dieser enthält alle essentiellen Informationen, um den Prozess zu steuern und seinen Zustand bei einer Unterbrechung zu sichern.</p>
             <p>Typische Inhalte eines PCB sind:</p>
             <ul>
@@ -94,11 +94,11 @@ z := R5</code></pre>
             <h4>Warum Verdrängung sinnvoll ist</h4>
             <p>Verdrängung sorgt für gerechte CPU-Verteilung (Fairness) und schnelle Reaktionszeiten, da keine Prozesse die CPU monopolisiert.</p>
 
-            <h3>Kontextwechsel (Context Switch)</h3>
+            <h3 id="kontextwechsel">Kontextwechsel (Context Switch)</h3>
             <blockquote>
                 <strong>Ablauf eines Kontextwechsels (P1 &rarr; P2):</strong>
                 <ol>
-                    <li>Timer-Interrupt oder Systemaufruf tritt auf.</li>
+                    <li><a class="quicklink" href="02_grundlagen.html#interrupts">Timer-Interrupt</a> oder Systemaufruf tritt auf.</li>
                     <li>Hardware sichert PC und PSW, Wechsel in Kernel-Modus.</li>
                     <li>Dispatcher speichert restliche Register von P1 im PCB ab.</li>
                     <li>Scheduler wählt P2 zur Ausführung aus.</li>
