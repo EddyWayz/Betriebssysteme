@@ -131,6 +131,76 @@
                 <li>Die zentralen Herausforderungen sind die Trade-offs zwischen Durchsatz, Antwortzeiten, Fairness und dem eigenen Verwaltungsaufwand (Overhead).</li>
             </ul>
 
+            <table class="comparison">
+                <thead>
+                    <tr>
+                        <th>Algorithmus</th>
+                        <th>Funktionsweise</th>
+                        <th>Vorteile</th>
+                        <th>Nachteile</th>
+                        <th>Einsatz</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>First-Come, First-Served (FCFS)</td>
+                        <td>Nicht-präemptiv, Prozesse werden in Ankunftsreihenfolge ausgeführt</td>
+                        <td>Einfach umzusetzen</td>
+                        <td>Konvoi-Effekt, lange Wartezeiten für kurze Prozesse</td>
+                        <td>Batch-Systeme</td>
+                    </tr>
+                    <tr>
+                        <td>Shortest Job First (SJF)</td>
+                        <td>Wählt den Prozess mit kürzester (geschätzter) Laufzeit</td>
+                        <td>Minimale durchschnittliche Wartezeit</td>
+                        <td>Gefahr des Verhungerns langer Prozesse</td>
+                        <td>Batch-Systeme mit guter Laufzeitabschätzung</td>
+                    </tr>
+                    <tr>
+                        <td>Shortest Remaining Time (SRT)</td>
+                        <td>Präemptive Variante von SJF</td>
+                        <td>Reagiert gut auf kurzlebige Prozesse</td>
+                        <td>Hoher Aufwand, benötigt präzise Vorhersagen</td>
+                        <td>Interaktive Systeme</td>
+                    </tr>
+                    <tr>
+                        <td>Round Robin (RR)</td>
+                        <td>Alle Prozesse erhalten ein festes Zeitquantum</td>
+                        <td>Fair, gute Antwortzeiten</td>
+                        <td>Zu kleines Quantum erzeugt hohen Overhead</td>
+                        <td>Interaktive Systeme</td>
+                    </tr>
+                    <tr>
+                        <td>Prioritätsbasiert</td>
+                        <td>Höchste Priorität gewinnt, oft präemptiv</td>
+                        <td>Flexible Steuerung</td>
+                        <td>Starvation niedriger Prioritäten</td>
+                        <td>Allgemeine Betriebssysteme</td>
+                    </tr>
+                    <tr>
+                        <td>Multilevel Feedback Queue (MLFQ)</td>
+                        <td>Mehrere Queues mit wechselnder Priorität</td>
+                        <td>Verhindert Starvation, passt sich an</td>
+                        <td>Komplexe Parametrierung</td>
+                        <td>Weit verbreitet in modernen OS</td>
+                    </tr>
+                    <tr>
+                        <td>Earliest Deadline First (EDF)</td>
+                        <td>Priorität nach nächster Deadline</td>
+                        <td>Optimal bei Deadlines</td>
+                        <td>Anfällig bei Überlast</td>
+                        <td>Echtzeitsysteme</td>
+                    </tr>
+                    <tr>
+                        <td>Rate Monotonic Scheduling (RMS)</td>
+                        <td>Kürzere Perioden erhalten höhere Priorität</td>
+                        <td>Einfach, gut analysierbar</td>
+                        <td>CPU-Auslastung begrenzt</td>
+                        <td>Periodische Echtzeitsysteme</td>
+                    </tr>
+                </tbody>
+            </table>
+
         </article>
 
         <section class="quiz-section">
