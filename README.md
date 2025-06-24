@@ -16,6 +16,9 @@ Dieses Repository enthält eine statische Website zur Vorbereitung auf die Klaus
 - [8. Deadlocks](08_deadlocks.html)
 - [9. Speicherverwaltung](09_speicherverwaltung.html)
 - [10. Dateisysteme](10_dateisysteme.html)
+- [11. E/A-Verwaltung](11_ea-verwaltung.html)
+- [12. Sicherheit](12_sicherheit.html)
+- [13. Virtualisierung](13_virtualisierung.html)
 - [Übungen](uebungen.html)
 
 ## Projekt lokal starten

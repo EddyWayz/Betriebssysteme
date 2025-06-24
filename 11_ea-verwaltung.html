@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kapitel 11 - E/A-Verwaltung."/>
+    <title>11. E/A-Verwaltung - Lernportal Betriebssysteme</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav class="site-nav" role="navigation" aria-label="Hauptnavigation"></nav>
+
+    <header role="banner">
+        <div class="container">
+            <h1 id="ea-verwaltung">Kapitel 11: E/A-Verwaltung</h1>
+            <p>Die Schnittstelle zu allen Peripheriegeräten.</p>
+        </div>
+    </header>
+
+    <main class="container" role="main">
+        <article class="content-section">
+            <h2>E/A-Verwaltung (I/O-Management)</h2>
+            <p>Die Ein-/Ausgabe-Verwaltung (E/A-Verwaltung) ist eine Kernkomponente des Betriebssystems, die für die gesamte Kommunikation mit Peripheriegeräten zuständig ist. Ihre Hauptaufgabe ist es, die enorme Vielfalt und Komplexität der Hardware zu verbergen und den Anwendungen eine einheitliche, abstrakte Schnittstelle zur Verfügung zu stellen.</p>
+    
+            <h3>Ziele der E/A-Verwaltung</h3>
+            <ul>
+                <li><strong>Geräteunabhängigkeit:</strong> Programme sollen auf Geräte zugreifen können, ohne deren spezifische Hardware-Details zu kennen. Ob die Ausgabe auf einen Drucker, einen Bildschirm oder in eine Datei erfolgt, sollte aus Sicht der Anwendung idealerweise transparent sein.</li>
+                <li><strong>Effizienz:</strong> E/A-Operationen sind im Vergleich zu CPU-Operationen extrem langsam. Die E/A-Verwaltung muss die CPU so gut wie möglich auslasten und Wartezeiten minimieren.</li>
+                <li><strong>Einheitliche Namensgebung:</strong> Geräte sollten, wie Dateien, über einen einfachen Namen ansprechbar sein (z.B. <code>/dev/printer</code> in UNIX).</li>
+                <li><strong>Fehlerbehandlung:</strong> Fehler bei der E/A sind häufig (z.B. Papierstau im Drucker, Lesefehler auf der Festplatte). Das Betriebssystem muss diese Fehler behandeln, ohne dass die Anwendung abstürzt.</li>
+            </ul>
+
+            <h3>Komponenten des E/A-Systems</h3>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Schichtenmodell der E/A-Software von Anwendung bis Hardware.">
+            <h4>Hardware-Komponenten</h4>
+            <ul>
+                <li><strong>Geräte-Controller:</strong> Jedes Peripheriegerät ist an einen Controller angeschlossen, eine elektronische Schaltung, die die mechanischen und elektrischen Signale des Geräts in einen digitalen Datenstrom umwandelt, den die CPU versteht.</li>
+                <li><strong>Systembus:</strong> Verbindet die CPU, den Hauptspeicher und die verschiedenen Geräte-Controller miteinander.</li>
+            </ul>
+            <h4>Software-Komponenten</h4>
+            <ul>
+                <li><strong>Gerätetreiber:</strong> Für jeden Gerätetyp gibt es einen spezifischen Treiber im Kernel. Der Treiber kennt alle Details des Controllers und stellt dem Betriebssystem eine standardisierte Schnittstelle zur Verfügung, um das Gerät zu bedienen (z.B. Lese-, Schreib- und Steuerungsbefehle).</li>
+                <li><strong>Interrupt-Handler:</strong> Wenn ein Gerät eine Operation abgeschlossen hat oder Aufmerksamkeit benötigt, sendet es einen Interrupt an die CPU. Der zugehörige Interrupt-Handler sichert den aktuellen Prozesskontext und führt den Code aus, der auf das Ereignis reagiert (z.B. Daten aus einem Puffer kopieren).</li>
+            </ul>
+
+            <h3>Methoden der E/A-Organisation</h3>
+            <p>Es gibt drei grundlegende Methoden, wie die CPU Daten mit einem E/A-Gerät austauschen kann.</p>
+    
+            <h4>1. Programmierte E/A (Programmed I/O)</h4>
+            <p>Bei dieser Methode ist die CPU vollständig für den Datentransfer verantwortlich. Sie sendet einen Befehl an den Controller und fragt dann in einer Schleife (Polling oder "Busy Waiting") kontinuierlich den Status des Geräts ab, bis die Operation abgeschlossen ist. Die CPU wartet aktiv und kann währenddessen keine andere Arbeit verrichten.</p>
+            <ul>
+                <li><strong>Vorteil:</strong> Sehr einfach zu implementieren.</li>
+                <li><strong>Nachteil:</strong> Extrem ineffizient, da die gesamte CPU-Zeit während des Wartens blockiert ist.</li>
+            </ul>
+
+            <h4>2. Interrupt-gesteuerte E/A</h4>
+            <p>Um "Busy Waiting" zu vermeiden, gibt die CPU nach dem Senden eines Befehls an den Controller die Kontrolle an den Scheduler ab und führt einen anderen Prozess aus. Wenn das E/A-Gerät seine Aufgabe beendet hat, sendet es einen Hardware-Interrupt an die CPU. Der zugehörige Interrupt-Handler wird ausgeführt, der den Datentransfer abschließt und den wartenden Prozess wieder in den "Bereit"-Zustand versetzt.</p>
+            <ul>
+                <li><strong>Vorteil:</strong> Viel effizienter als programmierte E/A, da die CPU während der Wartezeit andere Aufgaben erledigen kann.</li>
+                <li><strong>Nachteil:</strong> Bei großen Datenmengen führt jeder einzelne Datentransfer (z.B. pro Byte oder Wort) zu einem Interrupt, was einen hohen Verwaltungsaufwand (Overhead) erzeugt.</li>
+            </ul>
+
+            <h4>3. Direct Memory Access (DMA)</h4>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Ablauf einer DMA-Übertragung.">
+            <p>Für den Transfer großer Datenblöcke ist DMA die effizienteste Methode. Hierfür gibt es einen speziellen <span class="key-term">DMA-Controller</span>. Die CPU beauftragt den DMA-Controller, indem sie ihm die Quell- und Zieladresse im Hauptspeicher, die Blockgröße und die Richtung des Transfers mitteilt. Danach kann die CPU andere Prozesse ausführen. Der DMA-Controller übernimmt den gesamten Datentransfer zwischen E/A-Gerät und Hauptspeicher selbstständig. Erst wenn der gesamte Block übertragen wurde, sendet der DMA-Controller einen einzigen Interrupt an die CPU.</p>
+            <ul>
+                <li><strong>Vorteil:</strong> Entlastet die CPU maximal, höchster Durchsatz für große Datenmengen.</li>
+                <li><strong>Nachteil:</strong> Benötigt zusätzliche, komplexere Hardware (DMA-Controller).</li>
+            </ul>
+
+        </article>
+
+        <section class="quiz-section">
+            <form class="chapter-quiz" data-answer="c">
+                <p>Welche Methode ist für große Datenblöcke am effizientesten?</p>
+                <label><input type="radio" name="q1" value="a"> Programmierte E/A</label><br>
+                <label><input type="radio" name="q1" value="b"> Interrupt-gesteuerte E/A</label><br>
+                <label><input type="radio" name="q1" value="c"> Direct Memory Access</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <div class="container">
+            <p>Erstellt zur Unterstützung der Prüfungsvorbereitung. Viel Erfolg bei der Klausur!</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+</html>
