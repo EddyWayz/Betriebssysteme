@@ -154,6 +154,38 @@ ReleaseSemaphore(hSem, 1, NULL);
                 <button type="submit">Prüfen</button>
                 <p class="quiz-result"></p>
             </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Wie unterscheidet sich ein Semaphor von einer einfachen Sperre mit aktivem Warten (Busy Waiting)?</p>
+                <label><input type="radio" name="q2" value="a"> Ein Semaphor ist grundsätzlich schneller.</label><br>
+                <label><input type="radio" name="q2" value="b"> Ein Semaphor blockiert einen wartenden Prozess und gibt die CPU für andere Aufgaben frei.</label><br>
+                <label><input type="radio" name="q2" value="c"> Nur ein Semaphor kann von mehreren Threads verwendet werden.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Was ist ein "kritischer Abschnitt" (Critical Section)?</p>
+                <label><input type="radio" name="q3" value="a"> Der Teil des Codes, der zuerst ausgeführt wird.</label><br>
+                <label><input type="radio" name="q3" value="b"> Ein Codeabschnitt, der auf gemeinsame Ressourcen zugreift und nicht von mehr als einem Thread gleichzeitig ausgeführt werden darf.</label><br>
+                <label><input type="radio" name="q3" value="c"> Code, der nur im Fehlerfall ausgeführt wird.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Was ist ein Monitor im Kontext der Synchronisation?</p>
+                <label><input type="radio" name="q4" value="a"> Ein Hardware-Gerät zur Prozessbeobachtung.</label><br>
+                <label><input type="radio" name="q4" value="b"> Ein übergeordnetes Synchronisationskonstrukt, das Daten und Prozeduren kapselt und automatisch für gegenseitigen Ausschluss sorgt.</label><br>
+                <label><input type="radio" name="q4" value="c"> Ein anderer Name für einen binären Semaphor.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="c">
+                <p>Was muss beim Erzeuger-Verbraucher-Problem (Producer-Consumer) synchronisiert werden?</p>
+                <label><input type="radio" name="q5" value="a"> Nur der Zugriff des Erzeugers auf den Puffer.</label><br>
+                <label><input type="radio" name="q5" value="b"> Nur der Zugriff des Verbrauchers auf den Puffer.</label><br>
+                <label><input type="radio" name="q5" value="c"> Der Zugriff auf den gemeinsamen Puffer, um zu verhindern, dass Erzeuger in einen vollen und Verbraucher aus einem leeren Puffer zugreifen.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
         </section>
     </main>
     <footer role="contentinfo">
