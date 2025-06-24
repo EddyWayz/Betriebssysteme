@@ -28,6 +28,7 @@ function initQuizForm(form, section) {
         if (choice.value === correct) {
             result.textContent = 'Richtig!';
             disableQuizForm(form);
+            form.classList.add('done');
             form.classList.add('hidden');
             showNextQuiz(section);
         } else {
@@ -41,7 +42,7 @@ function disableQuizForm(form) {
 }
 
 function showNextQuiz(section) {
-    const next = section.querySelector('.chapter-quiz.hidden');
+    const next = section.querySelector('.chapter-quiz.hidden:not(.done)');
     if (next) {
         next.classList.remove('hidden');
     }
