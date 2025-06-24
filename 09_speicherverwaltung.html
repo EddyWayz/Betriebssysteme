@@ -166,6 +166,46 @@
                 <button type="submit">Prüfen</button>
                 <p class="quiz-result"></p>
             </form>
+            <form class="chapter-quiz" data-answer="c">
+                <p>Was geschieht unmittelbar bei einem Seitenfehler (Page Fault)?</p>
+                <label><input type="radio" name="q6" value="a"> Das Programm stürzt sofort ab.</label><br>
+                <label><input type="radio" name="q6" value="b"> Die fehlerhafte Seite wird von der Festplatte gelöscht.</label><br>
+                <label><input type="radio" name="q6" value="c"> Ein Trap an das Betriebssystem wird ausgelöst, das die fehlende Seite vom Sekundärspeicher nachlädt.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="a">
+                <p>Welchen Zweck hat das "Modify-Bit" (oder Dirty-Bit) in einer Seitentabelle?</p>
+                <label><input type="radio" name="q7" value="a"> Es zeigt an, ob eine Seite im Hauptspeicher verändert wurde und daher vor dem Verdrängen zurückgeschrieben werden muss.</label><br>
+                <label><input type="radio" name="q7" value="b"> Es zeigt an, ob eine Seite gelesen oder geschrieben werden darf.</label><br>
+                <label><input type="radio" name="q7" value="c"> Es zählt, wie oft auf eine Seite zugegriffen wurde.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Was versteht man unter dem "Working Set" eines Prozesses?</p>
+                <label><input type="radio" name="q8" value="a"> Die Gesamtgröße des Programmcodes.</label><br>
+                <label><input type="radio" name="q8" value="b"> Die Menge der Seiten, die ein Prozess in einer bestimmten Zeitspanne für eine effiziente Ausführung benötigt.</label><br>
+                <label><input type="radio" name="q8" value="c"> Alle Dateien, die ein Prozess geöffnet hat.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+<form class="chapter-quiz" data-answer="b">
+    <p>Was bedeutet das "Present-Bit" (oder P-Bit) in einem Seitentabelleneintrag?</p>
+    <label><input type="radio" name="q9" value="a"> Es gibt an, ob die Seite beschrieben werden darf.</label><br>
+    <label><input type="radio" name="q9" value="b"> Es gibt an, ob die zugehörige Seite sich im physischen Hauptspeicher befindet oder ausgelagert ist.</label><br>
+    <label><input type="radio" name="q9" value="c"> Es speichert die Priorität der Seite.</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
+<form class="chapter-quiz" data-answer="a">
+    <p>Was versteht man unter "On-Demand Paging"?</p>
+    <label><input type="radio" name="q10" value="a"> Eine Strategie, bei der Seiten eines Prozesses erst dann in den Hauptspeicher geladen werden, wenn tatsächlich darauf zugegriffen wird.</label><br>
+    <label><input type="radio" name="q10" value="b"> Eine Strategie, bei der alle Seiten eines Prozesses beim Programmstart geladen werden.</label><br>
+    <label><input type="radio" name="q10" value="c"> Eine Methode zur Vorhersage, welche Seiten als nächstes benötigt werden.</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
         </section>
     </main>
 

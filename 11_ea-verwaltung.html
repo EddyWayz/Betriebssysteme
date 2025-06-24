@@ -83,6 +83,46 @@
                 <button type="submit">Prüfen</button>
                 <p class="quiz-result"></p>
             </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Was ist die primäre Aufgabe eines Gerätetreibers?</p>
+                <label><input type="radio" name="q2" value="a"> Die Anwendungsprogramme direkt mit der Hardware zu verbinden.</label><br>
+                <label><input type="radio" name="q2" value="b"> Die komplexen Details eines Hardware-Controllers zu verbergen und dem Betriebssystem eine standardisierte Schnittstelle anzubieten.</label><br>
+                <label><input type="radio" name="q2" value="c"> Den Stromverbrauch eines Geräts zu optimieren.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="c">
+                <p>Was ist der Hauptnachteil der programmierten E/A (Programmed I/O)?</p>
+                <label><input type="radio" name="q3" value="a"> Sie benötigt spezielle Hardware.</label><br>
+                <label><input type="radio" name="q3" value="b"> Sie ist sehr komplex zu implementieren.</label><br>
+                <label><input type="radio" name="q3" value="c"> Sie ist ineffizient, weil die CPU aktiv warten muss (Busy Waiting) und keine anderen Aufgaben erledigen kann.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="a">
+                <p>Wie unterscheidet sich die Interrupt-gesteuerte E/A von der DMA-gesteuerten E/A?</p>
+                <label><input type="radio" name="q4" value="a"> Bei Interrupt-gesteuerter E/A ist die CPU bei der Übertragung jedes Datenworts beteiligt, bei DMA übernimmt ein Controller den gesamten Blocktransfer.</label><br>
+                <label><input type="radio" name="q4" value="b"> DMA ist immer langsamer als Interrupt-gesteuerte E/A.</label><br>
+                <label><input type="radio" name="q4" value="c"> Interrupt-gesteuerte E/A benötigt keinen Hauptspeicher.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+<form class="chapter-quiz" data-answer="a">
+    <p>Was versteht man unter "Cycle Stealing" im Kontext von DMA?</p>
+    <label><input type="radio" name="q5" value="a"> Der DMA-Controller "stiehlt" der CPU gelegentlich Buszyklen, um Daten direkt zwischen Gerät und Speicher zu transferieren.</label><br>
+    <label><input type="radio" name="q5" value="b"> Ein Angriffsvektor, um CPU-Zyklen zu stehlen.</label><br>
+    <label><input type="radio" name="q5" value="c"> Ein Verfahren, bei dem die CPU die Datenübertragung zyklisch wiederholt.</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
+<form class="chapter-quiz" data-answer="c">
+    <p>Welche Parameter muss die CPU einem DMA-Controller für einen Leseauftrag von einer Festplatte mindestens mitteilen?</p>
+    <label><input type="radio" name="q6" value="a"> Nur die Anzahl der zu lesenden Blöcke.</label><br>
+    <label><input type="radio" name="q6" value="b"> Nur die Zieladresse im Hauptspeicher.</label><br>
+    <label><input type="radio" name="q6" value="c"> Quelladresse (Festplatte), Zieladresse (Hauptspeicher), Blockgröße/Anzahl und Transferrichtung.</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
         </section>
     </main>
 

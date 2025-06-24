@@ -271,6 +271,46 @@
                 <button type="submit">Prüfen</button>
                 <p class="quiz-result"></p>
             </form>
+            <form class="chapter-quiz" data-answer="c">
+                <p>Was versteht man unter präemptivem Scheduling?</p>
+                <label><input type="radio" name="q6" value="a"> Der Scheduler wartet immer, bis ein Prozess freiwillig die CPU freigibt.</label><br>
+                <label><input type="radio" name="q6" value="b"> Prozesse werden nur nach ihrer Ankunftszeit geordnet.</label><br>
+                <label><input type="radio" name="q6" value="c"> Der Scheduler kann einem laufenden Prozess die CPU entziehen, um sie einem anderen Prozess zuzuteilen.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="a">
+                <p>Welcher Zielkonflikt besteht oft beim Scheduling?</p>
+                <label><input type="radio" name="q7" value="a"> Hoher Durchsatz steht oft im Konflikt zu kurzer Antwortzeit.</label><br>
+                <label><input type="radio" name="q7" value="b"> Fairness und CPU-Auslastung schließen sich gegenseitig aus.</label><br>
+                <label><input type="radio" name="q7" value="c"> Echtzeit-Scheduling verbessert immer den Durchsatz.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Wie funktioniert Rate Monotonic Scheduling (RMS)?</p>
+                <label><input type="radio" name="q8" value="a"> Es gibt dem Prozess mit der längsten verbleibenden Laufzeit die höchste Priorität.</label><br>
+                <label><input type="radio" name="q8" value="b"> Es vergibt statische Prioritäten basierend auf der Periodendauer: je kürzer die Periode, desto höher die Priorität.</label><br>
+                <label><input type="radio" name="q8" value="c"> Es verwendet eine zufällige Prioritätsvergabe.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+<form class="chapter-quiz" data-answer="a">
+    <p>Was versteht man unter "Aging" im Kontext von priorätsbasiertem Scheduling?</p>
+    <label><input type="radio" name="q9" value="a"> Eine Technik, bei der die Priorität von lange wartenden Prozessen schrittweise erhöht wird, um Verhungern zu vermeiden.</label><br>
+    <label><input type="radio" name="q9" value="b"> Das Beenden von Prozessen, die eine bestimmte Laufzeit überschritten haben.</label><br>
+    <label><input type="radio" name="q9" value="c"> Das Sortieren von Prozessen nach ihrem Alter.</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
+<form class="chapter-quiz" data-answer="c">
+    <p>Was ist der Unterschied zwischen "Priority Inheritance" und "Priority Ceiling"?</p>
+    <label><input type="radio" name="q10" value="a"> Es gibt keinen Unterschied, beide Begriffe beschreiben dasselbe.</label><br>
+    <label><input type="radio" name="q10" value="b"> Priority Inheritance ist präemptiv, Priority Ceiling ist es nicht.</label><br>
+    <label><input type="radio" name="q10" value="c"> Bei Inheritance erbt ein niedrigpriorer Prozess temporär die Priorität des wartenden hochprioren Prozesses; bei Ceiling wird die Priorität auf einen vordefinierten Wert der Ressource angehoben.</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
         </section>
     </main>
 

@@ -160,6 +160,46 @@
                 <button type="submit">Prüfen</button>
                 <p class="quiz-result"></p>
             </form>
+            <form class="chapter-quiz" data-answer="c">
+                <p>Welche Strategie zum Umgang mit Deadlocks wird als "Banker's Algorithm" bezeichnet?</p>
+                <label><input type="radio" name="q6" value="a"> Deadlock-Verhinderung (Prevention)</label><br>
+                <label><input type="radio" name="q6" value="b"> Deadlock-Erkennung und -Behebung (Detection & Recovery)</label><br>
+                <label><input type="radio" name="q6" value="c"> Deadlock-Vermeidung (Avoidance)</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="a">
+                <p>Wie kann die "Hold and Wait"-Bedingung aufgehoben werden?</p>
+                <label><input type="radio" name="q7" value="a"> Indem ein Prozess alle benötigten Ressourcen auf einmal anfordern muss.</label><br>
+                <label><input type="radio" name="q7" value="b"> Indem man die Anzahl der Prozesse begrenzt.</label><br>
+                <label><input type="radio" name="q7" value="c"> Indem man nur noch einen einzigen Ressourcentyp im System zulässt.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Was ist eine gängige Methode zur Deadlock-Behebung (Recovery) nach der Erkennung?</p>
+                <label><input type="radio" name="q8" value="a"> Alle Prozesse im System neu starten.</label><br>
+                <label><input type="radio" name="q8" value="b"> Einen oder mehrere Prozesse im Deadlock-Zyklus gezielt beenden.</label><br>
+                <label><input type="radio" name="q8" value="c"> Die CPU-Geschwindigkeit erhöhen.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+<form class="chapter-quiz" data-answer="b">
+    <p>Warum führt ein Zyklus im Betriebsmittelgraphen nicht zwangsläufig zu einem Deadlock, wenn Ressourcen mehrere Instanzen haben?</p>
+    <label><input type="radio" name="q9" value="a"> Weil Zyklen in diesem Fall nicht existieren können.</label><br>
+    <label><input type="radio" name="q9" value="b"> Weil ein Prozess im Zyklus möglicherweise auf eine andere, freie Instanz der angeforderten Ressource warten kann, die von einem Prozess außerhalb des Zyklus gehalten wird.</label><br>
+    <label><input type="radio" name="q9" value="c"> Weil das Betriebssystem Zyklen automatisch auflöst.</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
+<form class="chapter-quiz" data-answer="c">
+    <p>Wie hilft das Spooling-Verfahren bei Druckern, Deadlocks zu verhindern?</p>
+    <label><input type="radio" name="q10" value="a"> Es erhöht die Druckgeschwindigkeit.</label><br>
+    <label><input type="radio" name="q10" value="b"> Es erzwingt, dass immer nur ein Prozess drucken darf.</label><br>
+    <label><input type="radio" name="q10" value="c"> Es hebt die "Hold and Wait"-Bedingung auf, da Prozesse ihre Aufträge an einen Spooler-Dienst abgeben und nicht direkt auf den Drucker warten.</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
         </section>
     </main>
 

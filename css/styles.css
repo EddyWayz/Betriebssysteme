@@ -393,3 +393,8 @@ img {
         overflow-x: auto;
     }
 }
+
+/* Hilfsklasse zum Ein- und Ausblenden von Quizfragen */
+.hidden {
+    display: none;
+}
