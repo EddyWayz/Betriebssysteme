@@ -1,6 +1,7 @@
 # Lernportal Betriebssysteme
 
 Dieses Repository enthält eine statische Website zur Vorbereitung auf die Klausur im Fach Betriebssysteme. Jede HTML-Datei bildet eines der Vorlesungskapitel ab und kann über die Navigation aufgerufen werden.
+Über das Suchfeld in der Navigation lassen sich Kapitel schnell auffinden.
 
 ## Inhaltsverzeichnis
 
@@ -29,6 +30,14 @@ Danach ist die Seite unter <http://localhost:8000> erreichbar.
 
 Im Ordner `material` liegen zusätzliche PDFs und Beispielcode, die das Studium unterstützen. Unter `examples` findest du kleine, kommentierte C-Programme, die Themen wie Prozess- und Thread-Synchronisation illustrieren.
 
+## Navigation aus Templates erzeugen
+
+Die Navigationsleiste wird aus einer Vorlage generiert. Die Links befinden sich in `scripts/nav_items.json`. Mit folgendem Befehl lässt sich `nav.html` neu erstellen:
+
+```bash
+python3 scripts/generate_nav.py
+```
+
 
 ## Tests ausführen
 
@@ -42,3 +51,5 @@ Ausführen lassen sich die Tests mit:
 python3 tests/check_lang.py
 python3 tests/check_alt.py
 ```
+
+Bei jedem Push werden diese Tests auch automatisch per GitHub Actions ausgeführt (siehe `.github/workflows/tests.yml`).

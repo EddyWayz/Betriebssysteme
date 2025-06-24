@@ -1,0 +1,14 @@
+[
+  {"href": "index.html", "text": "Übersicht"},
+  {"href": "01_einfuehrung.html", "text": "1 Einführung"},
+  {"href": "02_grundlagen.html", "text": "2 Grundlagen"},
+  {"href": "03_prozesse.html", "text": "3 Prozesse"},
+  {"href": "04_threads.html", "text": "4 Threads"},
+  {"href": "05_scheduling.html", "text": "5 CPU-Scheduling"},
+  {"href": "06_synchronisation.html", "text": "6 Synchronisation"},
+  {"href": "07_kommunikation.html", "text": "7 Kommunikation"},
+  {"href": "08_deadlocks.html", "text": "8 Deadlocks"},
+  {"href": "09_speicherverwaltung.html", "text": "9 Speicherverwaltung"},
+  {"href": "10_dateisysteme.html", "text": "10 Dateisysteme"},
+  {"href": "uebungen.html", "text": "Übungen"}
+]
