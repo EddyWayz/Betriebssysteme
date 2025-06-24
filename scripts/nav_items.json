@@ -10,5 +10,8 @@
   {"href": "08_deadlocks.html", "text": "8 Deadlocks"},
   {"href": "09_speicherverwaltung.html", "text": "9 Speicherverwaltung"},
   {"href": "10_dateisysteme.html", "text": "10 Dateisysteme"},
+  {"href": "11_ea-verwaltung.html", "text": "11 E/A-Verwaltung"},
+  {"href": "12_sicherheit.html", "text": "12 Sicherheit"},
+  {"href": "13_virtualisierung.html", "text": "13 Virtualisierung"},
   {"href": "uebungen.html", "text": "Übungen"}
 ]

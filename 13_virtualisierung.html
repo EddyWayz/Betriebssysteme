@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kapitel 13 - Virtualisierung."/>
+    <title>13. Virtualisierung - Lernportal Betriebssysteme</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav class="site-nav" role="navigation" aria-label="Hauptnavigation"></nav>
+
+    <header role="banner">
+        <div class="container">
+            <h1 id="virtualisierung">Kapitel 13: Virtualisierung</h1>
+            <p>Mehrere virtuelle Maschinen auf einer Hardware.</p>
+        </div>
+    </header>
+
+    <main class="container" role="main">
+        <article class="content-section">
+            <h2>Virtualisierung</h2>
+            <p>Virtualisierung bezeichnet eine Technologie, die es ermöglicht, die Hardware-Ressourcen eines einzelnen Computers (CPU, Speicher, Festplatte, Netzwerk) so aufzuteilen, dass darauf mehrere voneinander isolierte <span class="key-term">virtuelle Maschinen (VMs)</span> laufen können. Jede VM verhält sich wie ein eigenständiger Computer und kann ihr eigenes Betriebssystem (genannt <span class="key-term">Gast-Betriebssystem</span>) ausführen.</p>
+            <p>Die Software, die diese Virtualisierung ermöglicht und die VMs verwaltet, wird als <span class="key-term">Hypervisor</span> oder <span class="key-term">Virtual Machine Monitor (VMM)</span> bezeichnet.</p>
+    
+            <h3>Vorteile der Virtualisierung</h3>
+            <ul>
+                <li><strong>Serverkonsolidierung:</strong> Mehrere physische Server können auf einem einzigen Server als VMs zusammengefasst werden. Das spart Kosten für Hardware, Strom und Kühlung.</li>
+                <li><strong>Effiziente Ressourcennutzung:</strong> Die Hardware-Auslastung wird deutlich verbessert, da Ressourcen dynamisch den VMs zugewiesen werden können, die sie gerade benötigen.</li>
+                <li><strong>Isolation und Sicherheit:</strong> VMs sind stark voneinander isoliert. Ein Absturz oder ein Sicherheitsproblem in einer VM beeinträchtigt die anderen VMs nicht.</li>
+                <li><strong>Flexibilität und Portabilität:</strong> Eine VM kann als einfache Datei gespeichert, kopiert und auf eine andere physische Maschine migriert werden, oft sogar im laufenden Betrieb.</li>
+                <li><strong>Test- und Entwicklungsumgebungen:</strong> Entwickler können schnell neue VMs mit unterschiedlichen Betriebssystemen und Konfigurationen aufsetzen, um Software zu testen, ohne ihre physischen Maschinen zu verändern.</li>
+            </ul>
+
+            <h3>Typen von Hypervisoren</h3>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Gegenüberstellung von Typ-1- und Typ-2-Hypervisoren.">
+    
+            <h4>Typ-1-Hypervisor (Nativ / Bare-Metal)</h4>
+            <p>Ein Typ-1-Hypervisor läuft direkt auf der Hardware des Host-Systems, genau wie ein reguläres Betriebssystem. Er ist selbst der Kernel und verwaltet die Hardware direkt. Alle Gast-Betriebssysteme laufen auf einer Abstraktionsebene über dem Hypervisor.</p>
+            <ul>
+                <li><strong>Vorteile:</strong> Sehr hohe Leistung und Effizienz, da es keine zusätzliche Betriebssystemschicht zwischen Hypervisor und Hardware gibt.</li>
+                <li><strong>Beispiele:</strong> VMware ESXi, Microsoft Hyper-V, Xen.</li>
+            </ul>
+
+            <h4>Typ-2-Hypervisor (Hosted)</h4>
+            <p>Ein Typ-2-Hypervisor ist eine Anwendung, die auf einem vollwertigen Host-Betriebssystem (z.B. Windows, macOS oder Linux) installiert wird. Die Gast-Betriebssysteme laufen dann als Prozesse innerhalb des Host-Betriebssystems.</p>
+            <ul>
+                <li><strong>Vorteile:</strong> Einfach zu installieren und zu verwenden, ideal für Desktops und Entwickler.</li>
+                <li><strong>Nachteile:</strong> Geringere Leistung als Typ-1, da jeder Zugriff auf die Hardware durch eine zusätzliche Betriebssystemschicht (den Host) gehen muss.</li>
+                <li><strong>Beispiele:</strong> Oracle VirtualBox, VMware Workstation/Fusion, Parallels Desktop.</li>
+            </ul>
+    
+            <h3>Hardware-Unterstützung für Virtualisierung</h3>
+            <p>Moderne CPUs (z.B. mit Intel VT-x oder AMD-V Technologie) bieten spezielle Befehlssätze, die dem Hypervisor helfen, die VMs effizienter zu verwalten. Diese Hardware-Unterstützung reduziert den Overhead erheblich, der durch die Virtualisierung von privilegierten Befehlen entsteht, und macht die Ausführung von VMs fast so schnell wie die native Ausführung auf der Hardware.</p>
+        </article>
+
+        <section class="quiz-section">
+            <form class="chapter-quiz" data-answer="b">
+                <p>Wie nennt man die Software, die virtuelle Maschinen verwaltet?</p>
+                <label><input type="radio" name="q1" value="a"> Emulator</label><br>
+                <label><input type="radio" name="q1" value="b"> Hypervisor</label><br>
+                <label><input type="radio" name="q1" value="c"> Compiler</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <div class="container">
+            <p>Erstellt zur Unterstützung der Prüfungsvorbereitung. Viel Erfolg bei der Klausur!</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+</html>

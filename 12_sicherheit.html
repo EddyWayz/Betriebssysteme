@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kapitel 12 - Sicherheit."/>
+    <title>12. Sicherheit - Lernportal Betriebssysteme</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Zilla+Slab:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav class="site-nav" role="navigation" aria-label="Hauptnavigation"></nav>
+
+    <header role="banner">
+        <div class="container">
+            <h1 id="sicherheit">Kapitel 12: Sicherheit & Schutz</h1>
+            <p>Wie Betriebssysteme Ressourcen absichern.</p>
+        </div>
+    </header>
+
+    <main class="container" role="main">
+        <article class="content-section">
+            <h2>Sicherheit und Schutz</h2>
+            <p>In einem Mehrbenutzer-Betriebssystem ist es unerlässlich, Mechanismen bereitzustellen, die das System und die Benutzer voreinander schützen. Man unterscheidet hierbei zwei verwandte Konzepte:</p>
+            <ul>
+                <li><strong>Schutz (Protection):</strong> Bezieht sich auf die Mechanismen, die vom Betriebssystem implementiert werden, um den Zugriff von Prozessen und Benutzern auf Ressourcen zu kontrollieren. Schutz ist der technische Mechanismus.</li>
+                <li><strong>Sicherheit (Security):</strong> Bezieht sich auf die übergeordnete Richtlinie, die festlegt, welche Zugriffe erlaubt sind und welche nicht. Sicherheit ist die Strategie.</li>
+            </ul>
+    
+            <h3>Schutzziele</h3>
+            <p>Die Hauptziele der Systemsicherheit sind:</p>
+            <ul>
+                <li><strong>Vertraulichkeit (Confidentiality):</strong> Daten dürfen nur von autorisierten Benutzern gelesen werden.</li>
+                <li><strong>Integrität (Integrity):</strong> Daten und das System selbst dürfen nur von autorisierten Benutzern auf vordefinierte Weise geändert werden.</li>
+                <li><strong>Verfügbarkeit (Availability):</strong> Autorisierte Benutzer müssen jederzeit auf die Ressourcen zugreifen können. Das System muss also vor Ausfällen (z.B. durch Denial-of-Service-Angriffe) geschützt werden.</li>
+            </ul>
+
+            <h3>Das grundlegende Schutzmodell: Dual Mode Operation</h3>
+            <p>Die grundlegendste Schutzmaßnahme wird direkt von der CPU-Hardware bereitgestellt. Die CPU kann in mindestens zwei verschiedenen Modi laufen:</p>
+            <ul>
+                <li><strong>Kernel-Modus (privilegierter Modus):</strong> In diesem Modus hat der Code vollen und uneingeschränkten Zugriff auf die gesamte Hardware und alle Maschinenbefehle. Nur der Betriebssystem-Kernel läuft in diesem Modus.</li>
+                <li><strong>User-Modus (eingeschränkter Modus):</strong> In diesem Modus laufen alle Anwendungsprogramme. Der Zugriff auf die Hardware und auf kritische Befehle (z.B. das Sperren von Interrupts oder das Ändern der Speicherschutz-Register) ist verboten.</li>
+            </ul>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Übergang vom User-Modus in den Kernel-Modus über einen Systemaufruf (Trap).">
+            <p>Ein Programm im User-Modus kann nur über einen <span class="key-term">Systemaufruf (System Call)</span> mit dem Betriebssystem interagieren. Dieser Aufruf löst einen "Trap" aus, einen Software-Interrupt, der die CPU in den Kernel-Modus schaltet. Der Kernel führt dann die angeforderte Operation (z.B. eine Datei öffnen) für den Prozess aus und schaltet die CPU wieder in den User-Modus, bevor die Kontrolle an das Anwendungsprogramm zurückgegeben wird. Dieses Prinzip stellt sicher, dass kein Benutzerprogramm den Schutz des Systems umgehen kann.</p>
+
+            <h3>Zugriffskontrolle</h3>
+            <p>Um den Zugriff auf Objekte wie Dateien oder Geräte zu regeln, verwendet das Betriebssystem eine <span class="key-term">Zugriffsmatrix (Access Matrix)</span>. Diese Matrix definiert für jedes Subjekt (Benutzer oder Prozess), welche Rechte (z.B. lesen, schreiben, ausführen) es auf welches Objekt hat.</p>
+            <img src="images/placeholder.svg" class="illustration" alt="Diagramm einer Zugriffsmatrix mit Subjekten (Zeilen) und Objekten (Spalten).">
+            <p>Da eine vollständige Matrix in der Praxis zu groß und zu dünn besetzt wäre, wird sie auf zwei Arten implementiert:</p>
+            <ul>
+                <li><strong>Access Control Lists (ACLs):</strong> Jedes Objekt (z.B. eine Datei) hat eine Liste, auf der alle Subjekte und ihre jeweiligen Rechte für dieses Objekt verzeichnet sind. Dies ist eine spaltenweise Speicherung der Matrix. (Beispiel: Windows NTFS).</li>
+                <li><strong>Capability Lists:</strong> Jedes Subjekt besitzt eine Liste von "Capabilities" (Fähigkeiten), die wie unverfälschbare Tickets für den Zugriff auf Objekte fungieren. Jede Capability gibt ein Objekt und die erlaubten Rechte an. Dies ist eine zeilenweise Speicherung der Matrix.</li>
+            </ul>
+        </article>
+
+        <section class="quiz-section">
+            <form class="chapter-quiz" data-answer="a">
+                <p>Wie gelangt ein Programm vom User-Modus in den Kernel-Modus?</p>
+                <label><input type="radio" name="q1" value="a"> Durch einen Systemaufruf</label><br>
+                <label><input type="radio" name="q1" value="b"> Durch Neustart des Rechners</label><br>
+                <label><input type="radio" name="q1" value="c"> Über das BIOS</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <div class="container">
+            <p>Erstellt zur Unterstützung der Prüfungsvorbereitung. Viel Erfolg bei der Klausur!</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+</html>
