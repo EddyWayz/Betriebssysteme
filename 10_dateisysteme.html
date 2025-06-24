@@ -117,10 +117,24 @@
                     <ul>
                         <li><strong>Einfach indirekt:</strong> Ein Zeiger auf einen Block, der wiederum voller direkter Blockzeiger ist.</li>
                         <li><strong>Doppelt indirekt:</strong> Ein Zeiger auf einen Block, der voller einfach indirekter Blockzeiger ist.</li>
-                        <li><strong>Dreifach indirekt:</strong> Entsprechend für riesige Dateien.</li>
+                <li><strong>Dreifach indirekt:</strong> Entsprechend für riesige Dateien.</li>
                     </ul>
                 </li>
             </ul>
+            <div class="solution-box">
+                <h4>Klausurbeispiel: Maximale Dateigröße mit I-Nodes berechnen</h4>
+                <p>Gegeben: Blockgröße = 512 Bytes. Ein I-Node enthält: 8 direkte Blockadressen, 4 Adressen für einfach indirekte Adressierung. Jede Adresse ist 4 Bytes groß, also passen 128 Adressen in einen Block.</p>
+                <ol>
+                    <li><strong>Direkte Blöcke:</strong>
+                        <br>8 direkte Zeiger * 512 Bytes/Block = 4.096 Bytes</li>
+                    <li><strong>Einfach indirekte Blöcke:</strong>
+                        <br>4 Zeiger auf Adressblöcke.
+                        <br>Jeder Adressblock enthält 128 Zeiger auf Datenblöcke.
+                        <br>4 * 128 * 512 Bytes/Block = 262.144 Bytes</li>
+                    <li><strong>Maximale Dateigröße:</strong>
+                        <br>4.096 Bytes (direkt) + 262.144 Bytes (indirekt) = <strong>266.240 Bytes (oder 260 KiB)</strong>.</li>
+                </ol>
+            </div>
             <p><strong>Vorteile:</strong> Effizienter Zugriff auf kleine und große Dateien, unterstützt wahlfreien Zugriff sehr gut. Nur die I-Nodes der geöffneten Dateien müssen im Speicher sein.</p>
 
             <h3>Moderne Dateisystem-Technologien</h3>

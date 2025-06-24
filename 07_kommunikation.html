@@ -107,7 +107,7 @@
             <p>Eine Pipe ist ein gerichteter Kommunikationskanal, der einen Bytestrom nach dem <span class="key-term">FIFO-Prinzip</span> transportiert. Wenn ein Prozess in eine volle Pipe schreibt oder aus einer leeren Pipe liest, wird er blockiert.</p>
             <ul>
                 <li><strong>Anonymous Pipes:</strong> Können nur zwischen verwandten Prozessen (Eltern/Kind) verwendet werden.</li>
-                <li><strong>Named Pipes:</strong> Haben einen Namen im Dateisystem und können von beliebigen Prozessen für die Kommunikation verwendet werden.</li>
+                <li><strong>Named Pipes:</strong> Haben einen Namen im Dateisystem und können von beliebigen Prozessen für die Kommunikation verwendet werden. Unter Windows sind sie flexibler und können auch bidirektional und über Netzwerke hinweg genutzt werden.</li>
             </ul>
 
             <h4 id="mailboxes">Nachrichten-Warteschlangen (Mailboxes/Message Queues)</h4>
@@ -128,6 +128,39 @@
             <h4>Signale (UNIX)</h4>
             <p>Signale sind eine einfache, asynchrone Form der Benachrichtigung, um einen Prozess über ein Ereignis zu informieren. Die "Nachricht" ist dabei nur eine einfache Nummer (der Signaltyp).</p>
             <p>Typische Signale sind <code>SIGINT</code> (Strg+C), <code>SIGSEGV</code> (Speicherzugriffsfehler) oder <code>SIGTERM</code> (Beendigungsanforderung). Ein Prozess kann mit <code>sigaction()</code> einen eigenen <span class="key-term">Signal-Handler</span> registrieren, um auf ein Signal zu reagieren. Da der Handler den normalen Programmfluss unterbricht, sollte er sehr kurz sein und z.B. nur eine globale Variable (Flag) setzen, die im Hauptprogramm ausgewertet wird.</p>
+            <div class="solution-box">
+                <h4>Praxisbeispiel: Signal-Handler in C (UNIX)</h4>
+                <p>Der folgende Code zeigt, wie ein Handler für das Signal <code>SIGUSR1</code> registriert und im Hauptprogramm darauf reagiert wird.</p>
+                <pre>
+#include &lt;signal.h&gt;
+#include &lt;stdio.h&gt;
+
+// Globale Variable, die vom Handler gesetzt wird
+static volatile int flag = 0;
+
+// Signal-Handler-Funktion
+void handler(int signal_number) {
+    flag = 1;
+}
+
+int main() {
+    struct sigaction sa;
+    sa.sa_handler = handler; // Handler-Funktion zuweisen
+    
+    // Handler für das Signal SIGUSR1 registrieren
+    sigaction(SIGUSR1, &sa, NULL);
+
+    while (1) {
+        if (flag) {
+            printf("Signal empfangen!\n");
+            flag = 0; // Flag zurücksetzen
+        }
+        // ... andere Aufgaben erledigen ...
+    }
+    return 0;
+}
+                </pre>
+            </div>
 
             <h3>2. Kooperation durch gemeinsame Daten</h3>
             <p>Bei diesem Modell arbeiten Prozesse nicht durch Nachrichtenaustausch, sondern durch den direkten Lese- und Schreibzugriff auf gemeinsame Datenobjekte. Dies ist zwar sehr schnell, erfordert aber eine explizite Synchronisation durch den Programmierer, um Race Conditions zu verhindern.</p>
@@ -145,19 +178,21 @@
             <h4 id="shared-memory">Shared Memory (Gemeinsamer Speicher)</h4>
             <p>Der effizienteste IPC-Mechanismus. Das Betriebssystem blendet (mapped) einen physischen Speicherbereich in die virtuellen <a class="quicklink" href="09_speicherverwaltung.html#adressraeume">Adressräume</a> mehrerer Prozesse ein. Die Prozesse können dann auf diesen Bereich zugreifen, als wäre es ihr eigener. Da der Kernel nicht bei jedem Datenaustausch involviert ist, ist die Kommunikation extrem schnell. Die Synchronisation muss aber zwingend über andere Mechanismen wie <a class="quicklink" href="06_synchronisation.html#semaphore">Semaphore</a> erfolgen.</p>
             <div class="solution-box">
-                <h4>Praxisbeispiel: Shared Memory in UNIX (C-Code)</h4>
+                <h4>Praxisbeispiel: Shared Memory in C (UNIX)</h4>
                 <p>Der Code (aus <code>OS_7_Kommunikation.pdf</code>) zeigt die Erzeugung, das Anbinden (<code>shmat</code>), Beschreiben, erneute Anbinden an eine andere Adresse und das Freigeben eines Shared Memory Segments.</p>
                 <pre>
-#include <sys/shm.h>
+#include &lt;sys/shm.h&gt;
+#include &lt;sys/stat.h&gt;
 // ...
 int segment_id;
 char* shared_memory;
+const int size = 4096;
 
 // 1. Ein Shared Memory Segment anfordern
-segment_id = shmget(IPC_PRIVATE, size, IPC_CREAT | ...);
+segment_id = shmget(IPC_PRIVATE, size, IPC_CREAT | S_IRUSR | S_IWUSR);
 
 // 2. Das Segment an den Adressraum des Prozesses anbinden
-shared_memory = (char*) shmat(segment_id, 0, 0);
+shared_memory = (char*) shmat(segment_id, NULL, 0);
 
 // 3. Auf den Speicher zugreifen
 sprintf(shared_memory, "Hallo Welt!");
@@ -166,11 +201,11 @@ sprintf(shared_memory, "Hallo Welt!");
 shmdt(shared_memory);
 
 // 5. Das Segment (wenn nicht mehr gebraucht) dem System zur Freigabe melden
-shmctl(segment_id, IPC_RMID, 0);
+shmctl(segment_id, IPC_RMID, NULL);
                 </pre>
             </div>
             <h4>Memory Mapping von Dateien</h4>
-            <p>Alternative zu Shared Memory: Zugriff auf gemeinsame Dateien über <code>mmap()</code>, ähnlich wie bei Memory-Mapped Files.</p>
+            <p>Eine Alternative zu Shared Memory ist die Abbildung von Dateien direkt in den Adressraum eines Prozesses mit dem Systemaufruf <code>mmap()</code>. Änderungen im Speicher werden vom Betriebssystem automatisch in die Datei zurückgeschrieben. Wenn mehrere Prozesse dieselbe Datei mappen, haben sie de facto einen gemeinsamen Speicherbereich.</p>
 
             <h3>3. IPC-Dienste in Windows</h3>
             <ul>
