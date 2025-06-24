@@ -14,14 +14,14 @@
 
 <nav class="site-nav" role="navigation" aria-label="Hauptnavigation"></nav>
 
-    <header>
+    <header role="banner">
         <div class="container">
             <h1>Kapitel 4: Threads</h1>
             <p>Leichtgewichtige Prozesse für effiziente Parallelität.</p>
         </div>
     </header>
 
-    <main class="container">
+    <main class="container" role="main">
         <article class="content-section">
             <h2>Was sind Threads?</h2>
             <p>Ein Thread (engl. für "Faden" im Sinne eines Ausführungsstrangs) ist die kleinste Ausführungseinheit, die von einem Betriebssystem-Scheduler verwaltet werden kann. Man kann sich Threads als <span class="key-term">"leichtgewichtige Prozesse"</span> vorstellen, die innerhalb eines "schwergewichtigen" Hauptprozesses laufen. Jeder Prozess hat mindestens einen Thread, kann aber auch mehrere beherbergen, die dann (konzeptionell) parallel zueinander ablaufen.</p>
@@ -210,9 +210,17 @@ public class Threading_shared_resource {
 
 
         </article>
+
+        <section class="content-section">
+            <h2>Weiterführende Links</h2>
+            <ul>
+                <li><a href="https://man7.org/linux/man-pages/man7/pthreads.7.html" target="_blank" rel="noopener">POSIX Threads Handbuch</a></li>
+                <li><a href="https://computing.llnl.gov/tutorials/pthreads/" target="_blank" rel="noopener">LLNL Pthreads Tutorial</a></li>
+            </ul>
+        </section>
     </main>
 
-    <footer>
+    <footer role="contentinfo">
         <div class="container">
             <p>Erstellt zur Unterstützung der Prüfungsvorbereitung. Viel Erfolg bei der Klausur!</p>
         </div>

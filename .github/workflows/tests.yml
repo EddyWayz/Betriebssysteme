@@ -1,0 +1,13 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run checks
+        run: |
+          python3 tests/check_lang.py
+          python3 tests/check_alt.py

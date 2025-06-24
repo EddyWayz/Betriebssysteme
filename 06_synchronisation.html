@@ -13,13 +13,13 @@
 <body>
 
 <nav class="site-nav" role="navigation" aria-label="Hauptnavigation"></nav>
-    <header>
+    <header role="banner">
         <div class="container">
             <h1>Kapitel 6: Synchronisation</h1>
             <p>Die Beherrschung des kontrollierten Chaos von nebenläufigen Prozessen und Threads.</p>
         </div>
     </header>
-    <main class="container">
+    <main class="container" role="main">
         <article class="content-section">
             <h2>Das Problem der Nebenläufigkeit</h2>
             <p>Betriebssysteme ermöglichen die <span class="key-term">nebenläufige</span> Ausführung von Prozessen und Threads. Dies führt zu einem <span class="key-term">Indeterminismus</span>: Die relative Ausführungsreihenfolge ist nicht vorhersagbar.</p>
@@ -145,7 +145,7 @@ ReleaseSemaphore(hSem, 1, NULL);
             </pre>
         </article>
     </main>
-    <footer>
+    <footer role="contentinfo">
         <div class="container">
             <p>Erstellt zur Unterstützung der Prüfungsvorbereitung. Viel Erfolg bei der Klausur!</p>
         </div>
