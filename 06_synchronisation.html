@@ -144,6 +144,17 @@ WaitForSingleObject(hSem, INFINITE);
 ReleaseSemaphore(hSem, 1, NULL);
             </pre>
         </article>
+
+        <section class="quiz-section">
+            <form class="chapter-quiz" data-answer="b">
+                <p>Welches Problem verhindert ein Mutex?</p>
+                <label><input type="radio" name="q1" value="a"> Deadlock</label><br>
+                <label><input type="radio" name="q1" value="b"> Datenrennen</label><br>
+                <label><input type="radio" name="q1" value="c"> Paging</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+        </section>
     </main>
     <footer role="contentinfo">
         <div class="container">
@@ -151,5 +162,6 @@ ReleaseSemaphore(hSem, 1, NULL);
         </div>
     </footer>
     <script src="js/main.js"></script>
+    <script src="js/quiz.js"></script>
 </body>
 </html>

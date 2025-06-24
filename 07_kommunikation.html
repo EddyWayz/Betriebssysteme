@@ -180,6 +180,17 @@ shmctl(segment_id, IPC_RMID, 0);
                 <li><strong>Shared Memory:</strong> Ähnlich UNIX über File-Mapping mit <code>CreateFileMapping()</code> und <code>MapViewOfFile()</code>.</li>
             </ul>
         </article>
+
+        <section class="quiz-section">
+            <form class="chapter-quiz" data-answer="b">
+                <p>Wie kommunizieren Prozesse auf demselben Rechner am effizientesten?</p>
+                <label><input type="radio" name="q1" value="a"> HTTP</label><br>
+                <label><input type="radio" name="q1" value="b"> Pipes</label><br>
+                <label><input type="radio" name="q1" value="c"> DNS</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+        </section>
     </main>
 
     <footer role="contentinfo">
@@ -189,5 +200,6 @@ shmctl(segment_id, IPC_RMID, 0);
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/quiz.js"></script>
 </body>
 </html>
