@@ -26,7 +26,7 @@
             <h2>Sicherheit und Schutz</h2>
             <p>In einem Mehrbenutzer-Betriebssystem ist es unerlässlich, Mechanismen bereitzustellen, die das System und die Benutzer voreinander schützen. Man unterscheidet hierbei zwei verwandte Konzepte:</p>
             <ul>
-                <li><strong>Schutz (Protection):</strong> Bezieht sich auf die Mechanismen, die vom Betriebssystem implementiert werden, um den Zugriff von Prozessen und Benutzern auf Ressourcen zu kontrollieren. Schutz ist der technische Mechanismus.</li>
+                <li><strong>Schutz (Protection):</strong> Bezieht sich auf die Mechanismen, die vom Betriebssystem implementiert werden, um den Zugriff von <a class="quicklink" href="03_prozesse.html#prozess">Prozessen</a> und Benutzern auf Ressourcen zu kontrollieren. Schutz ist der technische Mechanismus.</li>
                 <li><strong>Sicherheit (Security):</strong> Bezieht sich auf die übergeordnete Richtlinie, die festlegt, welche Zugriffe erlaubt sind und welche nicht. Sicherheit ist die Strategie.</li>
             </ul>
     
@@ -45,10 +45,10 @@
                 <li><strong>User-Modus (eingeschränkter Modus):</strong> In diesem Modus laufen alle Anwendungsprogramme. Der Zugriff auf die Hardware und auf kritische Befehle (z.B. das Sperren von Interrupts oder das Ändern der Speicherschutz-Register) ist verboten.</li>
             </ul>
             <img src="images/placeholder.svg" class="illustration" alt="Diagramm: Übergang vom User-Modus in den Kernel-Modus über einen Systemaufruf (Trap).">
-            <p>Ein Programm im User-Modus kann nur über einen <span class="key-term">Systemaufruf (System Call)</span> mit dem Betriebssystem interagieren. Dieser Aufruf löst einen "Trap" aus, einen Software-Interrupt, der die CPU in den Kernel-Modus schaltet. Der Kernel führt dann die angeforderte Operation (z.B. eine Datei öffnen) für den Prozess aus und schaltet die CPU wieder in den User-Modus, bevor die Kontrolle an das Anwendungsprogramm zurückgegeben wird. Dieses Prinzip stellt sicher, dass kein Benutzerprogramm den Schutz des Systems umgehen kann.</p>
+            <p>Ein Programm im User-Modus kann nur über einen <span class="key-term"><a class="quicklink" href="02_grundlagen.html#interrupts">Systemaufruf (System Call)</a></span> mit dem Betriebssystem interagieren. Dieser Aufruf löst einen "Trap" aus, einen Software-Interrupt, der die CPU in den Kernel-Modus schaltet. Der Kernel führt dann die angeforderte Operation (z.B. eine Datei öffnen) für den Prozess aus und schaltet die CPU wieder in den User-Modus, bevor die Kontrolle an das Anwendungsprogramm zurückgegeben wird. Dieses Prinzip stellt sicher, dass kein Benutzerprogramm den Schutz des Systems umgehen kann.</p>
 
             <h3>Zugriffskontrolle</h3>
-            <p>Um den Zugriff auf Objekte wie Dateien oder Geräte zu regeln, verwendet das Betriebssystem eine <span class="key-term">Zugriffsmatrix (Access Matrix)</span>. Diese Matrix definiert für jedes Subjekt (Benutzer oder Prozess), welche Rechte (z.B. lesen, schreiben, ausführen) es auf welches Objekt hat.</p>
+            <p>Um den Zugriff auf Objekte wie <a class="quicklink" href="10_dateisysteme.html#dateisysteme">Dateien</a> oder Geräte zu regeln, verwendet das Betriebssystem eine <span class="key-term">Zugriffsmatrix (Access Matrix)</span>. Diese Matrix definiert für jedes Subjekt (Benutzer oder Prozess), welche Rechte (z.B. lesen, schreiben, ausführen) es auf welches Objekt hat.</p>
             <img src="images/placeholder.svg" class="illustration" alt="Diagramm einer Zugriffsmatrix mit Subjekten (Zeilen) und Objekten (Spalten).">
             <p>Da eine vollständige Matrix in der Praxis zu groß und zu dünn besetzt wäre, wird sie auf zwei Arten implementiert:</p>
             <ul>

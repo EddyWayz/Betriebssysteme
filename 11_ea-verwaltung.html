@@ -44,7 +44,7 @@
             <h4>Software-Komponenten</h4>
             <ul>
                 <li><strong>Gerätetreiber:</strong> Für jeden Gerätetyp gibt es einen spezifischen Treiber im Kernel. Der Treiber kennt alle Details des Controllers und stellt dem Betriebssystem eine standardisierte Schnittstelle zur Verfügung, um das Gerät zu bedienen (z.B. Lese-, Schreib- und Steuerungsbefehle).</li>
-                <li><strong>Interrupt-Handler:</strong> Wenn ein Gerät eine Operation abgeschlossen hat oder Aufmerksamkeit benötigt, sendet es einen Interrupt an die CPU. Der zugehörige Interrupt-Handler sichert den aktuellen Prozesskontext und führt den Code aus, der auf das Ereignis reagiert (z.B. Daten aus einem Puffer kopieren).</li>
+                <li><strong><a class="quicklink" href="02_grundlagen.html#interrupts">Interrupt-Handler</a>:</strong> Wenn ein Gerät eine Operation abgeschlossen hat oder Aufmerksamkeit benötigt, sendet es einen Interrupt an die CPU. Der zugehörige Interrupt-Handler sichert den aktuellen Prozesskontext und führt den Code aus, der auf das Ereignis reagiert (z.B. Daten aus einem Puffer kopieren).</li>
             </ul>
 
             <h3>Methoden der E/A-Organisation</h3>
@@ -58,7 +58,7 @@
             </ul>
 
             <h4>2. Interrupt-gesteuerte E/A</h4>
-            <p>Um "Busy Waiting" zu vermeiden, gibt die CPU nach dem Senden eines Befehls an den Controller die Kontrolle an den Scheduler ab und führt einen anderen Prozess aus. Wenn das E/A-Gerät seine Aufgabe beendet hat, sendet es einen Hardware-Interrupt an die CPU. Der zugehörige Interrupt-Handler wird ausgeführt, der den Datentransfer abschließt und den wartenden Prozess wieder in den "Bereit"-Zustand versetzt.</p>
+            <p>Um "Busy Waiting" zu vermeiden, gibt die CPU nach dem Senden eines Befehls an den Controller die Kontrolle an den <a class="quicklink" href="05_scheduling.html#scheduler">Scheduler</a> ab und führt einen anderen Prozess aus. Wenn das E/A-Gerät seine Aufgabe beendet hat, sendet es einen Hardware-Interrupt an die CPU. Der zugehörige <a class="quicklink" href="02_grundlagen.html#interrupts">Interrupt-Handler</a> wird ausgeführt, der den Datentransfer abschließt und den wartenden Prozess wieder in den "Bereit"-Zustand versetzt.</p>
             <ul>
                 <li><strong>Vorteil:</strong> Viel effizienter als programmierte E/A, da die CPU während der Wartezeit andere Aufgaben erledigen kann.</li>
                 <li><strong>Nachteil:</strong> Bei großen Datenmengen führt jeder einzelne Datentransfer (z.B. pro Byte oder Wort) zu einem Interrupt, was einen hohen Verwaltungsaufwand (Overhead) erzeugt.</li>

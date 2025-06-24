@@ -27,7 +27,7 @@
             <p>Die Speicherverwaltung ist eine der zentralen Aufgaben eines Betriebssystems. Sie wird in enger Zusammenarbeit zwischen der Betriebssystem-Software und spezialisierter Hardware, der <span class="key-term">Memory Management Unit (MMU)</span>, realisiert.</p>
             <p>Ihre Hauptziele sind:</p>
             <ul>
-                <li><strong>Abstraktion:</strong> Sie stellt jedem Prozess einen eigenen, privaten Adressraum zur Verfügung und schirmt ihn von anderen Prozessen ab.</li>
+                <li><strong>Abstraktion:</strong> Sie stellt jedem <a class="quicklink" href="03_prozesse.html#prozess">Prozess</a> einen eigenen, privaten Adressraum zur Verfügung und schirmt ihn von anderen Prozessen ab.</li>
                 <li><strong>Effizienz:</strong> Sie verwaltet den begrenzten, physischen Hauptspeicher (RAM) so, dass möglichst viele Prozesse gleichzeitig gehalten werden können und die CPU optimal ausgelastet wird.</li>
                 <li><strong>Schutz:</strong> Sie verhindert, dass ein Prozess auf den Speicher eines anderen Prozesses oder des Betriebssystems selbst zugreift.</li>
                 <li><strong>Virtualisierung:</strong> Sie ermöglicht es Prozessen, einen Adressraum zu nutzen, der viel größer ist als der tatsächlich vorhandene physische Speicher.</li>
@@ -67,17 +67,17 @@
             <h4>Der Seitenfehler (Page Fault)</h4>
             <p>Greift ein Prozess auf eine Adresse zu, deren Seite sich nicht im RAM befindet (in der Seitentabelle als "not present" markiert), löst die MMU einen <span class="key-term">Seitenfehler (Page Fault)</span> aus. Dies ist kein Programmfehler, sondern ein normaler Vorgang, der wie folgt vom Betriebssystem behandelt wird:</p>
             <ol>
-                <li>Ein Trap (Software-Interrupt) an das Betriebssystem wird ausgelöst.</li>
+                <li>Ein <a class="quicklink" href="02_grundlagen.html#interrupts">Trap (Software-Interrupt)</a> an das Betriebssystem wird ausgelöst.</li>
                 <li>Der aktuelle Zustand des Prozesses wird gesichert und der Prozess wird blockiert.</li>
                 <li>Das BS sucht die fehlende Seite auf dem Sekundärspeicher.</li>
                 <li>Das BS sucht einen freien Rahmen im RAM. Wenn keiner frei ist, muss eine Seite mithilfe eines <strong>Seitenersetzungsalgorithmus</strong> ausgewählt und verdrängt werden. Wurde die verdrängte Seite verändert (Modify-Bit ist gesetzt), muss sie zuvor auf die Festplatte zurückgeschrieben werden.</li>
                 <li>Die angeforderte Seite wird von der Festplatte in den nun freien Rahmen geladen.</li>
                 <li>Die Seitentabelle des Prozesses wird aktualisiert (Rahmennummer und Present-Bit werden gesetzt).</li>
-                <li>Der Prozess wird aus dem blockierten Zustand in die Ready Queue verschoben und kann seine Ausführung fortsetzen.</li>
+                <li>Der Prozess wird aus dem blockierten Zustand in die <a class="quicklink" href="05_scheduling.html#scheduler">Ready Queue</a> verschoben und kann seine Ausführung fortsetzen.</li>
             </ol>
             <p>Dieses Verfahren, bei dem Seiten nur bei Bedarf geladen werden (<span class="key-term">On-Demand Paging</span>), funktioniert dank des <span class="key-term">Lokalitätsprinzips</span>, welches besagt, dass Programme dazu neigen, über längere Zeiträume hinweg auf Speicherbereiche zuzugreifen, die räumlich und zeitlich nahe beieinander liegen.</p>
             
-            <h2>Seitenersetzungsalgorithmen</h2>
+            <h2 id="page-replacement">Seitenersetzungsalgorithmen</h2>
             <p>Wenn bei einem Seitenfehler kein freier Rahmen verfügbar ist, muss das BS entscheiden, welche der bereits im Speicher befindlichen Seiten "geopfert" wird.</p>
             
             <h4>1. Optimaler Algorithmus (OPT / MIN)</h4>
