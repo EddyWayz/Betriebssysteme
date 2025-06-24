@@ -30,26 +30,31 @@ Danach ist die Seite unter <http://localhost:8000> erreichbar.
 
 Im Ordner `material` liegen zusätzliche PDFs und Beispielcode, die das Studium unterstützen. Unter `examples` findest du kleine, kommentierte C-Programme, die Themen wie Prozess- und Thread-Synchronisation illustrieren.
 
+Nach jedem Kapitel findet sich nun eine kleine Quizfrage, mit der du dein Wissen testen kannst.
+
 ## Navigation aus Templates erzeugen
 
-Die Navigationsleiste wird aus einer Vorlage generiert. Die Links befinden sich in `scripts/nav_items.json`. Mit folgendem Befehl lässt sich `nav.html` neu erstellen:
+Die Navigationsleiste wird aus einer Vorlage generiert. Die Links befinden sich in `scripts/nav_items.json`. Ein Makefile sowie ein Git-Hook sorgen automatisch dafür, dass `nav.html` stets aktuell ist:
 
 ```bash
-python3 scripts/generate_nav.py
+make nav
 ```
+Beim Committen wird `scripts/pre-commit.sh` ausgeführt und erzeugt die Datei bei Änderungen am JSON.
 
 
 ## Tests ausführen
 
-Zur Qualitätssicherung liegen im Ordner `tests` zwei kleine Python-Skripte.
+Zur Qualitätssicherung liegen im Ordner `tests` mehrere Python-Skripte.
 `check_lang.py` stellt sicher, dass alle HTML-Dateien ein `lang`-Attribut besitzen.
 `check_alt.py` überprüft, ob sämtliche Bilder ein `alt`-Attribut haben.
+`check_links.py` validiert interne Links zwischen den Seiten.
 
 Ausführen lassen sich die Tests mit:
 
 ```bash
 python3 tests/check_lang.py
 python3 tests/check_alt.py
+python3 tests/check_links.py
 ```
 
 Bei jedem Push werden diese Tests auch automatisch per GitHub Actions ausgeführt (siehe `.github/workflows/tests.yml`).

@@ -11,3 +11,4 @@ jobs:
         run: |
           python3 tests/check_lang.py
           python3 tests/check_alt.py
+          python3 tests/check_links.py

@@ -1,0 +1,8 @@
+[
+  {
+    "source": "templates/index_content.html",
+    "target": "index.html",
+    "title": "Lernportal Betriebssysteme",
+    "description": "Lernportal mit allen Kapiteln zu Betriebssystemen."
+  }
+]
