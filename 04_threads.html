@@ -228,6 +228,38 @@ public class Threading_shared_resource {
                 <button type="submit">Prüfen</button>
                 <p class="quiz-result"></p>
             </form>
+            <form class="chapter-quiz" data-answer="c">
+                <p>Was hat jeder Thread für sich allein?</p>
+                <label><input type="radio" name="q2" value="a"> Den Heap-Speicher.</label><br>
+                <label><input type="radio" name="q2" value="b"> Geöffnete Dateihandles.</label><br>
+                <label><input type="radio" name="q2" value="c"> Einen eigenen Stack und Programmzähler.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Was ist der Hauptvorteil von Kernel-Level-Threads gegenüber User-Level-Threads?</p>
+                <label><input type="radio" name="q3" value="a"> Sie lassen sich schneller umschalten.</label><br>
+                <label><input type="radio" name="q3" value="b"> Sie können parallel auf Multi-Core-Systemen laufen und ein blockierender Aufruf in einem Thread blockiert nicht den ganzen Prozess.</label><br>
+                <label><input type="radio" name="q3" value="c"> Sie benötigen weniger Speicher.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="c">
+                <p>In Java, welche Methode muss implementiert werden, um den Code zu definieren, den ein Thread ausführen soll?</p>
+                <label><input type="radio" name="q4" value="a"> `main()`</label><br>
+                <label><input type="radio" name="q4" value="b"> `start()`</label><br>
+                <label><input type="radio" name="q4" value="c"> `run()`</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="c">
+                <p>Was ist ein wesentlicher Unterschied zwischen der Erzeugung eines Threads durch Erweitern der `Thread`-Klasse und der Implementierung des `Runnable`-Interfaces in Java?</p>
+                <label><input type="radio" name="q5" value="a"> Das Implementieren von `Runnable` ist der einzige Weg, Argumente an den Thread zu übergeben.</label><br>
+                <label><input type="radio" name="q5" value="b"> Das Erweitern von `Thread` ist schneller.</label><br>
+                <label><input type="radio" name="q5" value="c"> Das Implementieren von `Runnable` ist flexibler, da die Klasse dann noch von einer anderen Klasse erben kann.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
         </section>
     </main>
 

@@ -190,6 +190,38 @@ shmctl(segment_id, IPC_RMID, 0);
                 <button type="submit">Prüfen</button>
                 <p class="quiz-result"></p>
             </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Was ist der größte Vorteil von Shared Memory als IPC-Mechanismus?</p>
+                <label><input type="radio" name="q2" value="a"> Es ist die sicherste Methode.</label><br>
+                <label><input type="radio" name="q2" value="b"> Es ist extrem schnell, da der Kernel nach dem Setup nicht mehr am Datenaustausch beteiligt ist.</label><br>
+                <label><input type="radio" name="q2" value="c"> Es synchronisiert den Datenzugriff automatisch.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Was ist eine "Pipe" im Kontext von IPC?</p>
+                <label><input type="radio" name="q3" value="a"> Ein Werkzeug zur Fehlersuche im Netzwerkverkehr.</label><br>
+                <label><input type="radio" name="q3" value="b"> Ein unidirektionaler Kommunikationskanal, der einen Bytestrom transportiert, typischerweise zwischen Eltern- und Kindprozess.</label><br>
+                <label><input type="radio" name="q3" value="c"> Eine Hardwareverbindung zwischen zwei Computern.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Was ist der Hauptunterschied zwischen direkter und indirekter Kommunikation?</p>
+                <label><input type="radio" name="q4" value="a"> Direkte Kommunikation ist immer schneller.</label><br>
+                <label><input type="radio" name="q4" value="b"> Bei direkter Kommunikation müssen sich Prozesse explizit benennen; bei indirekter Kommunikation nutzen sie eine gemeinsame Mailbox oder einen Port.</label><br>
+                <label><input type="radio" name="q4" value="c"> Indirekte Kommunikation kann nur auf einem einzelnen Computer verwendet werden.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Was ist ein Signal in einem UNIX-ähnlichen System?</p>
+                <label><input type="radio" name="q5" value="a"> Ein großes Datenpaket zur Übertragung von Dateien.</label><br>
+                <label><input type="radio" name="q5" value="b"> Eine einfache, asynchrone Benachrichtigung an einen Prozess über ein Ereignis, identifiziert durch eine Nummer.</label><br>
+                <label><input type="radio" name="q5" value="c"> Eine Art von Semaphor.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
         </section>
     </main>
 
