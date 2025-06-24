@@ -265,6 +265,46 @@ public class Threading_shared_resource {
                 <button type="submit">Prüfen</button>
                 <p class="quiz-result"></p>
             </form>
+            <form class="chapter-quiz" data-answer="c">
+                <p>Was ist der Hauptnachteil von User-Level-Threads?</p>
+                <label><input type="radio" name="q6" value="a"> Sie sind langsamer zu erzeugen als Kernel-Level-Threads.</label><br>
+                <label><input type="radio" name="q6" value="b"> Sie können nicht auf globale Variablen zugreifen.</label><br>
+                <label><input type="radio" name="q6" value="c"> Ein blockierender Systemaufruf in einem Thread blockiert den gesamten Prozess.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="a">
+                <p>Welche Methode ruft man auf einem Java-Thread-Objekt auf, um seine Ausführung zu starten?</p>
+                <label><input type="radio" name="q7" value="a"> start()</label><br>
+                <label><input type="radio" name="q7" value="b"> run()</label><br>
+                <label><input type="radio" name="q7" value="c"> execute()</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Was ist eine "Race Condition"?</p>
+                <label><input type="radio" name="q8" value="a"> Wenn ein Prozess schneller als ein anderer beendet wird.</label><br>
+                <label><input type="radio" name="q8" value="b"> Ein Fehlerzustand, dessen Ausgang von der unvorhersehbaren Reihenfolge der Zugriffe mehrerer Threads auf gemeinsame Ressourcen abhängt.</label><br>
+                <label><input type="radio" name="q8" value="c"> Ein Wettrennen zwischen CPU und RAM um den schnellsten Zugriff.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+<form class="chapter-quiz" data-answer="a">
+    <p>Warum hat jeder Thread seinen eigenen Stack?</p>
+    <label><input type="radio" name="q9" value="a"> Um lokale Variablen, Funktionsparameter und Rücksprungadressen für jeden Thread getrennt zu verwalten.</label><br>
+    <label><input type="radio" name="q9" value="b"> Um globale Variablen zu speichern.</label><br>
+    <label><input type="radio" name="q9" value="c"> Um den Programmcode des Threads zu speichern.</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
+<form class="chapter-quiz" data-answer="c">
+    <p>Was bewirkt der Aufruf `p1.join();` in einem Java-Programm?</p>
+    <label><input type="radio" name="q10" value="a"> Er startet den Thread p1 erneut.</label><br>
+    <label><input type="radio" name="q10" value="b"> Er weist dem Thread p1 einen neuen Thread p2 zu.</label><br>
+    <label><input type="radio" name="q10" value="c"> Der aufrufende Thread (z.B. der main-thread) wartet, bis der Thread p1 seine Ausführung beendet hat.</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
         </section>
     </main>
 

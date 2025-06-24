@@ -362,6 +362,46 @@ ReleaseSemaphore(hSem, 1, NULL);
                 <button type="submit">Prüfen</button>
                 <p class="quiz-result"></p>
             </form>
+            <form class="chapter-quiz" data-answer="a">
+                <p>Was ist der Zweck des Peterson-Algorithmus?</p>
+                <label><input type="radio" name="q6" value="a"> Eine reine Softwarelösung für den wechselseitigen Ausschluss für zwei Prozesse zu bieten.</label><br>
+                <label><input type="radio" name="q6" value="b"> Prozesse schneller zu machen.</label><br>
+                <label><input type="radio" name="q6" value="c"> Mehrere kritische Abschnitte gleichzeitig zu erlauben.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="c">
+                <p>Was bewirkt die `wait()`-Methode innerhalb eines Java-Monitors?</p>
+                <label><input type="radio" name="q7" value="a"> Sie lässt den Thread für eine feste Zeitspanne aktiv warten.</label><br>
+                <label><input type="radio" name="q7" value="b"> Sie beendet den Thread sofort.</label><br>
+                <label><input type="radio" name="q7" value="c"> Sie gibt die Monitorsperre frei und blockiert den Thread, bis er durch `notify()` oder `notifyAll()` geweckt wird.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Was ist das Ziel beim Leser-Schreiber-Problem?</p>
+                <label><input type="radio" name="q8" value="a"> Immer nur einem einzigen Prozess (Leser oder Schreiber) den Zugriff zu gestatten.</label><br>
+                <label><input type="radio" name="q8" value="b"> Mehreren Lesern gleichzeitigen Zugriff zu erlauben, aber einem Schreiber exklusiven Zugriff zu gewähren.</label><br>
+                <label><input type="radio" name="q8" value="c"> Schreibern immer Vorrang vor Lesern zu geben.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+<form class="chapter-quiz" data-answer="a">
+    <p>Welchen Initialwert muss ein binärer Semaphor haben, damit er als Mutex (für den wechselseitigen Ausschluss) verwendet werden kann?</p>
+    <label><input type="radio" name="q9" value="a"> 1 (frei)</label><br>
+    <label><input type="radio" name="q9" value="b"> 0 (besetzt)</label><br>
+    <label><input type="radio" name="q9" value="c"> -1 (blockiert)</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
+<form class="chapter-quiz" data-answer="b">
+    <p>Wie realisiert das `synchronized` Schlüsselwort in Java das Monitor-Konzept?</p>
+    <label><input type="radio" name="q10" value="a"> Es erzeugt für jede Methode einen neuen Thread.</label><br>
+    <label><input type="radio" name="q10" value="b"> Es stellt sicher, dass nur ein Thread gleichzeitig eine `synchronized`-Methode desselben Objekts ausführen kann, indem es ein implizites Lock verwendet.</label><br>
+    <label><input type="radio" name="q10" value="c"> Es garantiert, dass die Methode innerhalb einer Millisekunde ausgeführt wird.</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
         </section>
     </main>
     <footer role="contentinfo">

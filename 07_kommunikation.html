@@ -262,6 +262,46 @@ shmctl(segment_id, IPC_RMID, NULL);
                 <button type="submit">Prüfen</button>
                 <p class="quiz-result"></p>
             </form>
+            <form class="chapter-quiz" data-answer="b">
+                <p>Was versteht man unter einem "Rendezvous" in der Prozesskommunikation?</p>
+                <label><input type="radio" name="q6" value="a"> Wenn zwei Prozesse versuchen, dieselbe Datei zu löschen.</label><br>
+                <label><input type="radio" name="q6" value="b"> Eine synchrone Kommunikation, bei der sowohl der Sender als auch der Empfänger blockieren, bis die Nachricht erfolgreich übergeben wurde.</label><br>
+                <label><input type="radio" name="q6" value="c"> Das automatische Starten eines Prozesses zu einer bestimmten Uhrzeit.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="a">
+                <p>Was ist der Hauptunterschied zwischen einer Named Pipe und einer Anonymous Pipe?</p>
+                <label><input type="radio" name="q7" value="a"> Eine Named Pipe hat einen Namen im Dateisystem und kann von nicht-verwandten Prozessen genutzt werden.</label><br>
+                <label><input type="radio" name="q7" value="b"> Anonymous Pipes sind schneller.</label><br>
+                <label><input type="radio" name="q7" value="c"> Nur Named Pipes können Daten in beide Richtungen senden.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+            <form class="chapter-quiz" data-answer="c">
+                <p>Welchen Zweck hat `mmap()` in UNIX-Systemen?</p>
+                <label><input type="radio" name="q8" value="a"> Speicher für eine Variable zu allokieren.</label><br>
+                <label><input type="radio" name="q8" value="b"> Eine neue Festplatte zu formatieren.</label><br>
+                <label><input type="radio" name="q8" value="c"> Eine Datei direkt in den Adressraum eines Prozesses einzublenden, was als Form von Shared Memory genutzt werden kann.</label><br>
+                <button type="submit">Prüfen</button>
+                <p class="quiz-result"></p>
+            </form>
+<form class="chapter-quiz" data-answer="c">
+    <p>Warum ist Shared Memory im Allgemeinen der schnellste IPC-Mechanismus?</p>
+    <label><input type="radio" name="q9" value="a"> Weil die Daten dabei komprimiert werden.</label><br>
+    <label><input type="radio" name="q9" value="b"> Weil es keine Synchronisation erfordert.</label><br>
+    <label><input type="radio" name="q9" value="c"> Weil nach der initialen Einrichtung kein Kernel-Eingriff mehr nötig ist und die Daten nicht zwischen Adressräumen kopiert werden müssen.</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
+<form class="chapter-quiz" data-answer="a">
+    <p>Was ist der Zweck eines Signal-Handlers und warum sollte er kurz gehalten werden?</p>
+    <label><input type="radio" name="q10" value="a"> Er reagiert auf ein asynchrones Ereignis (Signal) und sollte kurz sein, um den unterbrochenen Programmkontext nicht zu stören.</label><br>
+    <label><input type="radio" name="q10" value="b"> Er sendet Signale an andere Prozesse und sollte lang sein, um alle Daten zu übertragen.</label><br>
+    <label><input type="radio" name="q10" value="c"> Er ist ein Ersatz für einen Semaphor und seine Länge ist unerheblich.</label><br>
+    <button type="submit">Prüfen</button>
+    <p class="quiz-result"></p>
+</form>
         </section>
     </main>
 
