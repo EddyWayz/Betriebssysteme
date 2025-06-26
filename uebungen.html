@@ -103,7 +103,127 @@
     <button type="submit">Prüfen</button>
     <p class="quiz-result"></p>
 </form>
-    </section>
+        <form class="chapter-quiz" data-answer="b">
+            <p>Ein System verwendet eine 32-Bit-Adressierung und hat eine Seitengröße von 16 KB. Wie lautet die zugehörige Seitennummer und der Offset für die virtuelle Adresse <code>0xABCDEFFF</code>?</p>
+            <label><input type="radio" name="q11" value="a"> Seite: <code>0xABCD</code>, Offset: <code>0xEFFF</code></label><br>
+            <label><input type="radio" name="q11" value="b"> Seite: <code>0xABCDE</code>, Offset: <code>0xFFF</code></label><br>
+            <label><input type="radio" name="q11" value="c"> Seite: <code>0xABC</code>, Offset: <code>0xDEFFF</code></label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="c">
+            <p>Welches der folgenden Gantt-Diagramme stellt den korrekten Ablauf für das <strong>Shortest Remaining Time (SRT)</strong> Scheduling der Tasks T1(A:0, R:7), T2(A:2, R:4), T3(A:4, R:1), T4(A:5, R:4) dar?</p>
+            <label><input type="radio" name="q12" value="a"> | T1(7) | T2(4) | T3(1) | T4(4) |</label><br>
+            <label><input type="radio" name="q12" value="b"> | T1(2) | T2(2) | T1(5) | T3(1) | T4(4) |</label><br>
+            <label><input type="radio" name="q12" value="c"> | T1(2) | T2(2) | T3(1) | T2(2) | T4(4) | T1(5) |</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="a">
+            <p>Zwei Threads manipulieren eine Variable <code>x</code> (initial 0). T1: <code>x=10; x=x+5;</code>. T2: <code>x=20; x=x*2;</code>. Welcher der folgenden Werte ist <strong>kein</strong> mögliches Endergebnis für <code>x</code>?</p>
+            <label><input type="radio" name="q13" value="a"> 30</label><br>
+            <label><input type="radio" name="q13" value="b"> 40</label><br>
+            <label><input type="radio" name="q13" value="c"> 15</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="b">
+            <p>Wie kann die "Circular Wait"-Bedingung für Deadlocks am effektivsten verhindert werden?</p>
+            <label><input type="radio" name="q14" value="a"> Indem man die Anzahl der Prozesse im System limitiert.</label><br>
+            <label><input type="radio" name="q14" value="b"> Indem man eine feste, hierarchische Reihenfolge für die Anforderung von Ressourcen erzwingt.</label><br>
+            <label><input type="radio" name="q14" value="c"> Indem man die CPU-Geschwindigkeit erhöht.</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="c">
+            <p>Ein I-Node hat 10 direkte Zeiger, 1 einfach indirekten und 1 doppelt indirekten Zeiger. Bei einer Blockgröße von 4 KB und 4-Byte-Adressen, wie groß kann eine Datei maximal werden?</p>
+            <label><input type="radio" name="q15" value="a"> ca. 44 KB</label><br>
+            <label><input type="radio" name="q15" value="b"> ca. 4 MB</label><br>
+            <label><input type="radio" name="q15" value="c"> ca. 4 GB</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="a">
+            <p>Welches Scheduling-Verfahren ist besonders anfällig für den "Konvoi-Effekt", bei dem kurze Prozesse unnötig lange hinter einem langen Prozess warten müssen?</p>
+            <label><input type="radio" name="q16" value="a"> FCFS (First-Come, First-Served)</label><br>
+            <label><input type="radio" name="q16" value="b"> SRT (Shortest Remaining Time)</label><br>
+            <label><input type="radio" name="q16" value="c"> Round Robin</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="c">
+            <p>Welche Strategie zum Umgang mit Deadlocks verfolgt der Banker's Algorithmus?</p>
+            <label><input type="radio" name="q17" value="a"> Deadlock-Verhinderung (Prevention) durch Aufheben einer der vier Bedingungen.</label><br>
+            <label><input type="radio" name="q17" value="b"> Deadlock-Erkennung und -Behebung (Detection and Recovery) durch Analyse des Ressourcengraphen.</label><br>
+            <label><input type="radio" name="q17" value="c"> Deadlock-Vermeidung (Avoidance) durch Prüfung auf sichere Zustände vor der Ressourcenvergabe.</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="a">
+            <p>Welchen Zweck erfüllt das "Modify-Bit" (oder "Dirty-Bit") in einem Seitentabelleneintrag?</p>
+            <label><input type="radio" name="q18" value="a"> Es zeigt an, ob die Seite seit dem Laden in den Hauptspeicher verändert wurde und daher vor dem Verdrängen auf die Festplatte zurückgeschrieben werden muss.</label><br>
+            <label><input type="radio" name="q18" value="b"> Es zählt, wie oft auf eine Seite zugegriffen wurde, um LRU zu implementieren.</label><br>
+            <label><input type="radio" name="q18" value="c"> Es legt die Zugriffsberechtigungen (Lesen/Schreiben) für die Seite fest.</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="b">
+            <p>Was ist der grundlegende Unterschied zwischen dem logischen und dem physischen Adressraum?</p>
+            <label><input type="radio" name="q19" value="a"> Der logische Adressraum ist immer kleiner als der physische.</label><br>
+            <label><input type="radio" name="q19" value="b"> Der logische Adressraum ist die Sicht des Prozesses auf den Speicher, während der physische Adressraum die realen Adressen im RAM darstellt.</label><br>
+            <label><input type="radio" name="q19" value="c"> Nur das Betriebssystem verwendet den logischen Adressraum.</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="c">
+            <p>Was ist der entscheidende Nachteil von reinen User-Level-Threads im Vergleich zu Kernel-Level-Threads?</p>
+            <label><input type="radio" name="q20" value="a"> Sie sind langsamer im Kontextwechsel.</label><br>
+            <label><input type="radio" name="q20" value="b"> Sie können nicht auf globale Variablen des Prozesses zugreifen.</label><br>
+            <label><input type="radio" name="q20" value="c"> Wenn ein Thread einen blockierenden Systemaufruf tätigt, wird der gesamte Prozess und somit alle anderen Threads darin blockiert.</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="b">
+            <p>Ein Dateisystem nutzt Blöcke der Größe 1 KB. Eine Datei mit der Größe 2500 Bytes soll gespeichert werden. Bei einer verketteten Liste (ohne Tabelle), bei der jeder Zeiger 4 Bytes belegt, wie viel Speicherplatz belegt die Datei auf der Festplatte?</p>
+            <label><input type="radio" name="q21" value="a"> 2500 Bytes</label><br>
+            <label><input type="radio" name="q21" value="b"> 3072 Bytes (3 Blöcke)</label><br>
+            <label><input type="radio" name="q21" value="c"> 2512 Bytes (2500 Daten + 3*4 Zeiger)</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="c">
+            <p>Zwei periodische Tasks T1(C=2, P=5) und T2(C=4, P=14) sollen mittels Rate Monotonic Scheduling (RMS) ausgeführt werden. Kann RMS die Einhaltung aller Deadlines <strong>garantieren</strong>?</p>
+            <label><input type="radio" name="q22" value="a"> Ja, da die CPU-Auslastung unter 100% liegt.</label><br>
+            <label><input type="radio" name="q22" value="b"> Nein, da die CPU-Auslastung über 100% liegt.</label><br>
+            <label><input type="radio" name="q22" value="c"> Es kann nicht garantiert werden, da die CPU-Auslastung die hinreichende Bedingung nach Liu &amp; Layland überschreitet.</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="a">
+            <p>Gegeben sei der C-Code <code>x = x + 1;</code>. Auf Maschinenebene wird dies zu: 1. <code>LOAD R1, x</code> 2. <code>INCR R1</code> 3. <code>STORE R1, x</code>. Wenn zwei Threads diesen Code nebenläufig auf einer Variable <code>x</code> (initial 5) ausführen, welches Ergebnis ist durch eine Race Condition möglich?</p>
+            <label><input type="radio" name="q23" value="a"> 6</label><br>
+            <label><input type="radio" name="q23" value="b"> 7</label><br>
+            <label><input type="radio" name="q23" value="c"> 5</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="b">
+            <p>Ein System hat 32-Bit virtuelle Adressen und eine Seitengröße von 4 KB. Wie viele Einträge hat eine einstufige Seitentabelle für einen Prozess?</p>
+            <label><input type="radio" name="q24" value="a"> 4096 (2^12)</label><br>
+            <label><input type="radio" name="q24" value="b"> 1.048.576 (2^20)</label><br>
+            <label><input type="radio" name="q24" value="c"> 2^32</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        <form class="chapter-quiz" data-answer="c">
+            <p>Prozess P1 führt <code>wait(S1); wait(S2);</code> aus. Prozess P2 führt <code>wait(S2); wait(S1);</code> aus. Beide Semaphore S1 und S2 sind mit 1 initialisiert. Kann hier ein Deadlock auftreten?</p>
+            <label><input type="radio" name="q25" value="a"> Nein, da Semaphore Deadlocks verhindern.</label><br>
+            <label><input type="radio" name="q25" value="b"> Nur wenn ein dritter Prozess S1 oder S2 verwendet.</label><br>
+            <label><input type="radio" name="q25" value="c"> Ja, wenn P1 <code>wait(S1)</code> und P2 <code>wait(S2)</code> ausführt, bevor der jeweils andere den zweiten Wait-Aufruf erreicht.</label><br>
+            <button type="submit">Prüfen</button>
+            <p class="quiz-result"></p>
+        </form>
+        </section>
 </main>
 
 <footer role="contentinfo">
